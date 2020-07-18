@@ -1,0 +1,47 @@
+" More consistent way to traverse the omnicompletion list
+" -> Like going through FZF or CtrlP list
+inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<TAB>"
+inoremap <expr> <Cr> pumvisible() ? "\<C-y>" : "\<Cr>"
+inoremap <expr> <Esc> pumvisible() ? "\<C-e>" : "\<Esc>"
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<Up>"
+
+" More consistent way to traverse wildemenu (options on the command line)
+cnoremap <expr> <C-h> wildmenumode() ? "\<C-p>" : "\<Left>"
+cnoremap <expr> <C-l> wildmenumode() ? "\<C-n>" : "\<Right>"
+
+" Easier saving with <Leader>-w (always, except visual selection)
+" -> Like going through FZF or CtrlP list
+" Better end in normal mode
+"inoremap <silent> <Leader>w <C-o>:w<CR>
+inoremap <silent> <Leader>w <Esc>:w<CR>
+nnoremap <silent> <Leader>w :w<CR>
+
+" Navigation settings
+nnoremap <C-h> gT<CR>
+nnoremap <C-l> gt<CR>
+
+" Generate phpdoc for PHP (class) methods
+" (Create a logical link from .vim/autoload to the file dotfiles/vim.autoload/phpDoc.vim first!)
+nnoremap <Leader>d :call phpDoc#createPhpDoc()<CR>			" mnemonic : Document
+
+" Tagbar mapping
+nmap <Leader>r :TagbarToggle<CR> 							" mnemonic : Reflection
+nnoremap <silent><C-w><C-]> <C-w><C-]><C-w>T
+
+" NERDTree mapping
+map <Leader>e :NERDTreeToggle<CR> 							" mnemonic : Explorer
+
+" FZF settings
+nmap <Leader>f :Files<CR> 									" mnemonic: Find / Files
+"nmap <C-t> :Tags<CR>
+
+" Toggle special char visibility
+noremap <Leader>c :set list!<CR>							" mnemonic: Character
+
+" Toggle display numbers
+noremap <Leader>n :set number!<CR>							" mnemonic: Number
+
+" ; is my leader, so map ; to <space>
+nnoremap <Space> ;
+vnoremap <Space> ;

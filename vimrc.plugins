@@ -1,0 +1,130 @@
+" =======================================================================
+" Vim Plug plugings
+" =======================================================================
+
+" Specify a directory for plugins
+call plug#begin('~/.vim/plugged')
+
+" In-vim file explorer (on-demand loading)
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+" In-file tag outliner
+Plug 'ludovicchabant/vim-gutentags' " ctag manager
+Plug 'majutsushi/tagbar', { 'do': 'cp -R ./plugin ~/.vim/' } " Used for code-file outliner
+
+" Plugin outside ~/.vim/plugged with post-update hook
+Plug 'junegunn/fzf', { 'dir' : '~/.fzf', 'do' : './install --all' }
+Plug 'junegunn/fzf.vim'
+
+" A light and configurable satusline/tabline plugin for vim
+Plug 'itchyny/lightline.vim'
+
+" Syntax checker
+Plug 'w0rp/ale' " (vim 8+)
+"Plug 'vim-syntastic/syntastic'
+
+" Highligt unused/unassigned local variables
+" (doesn't seem to work)
+Plug '~/.vim/plugged/localvarcheck'
+
+" Colorschemes
+Plug 'morhetz/gruvbox'
+"Plug 'altercation/vim-colors-solarized'
+"Plug 'patstockwell/vim-monokai-tasty'
+"Plug 'tpope/vim-vividchalk'
+
+" Defaults everyone can agree on
+Plug 'tpope/vim-sensible'
+
+" Initialize plugin system
+call plug#end()
+
+" =======================================================================
+" plugin options
+" =======================================================================
+
+" Nerdtree options
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+" Tagbar options
+let g:tagbar_autofocus = 1
+let g:tagbar_foldlevel = 1
+let g:tagbar_autoclose = 1
+let g:tagbar_type_php  = {
+    \ 'ctagstype' : 'php',
+    \ 'kinds'     : [
+        \ 'i:interfaces',
+        \ 'c:classes',
+        \ 'd:constant definitions',
+        \ 'f:functions',
+        \ 'j:javascript functions:1'
+    \ ]
+  \ }
+
+
+" Gutentags settings
+" - Have the tag-functionality include (Akyla) framework (php) files
+set tags+=~/framework-trunk/tags 
+let g:gutentags_ctags_exclude = [
+      \ '*.svn', '*.git', '*.svg', '*.hg',
+      \ 'cache',
+      \ 'upload',
+      \ 'session',
+      \ 'Zend',
+      \ 'css',
+      \ 'js',
+      \ 'PhpOffice',
+      \ 'doc',
+      \ 'log',
+      \ 'Plugin',
+      \ '*/tests/*',
+      \ 'build',
+      \ 'dist',
+      \ '*sites/*/files/*',
+      \ 'bin',
+      \ 'node_modules',
+      \ 'bower_components',
+      \ 'compiled',
+      \ 'docs',
+      \ 'example',
+      \ 'bundle',
+      \ 'vendor',
+      \ '*.md',
+      \ '*-lock.json',
+      \ '*.lock',
+      \ '*bundle*.js',
+      \ '*build*.js',
+      \ '.*rc*',
+      \ '*.json',
+      \ '*.min.*',
+      \ '*.map',
+      \ '*.bak',
+      \ '*.zip',
+      \ '*.pyc',
+      \ '*.class',
+      \ '*.sln',
+      \ '*.Master',
+      \ '*.csproj',
+      \ '*.tmp',
+      \ '*.csproj.user',
+      \ '*.cache',
+      \ '*.pdb',
+      \ 'tags*',
+      \ 'cscope.*',
+      \ '*.css',
+      \ '*.less',
+      \ '*.scss',
+      \ '*.exe', '*.dll',
+      \ '*.mp3', '*.ogg', '*.flac',
+      \ '*.swp', '*.swo',
+      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+      \ ]
+" Syntastic options
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
