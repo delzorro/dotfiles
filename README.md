@@ -1,14 +1,16 @@
-h1. My dotfiles (.files directory with content)
+# My dotfiles (.files directory with content)
+This project contains the dotfiles I use for Linux, vim and tmux.
+If you want to see it functional, please read and execute the installation section below. 
 
-h2. Installation
-The following steps are required after cloning 
-h3. 1. Create the following logical links
-You'd typically do this by doing by executing the following commands:
+## Installation
+The following steps are required to get the dotfiles functional, and assume that the cloned ".files"-directory is located in your home directory.
+
+### 1. Create the following logical links
 * .bashrc: ln -s .files/bashrc .bashrc
 * .bash_profile: ln -s .files/bash_profile .bash_profile
 * .vimrc: ln -s .files/vimrc .vimrc
 
-h3. 2. Install vim Plug
-My vim configurations contains many vim Plug plugins; execute the following command to use my .vimrc as intended:
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+### 2. Install vim Plug
+My vim configurations contains vim Plug plugins, so you need to install vim Plug in order to use my .vimrc as intended. 
+Installing vim Plug can be accomplished by running the following command:
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
