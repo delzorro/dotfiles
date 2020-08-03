@@ -9,6 +9,7 @@ The following steps are required to get the dotfiles functional, and assume that
 * .bashrc: ln -s .files/bashrc .bashrc
 * .bash_profile: ln -s .files/bash_profile .bash_profile
 * .vimrc: ln -s .files/vimrc .vimrc
+* .tmux.conf: ln -s .files/tmux.conf .tmux.conf
 
 ### 2. Install vim Plug
 My vim configurations contains vim Plug plugins, so you need to install vim Plug in order to use my .vimrc as intended. 
