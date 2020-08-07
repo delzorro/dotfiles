@@ -15,4 +15,5 @@ The following steps are required to get the dotfiles functional, and assume that
 My vim configuration contains vim Plug plugins, so you need to install vim Plug in order to use my .vimrc as intended. 
 Installing vim Plug can be accomplished by running the following command:
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 After above installation has completed, reload your .vimrc and type :PlugInstall (in normal mode) to install the plugins.
