@@ -44,6 +44,6 @@ function cfind {
 		return 3
 	fi
 
-	find "${basepath}" -iname "*.${extension}" | xargs grep --color="${coloring}" ${insensitive} "${@}"
+	find "${basepath}" -iname "*.${extension}" -print0 2>/dev/null | xargs -0 grep --color="${coloring}" ${insensitive} "${@}"
 }
 export -f cfind
