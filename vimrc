@@ -61,6 +61,7 @@ highlight Visual cterm=reverse ctermbg=NONE
 syntax on
 colorscheme gruvbox
 set background=dark
+" hi Normal ctermbg=16 | " guibg=#00FF00 | " force background to black (better with lesser screens)
 set t_ut=
 set t_Co=256
 set term=screen-256color
@@ -76,4 +77,4 @@ set statusline+=%*
 
 " Completion settings
 set wildmenu
-set wildmode=full
+set wildmode=longest:full,full

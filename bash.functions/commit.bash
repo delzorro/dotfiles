@@ -13,7 +13,7 @@ function commit {
 		cat - > "$tmpFile"
 	fi
 	vim "${tmpFile}"
-	svn ci --force-interactive $(cat "${tmpFile}" | awk '{print $2}')
+	svn ci --force-interactive $(cat "${tmpFile}" | sed 's/+/ /' | awk '{print $2}')
 	rm "${tmpFile}";
 }
 export -f commit
