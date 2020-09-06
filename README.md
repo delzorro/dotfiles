@@ -8,6 +8,7 @@ The following steps are required to get the dotfiles functional, and assume that
 ### 1. Create the following logical links
 * .bashrc: ln -s .files/bashrc .bashrc
 * .bash_profile: ln -s .files/bash_profile .bash_profile
+* .zshrc: ln -s .files/zshrc .zshrc
 * .vimrc: ln -s .files/vimrc .vimrc
 * .tmux.conf: ln -s .files/tmux.conf .tmux.conf
 
