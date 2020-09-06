@@ -27,14 +27,36 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-	    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
 # set a fancy prompt (non-color, unless we know we "want" color)
 TERM='xterm-256color'
-PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\a\[\033[00m\]\$ '
+PROMPT_COMMAND=setBashPromp
+# Function to set prompt including last command's exist status
+function setBashPromp {
+    local EXIT="$?"             # This needs to be first
+
+	# set variable identifying the chroot you work in (used in the prompt below)
+	# -> (how) is this used ??
+	debian_chroot=""
+	if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+			debian_chroot=$(cat /etc/debian_chroot)
+	fi
+    local resetCol='\[\e[0m\]'
+    local redCol='\[\e[0;31m\]'
+    local greenCol='\[\e[0;32m\]'
+    local boldBlueCol='\[\e[1;34m\]'
+	local boldYellowCol='\[\e[1;33m\]'
+    local purpleColor='\[\e[0;35m\]'
+	# Former PS1 configuration
+	#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\a\[\033[00m\]\$ '
+
+	# Current PS1 configuration
+	PS1="${greenCol}\u@\h:${boldBlueCol}\w\a${resetCol}\$ "
+    if [ $EXIT != 0 ]; then
+        PS1="[${redCol}✗${resetCol}]${PS1}"      # Add red if exit code non 0
+    else
+        PS1="[${greenCol}✔${resetCol}]${PS1}"
+    fi
+}
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile

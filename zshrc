@@ -14,10 +14,10 @@ export HISTSIZE=10000
 PROMPT='[%(?:%F{010}✔:%F{red}✗)%f]' # exit status last action
 PROMPT+='%F{green}%n@%m%F{015}:' # user@machine
 PROMPT+='%F{039}%(5~|%-1~/…/%3~|%4~)%F{015}» ' # current directory notation, in which long paths are trimmed down
-#PROMPT+='$(git_prompt_info)' # not really necessary
+#PROMPT+='$(git_prompt_info)' # I find this not really necessary
 
 # Default fzf zsh-izzle
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Load shell indepenent settings
+# Load shell indepenant settings
 [ -f ~/.files/shellrc ] && source ~/.files/shellrc
