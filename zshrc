@@ -12,8 +12,8 @@ export HISTSIZE=10000
 
 # Prompt settings; mainly what I'm used to in bash, including a little extra
 PROMPT='[%(?:%F{010}✔:%F{red}✗)%f]' # exit status last action
-PROMPT+='%F{green}%n@%m%F{015}:' # user@machine
-PROMPT+='%F{039}%(5~|%-1~/…/%3~|%4~)%F{015}» ' # current directory notation, in which long paths are trimmed down
+PROMPT+='%F{010}%n@%m%F{015}:' # user@machine
+PROMPT+='%F{039}%(5~|%-1~/…/%3~|%4~)%F{015}»%f ' # current directory notation, in which long paths are trimmed down
 #PROMPT+='$(git_prompt_info)' # I find this not really necessary
 
 # Default fzf zsh-izzle
