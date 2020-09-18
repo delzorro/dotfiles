@@ -53,8 +53,9 @@ function setBashPromp {
 
 	# Current PS1 configuration
 	PS1="${lightGreenCol}\u@\h:${boldBlueCol}\w\a${resetCol}\$ "
+	# Display whether last command's exit code was an error code
     if [ $EXIT != 0 ]; then
-        PS1="[${redCol}✗${resetCol}]${PS1}"      # Add red if exit code non 0
+        PS1="[${redCol}✗${resetCol}]${PS1}"      
     else
         PS1="[${lightGreenCol}✔${resetCol}]${PS1}"
     fi
