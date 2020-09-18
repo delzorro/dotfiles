@@ -43,18 +43,20 @@ function setBashPromp {
     local resetCol='\[\e[0m\]'
     local redCol='\[\e[0;31m\]'
     local greenCol='\[\e[0;32m\]'
+    local lightGreenCol='\[\e[0;92m\]'
     local boldBlueCol='\[\e[1;34m\]'
+    local lightBlueCol='\[\e[0;94m\]'
 	local boldYellowCol='\[\e[1;33m\]'
     local purpleColor='\[\e[0;35m\]'
 	# Former PS1 configuration
 	#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\a\[\033[00m\]\$ '
 
 	# Current PS1 configuration
-	PS1="${greenCol}\u@\h:${boldBlueCol}\w\a${resetCol}\$ "
+	PS1="${lightGreenCol}\u@\h:${boldBlueCol}\w\a${resetCol}\$ "
     if [ $EXIT != 0 ]; then
         PS1="[${redCol}✗${resetCol}]${PS1}"      # Add red if exit code non 0
     else
-        PS1="[${greenCol}✔${resetCol}]${PS1}"
+        PS1="[${lightGreenCol}✔${resetCol}]${PS1}"
     fi
 }
 
