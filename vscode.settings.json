@@ -1,0 +1,39 @@
+{
+    "window.zoomLevel": 1,
+    "vim.leader": ";",
+    "vim.camelCaseMotion.enable": true,
+    "vim.handleKeys": {
+
+        "<C-d>": true
+    },
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+          "before": ["<leader>", "w"],
+          "commands": [":w"]
+        },
+        {
+          "before": ["<leader>", "q"],
+          "commands": [":q"]
+        },
+        {
+          "before": ["<C-h>"],
+          "commands": [":tabprev"]
+        },
+        {
+          "before": ["<C-l>"],
+          "commands": [":tabnext"]
+        }
+    ],
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+          "before": ["<leader>", "w"],
+          "after": ["<ESC>"],
+          "commands": [":w"]
+        },
+        {
+          "before": ["<leader>", "q"],
+          "after": ["<ESC>"],
+          "commands": [":q"]
+        }
+    ]
+}
