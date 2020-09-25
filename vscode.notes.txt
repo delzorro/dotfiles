@@ -1,3 +1,5 @@
+Code vim extension
+* vscodevim.vim
 Location of settings file
 * Windows %APPDATA%\Code\User\settings.json
 * macOS $HOME/Library/Application Support/Code/User/settings.json
