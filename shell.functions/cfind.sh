@@ -16,7 +16,7 @@ function cfind {
 
 	# Parse options and arguments
 	# @see find.parse.helper.sh
-	parseArguments parsedResult "${@}"
+	findOptionsParser parsedResult "${@}"
 	local RET=$?
 	if [[ $RET -eq 1 || $RET -eq 3 ]]; 
 	then
