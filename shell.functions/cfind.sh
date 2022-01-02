@@ -1,6 +1,3 @@
-# Include options and argument parse helper
-source find.parse.helper.sh
-
 function help { 
     echo "Usage cfind [OPTIONS] STRINGTOSEARCH 
  * Convenience function for searching for matches in code files. 
@@ -18,6 +15,7 @@ function cfind {
 	declare -A parsedResult
 
 	# Parse options and arguments
+	# @see find.parse.helper.sh
 	parseArguments parsedResult "${@}"
 	local RET=$?
 	if [[ $RET -eq 1 || $RET -eq 3 ]]; 
