@@ -20,7 +20,8 @@ export FZF_DEFAULT_OPTS='
 --color info:108,prompt:109,spinner:108,pointer:168,marker:168
 '
 # Exclude not relevant parts from fzf results
-export FZF_DEFAULT_COMMAND="find . -path '*cache*' -prune -o -path './uploads' -prune -o -path './session' -prune -o -path '*svn*' -prune -o -print | grep -E 'php$|css$|js$'"
+#export FZF_DEFAULT_COMMAND="find . -path '*cache*' -prune -o -path './uploads' -prune -o -path './session' -prune -o -path '*svn*' -prune -o -print | grep -E 'php$|css$|js$'"
+export FZF_DEFAULT_COMMAND="find . -path '*cache*' -prune -o -path './uploads' -prune -o -path './session' -prune -o -path '*svn*' -prune -path '*git*' -prune -o -print"
 
 # Make vim the default svn and git editor
 export SVN_EDITOR="vim"

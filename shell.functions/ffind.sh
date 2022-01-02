@@ -1,6 +1,6 @@
 function help { 
-    echo "Usage cfind [OPTIONS] STRINGTOSEARCH 
- * Convenience function for searching for matches in code files. 
+    echo "Usage ffind [OPTIONS] STRINGTOSEARCH 
+ * Convenience function for searching for code files. 
  * Including the following options:
    -e for file extension, default php,  
    -c remove greps coloring
@@ -9,7 +9,7 @@ function help {
    -h for displaying this text" >&2
 }
 
-function cfind {
+function ffind {
 
 	# Declare reference parameter to hold parse result
 	declare -A parsedResult
@@ -24,7 +24,7 @@ function cfind {
 		return $RET
 	fi
 
-	# Execute cfind
-	find "${parsedResult[basePath]}" -iname "*.${parsedResult[extension]}" -print0 2>/dev/null | xargs -0 grep --color="${parsedResult[coloring]}" ${parsedResult[caseInsensitive]} "${parsedResult[args]}"
+	# Execute ffind
+	find "${parsedResult[basePath]}" -iname "*.${parsedResult[extension]}" 2>/dev/null | grep --color="${parsedResult[coloring]}" ${parsedResult[caseInsensitive]} "${parsedResult[args]}"
 }
-export -f cfind
+export -f ffind

@@ -31,6 +31,7 @@ endfunction
 " Operational settings
 au BufNewFile,BufRead *.endfile set filetype=endfile
 set encoding=utf-8
+set noexpandtab
 set sw=4
 set tabstop=4
 set nowrap
@@ -42,6 +43,13 @@ set number
 "set relativenumber
 set splitbelow
 set splitright
+
+" Required for correct python file type handling
+augroup python
+    autocmd!
+    " Add shiftwidth and/or softtabstop if you want to override those too.
+    autocmd FileType python setlocal noexpandtab tabstop=4
+augroup end
 
 " Search settings
 set hlsearch
@@ -72,7 +80,7 @@ set cursorline                                                " Highlight curren
 " Status settings
 set laststatus=2
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 " Completion settings
