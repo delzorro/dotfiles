@@ -27,4 +27,6 @@ function cfind {
 	# Execute cfind
 	find "${parsedResult[basePath]}" -iname "*.${parsedResult[extension]}" -print0 2>/dev/null | xargs -0 grep --color="${parsedResult[coloring]}" ${parsedResult[caseInsensitive]} "${parsedResult[args]}"
 }
+
+# Export function to also make it accessible in subshells
 export -f cfind

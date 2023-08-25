@@ -45,4 +45,6 @@ function findOptionsParser {
 	# Set result variable with parsed result
 	result=([extension]=$extension [caseInsensitive]=$caseInsensitive [coloring]=$coloring [basePath]=$basePath [args]="${@}" ) 
 }
+
+# Export function to also make it accessible in subshells
 export -f findOptionsParser
