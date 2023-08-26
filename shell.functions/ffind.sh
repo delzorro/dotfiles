@@ -27,4 +27,6 @@ function ffind {
 	# Execute ffind
 	find "${parsedResult[basePath]}" -iname "*.${parsedResult[extension]}" 2>/dev/null | grep --color="${parsedResult[coloring]}" ${parsedResult[caseInsensitive]} "${parsedResult[args]}"
 }
+
+# Export function to also make it accessible in subshells
 export -f ffind

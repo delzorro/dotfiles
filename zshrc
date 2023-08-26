@@ -21,3 +21,17 @@ PROMPT+='%F{039}%(5~|%-1~/…/%3~|%4~)%F{015}»%f ' # current directory notation
 
 # Load shell indepenant settings
 [ -f ~/.files/shellrc ] && source ~/.files/shellrc
+
+# Local / MacOS addition for brew
+export PATH=/opt/homebrew/bin:$PATH
+
+function sudo {
+	local firstArg=$1
+	if [[ $(type $firstArg) =~ "function" ]]
+	then
+		shift && command sudo zsh -c "$(declare -f $firstArg); SSTP_VPN_PID=$SSTP_VPN_PID; $firstArg $*"
+	else
+		command sudo "$@"
+	fi
+}
+alias sudo='sudo '

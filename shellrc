@@ -11,9 +11,6 @@ if [[ -d ~/.files/shell.functions ]];  then
 	done
 fi
 
-# Add local bin to path
-export PATH="$HOME/.local/bin:$PATH"
-
 # Some more fzf settings
 export FZF_DEFAULT_OPTS='
 --color fg:250,bg:235,hl:65,fg+:15,bg+:239,hl+:108

@@ -16,4 +16,6 @@ function commit {
 	svn ci --force-interactive $(cat "${tmpFile}" | sed 's/+/ /' | awk '{print $2}')
 	rm "${tmpFile}";
 }
+
+# Export function to also make it accessible in subshells
 export -f commit
