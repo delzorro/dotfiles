@@ -1,0 +1,61 @@
+" No compabitlity necessary
+set nocompatible
+
+" Set alternative leader key
+let mapleader = ";"
+
+" Custom mappings
+" Easier saving with <Leader>-w (always, except visual selection)
+" -> Like going through FZF or CtrlP list
+" Better end in normal mode
+"inoremap <silent> <Leader>w <C-o>:w<CR>
+inoremap <silent> <Leader>w <Esc>:w<CR>
+nnoremap <silent> <Leader>w :w<CR>
+inoremap <silent> <Leader>q <Esc>:q<CR>
+nnoremap <silent> <Leader>q :q<CR>
+
+" Navigation settings
+nnoremap <C-h> gT<CR>
+nnoremap <C-l> gt<CR>
+
+" Toggle special char visibility
+noremap <Leader>c :set list!<CR>							" mnemonic: Character
+
+" Toggle display numbers
+noremap <Leader>n :set number!<CR>							" mnemonic: Number
+
+" ; is my leader, so map ; to <space>
+" nnoremap <Space> ;
+" vnoremap <Space> ;
+
+" Operational settings
+" au BufNewFile,BufRead *.endfile set filetype=endfile
+set encoding=utf-8
+set noexpandtab
+set sw=4
+set tabstop=4
+set nowrap
+set scrolloff=5
+set showmatch
+set nobackup
+set noswapfile
+set number
+"set relativenumber
+set splitbelow
+set splitright
+
+" Search settings
+set hlsearch
+set smartindent
+set ignorecase
+set smartcase
+set incsearch
+
+" Character visibility
+set listchars=tab:→\ ,space:·,nbsp:·,trail:•,eol:¶,precedes:«,extends:»
+
+" Appearance 
+set cursorline                                                " Highlight current cursor line
+
+" Things of interest
+nnoremap <leader>f : action GotoFile<CR>
