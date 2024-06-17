@@ -19,10 +19,10 @@ nnoremap <C-h> gT<CR>
 nnoremap <C-l> gt<CR>
 
 " Toggle special char visibility
-noremap <Leader>c :set list!<CR>							" mnemonic: Character
+nnoremap <Leader>c :set list!<CR>							" mnemonic: Character
 
 " Toggle display numbers
-noremap <Leader>n :set number!<CR>							" mnemonic: Number
+nnoremap <Leader>n :set number!<CR>							" mnemonic: Number
 
 " ; is my leader, so map ; to <space>
 " nnoremap <Space> ;

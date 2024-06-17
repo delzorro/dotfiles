@@ -39,8 +39,6 @@ Options/flag are:
 		{t,-target}:=targeturl \
 		{u,-username}:=uname;
 
-	echo $?
-
 	if [[ -z $targeturl || -z $uname || ! -z $flag_help ]]
 	then
 		print -l $usage 2>&1
@@ -50,13 +48,15 @@ Options/flag are:
 	PASSWD=$(read -s "?Wachtwoord VPN account:"; echo $REPLY)
 
 	#/opt/homebrew/Cellar/sstp-client/1.0.18/sbin/sstpc --log-level 2 --log-stderr --cert-warn --user "${UNAME}" --password "${PASSWD}" "${TARGETURL}" usepeerdns require-mschap-v2 noauth noipdefault defaultroute refuse-eap noccp &
-	/opt/homebrew/Cellar/sstp-client/1.0.18/sbin/sstpc --log-level 2 --log-stderr --cert-warn --user "${uname[2]}" --password "${PASSWD}" "${targeturl[2]}" usepeerdns require-mschap-v2 noauth noipdefault nodefaultroute refuse-eap noccp &
+	#/opt/homebrew/Cellar/sstp-client/1.0.18/sbin/sstpc --log-level 2 --log-stderr --cert-warn --user "${uname[2]}" --password "${PASSWD}" "${targeturl[2]}" usepeerdns require-mschap-v2 noauth noipdefault nodefaultroute refuse-eap noccp &
+	/opt/homebrew/Cellar/sstp-client/1.0.18_1/sbin/sstpc --log-level 2 --log-stderr --cert-warn --user "${uname[2]}" --password "${PASSWD}" "${targeturl[2]}" usepeerdns require-mschap-v2 noauth noipdefault nodefaultroute refuse-eap noccp &
 	export SSTP_VPN_PID=$!
 	echo $'\n'"PID: $SSTP_VPN_PID"
 
 	sleep 3
 	# remote defaultroute option, and have traffic meant for office routed through
 	route add -net 192.168.0.0/16 -interface ppp0
+	route add -net 10.19.0.0/16 -interface ppp0
 	route add -net 185.6.160.222/24 -interface ppp0
 	route add -net 213.51.64.66/24 -interface ppp0
 	route add -net 192.168.0.0/24 -interface ppp0
