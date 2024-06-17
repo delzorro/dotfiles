@@ -22,9 +22,9 @@ function startSstpVpn {
 
 	local usage="Function for connecting to an SSTP VPN
 Usage: ${0} [OPTIONS|FLAGS]
-Options/flag are:
+Options/flags are:
  -u,--username <username> *	- provide the concerning username
- -t,--targeturl <targeturl> *	- provide the VPN URL
+ -t,--target <targeturl> *	- provide the VPN URL
  -h				- flag to displaying this text
  *) mandatory";
 
