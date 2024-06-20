@@ -104,7 +104,7 @@ function findHelper {
 	if [[ $findMethod == $CODE_FIND ]]; then 
 		find "${basePath}" -iname "*.${extension}" -print0 2>/dev/null | xargs -0 grep --color="${coloring}" ${caseInsensitive} "${@}"
 	else # FILE_FIND
-		find "${basePath}" -iname "*.${extension}" -print0 2>/dev/null | grep -z --color="${coloring}" ${caseInsensitive} "${@}"
+		find "${basePath}" -iname "*.${extension}" -print 2>/dev/null | grep --color="${coloring}" ${caseInsensitive} "${@}"
 	fi
 }
 
