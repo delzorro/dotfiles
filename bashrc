@@ -77,3 +77,10 @@ fi
 
 # Load shell indepenent settings
 [ -f ~/.files/shellrc ] && source ~/.files/shellrc
+
+# fzf initialisatie/configuratie
+if command -v fzf >/dev/null 2>&1; then
+	eval "$(fzf --bash)"
+fi
+
+

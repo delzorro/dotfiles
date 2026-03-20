@@ -17,7 +17,7 @@ PROMPT+='%F{039}%(5~|%-1~/…/%3~|%4~)%F{015}»%f ' # current directory notation
 #PROMPT+='$(git_prompt_info)' # I find this not really necessary
 
 # Default fzf zsh-izzle
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Load shell indepenant settings
 [ -f ~/.files/shellrc ] && source ~/.files/shellrc
@@ -40,3 +40,8 @@ export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# fzf initialisatie/configuratie
+if command -v fzf >/dev/null 2>&1; then
+	source ~/.files/fzf.zsh
+fi
