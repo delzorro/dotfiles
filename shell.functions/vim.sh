@@ -7,7 +7,7 @@
 #  -> altered to also include command line options (for example -p, to open files in tabs)
 # @author Remco de Vos
 
-function vim {
+function vim.disabled {
 	local POSOPTARGS="$@" 
 	if [[ -t 0 ]] ; then
 		# stdin is a tty: process command line
@@ -19,4 +19,4 @@ function vim {
 }
 
 # Export function to also make it accessible in subshells
-export -f vim
+export -f vim.disabled

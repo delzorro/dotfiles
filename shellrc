@@ -23,6 +23,3 @@ export FZF_DEFAULT_COMMAND="find . -path '*cache*' -prune -o -path './uploads' -
 # Make vim the default svn and git editor
 export SVN_EDITOR="vim"
 export GIT_EDITOR="vim"
-
-# Easy directory navigation on the command line
-export CDPATH='~:~/public_html'

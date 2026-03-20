@@ -13,18 +13,14 @@ set hlsearch
 
 set visualbell
 set cursorline                                                " Highlight current cursor line
-set nobackup
-set noswapfile
 set matchpairs+=<:>
 
 
 " Use system clipboard
-set clipboard+=unnamed,unnamedplus " ideaput??, ^??   
+set clipboard+=unnamed,unnamedplus " ideaput??, ^??
 
 " Added @ 2026.03
-set nocompatible					" check: relevant
-set listchars=tab:→\ ,space:·,nbsp:·,trail:•,eol:¶,precedes:«,extends:» 	" check: does this make sense with ideavim
-set encoding=utf-8
+set listchars=tab:→\ ,space:·,nbsp:·,trail:•,eol:¶,precedes:«,extends:»
 set noexpandtab
 set sw=4
 set tabstop=4
@@ -33,7 +29,7 @@ set nowrap
 set splitbelow
 set splitright
 set smartindent
-let mapleader = " "
+let mapleader = ","
 " eoAdded
 
 
@@ -128,6 +124,10 @@ let g:WhichKeyDesc_errors_prev = "<leader>ep Go to previous error in solution"
 
 " Misc
 nnoremap <Esc> :nohlsearch<CR>
+
+" Remap backwards repeat (lost due to comma as leader)
+nnoremap \ ,
+vnoremap \ ,
 
 " Default navigation
 " - move to beginning of next word
@@ -245,3 +245,45 @@ map <leader>vb <Action>(Git.Branches)
 " Errors
 map <leader>en <Action>(ReSharperGotoNextErrorInSolution)
 map <leader>ep <Action>(ReSharperGotoPrevErrorInSolution)
+
+" Additional compatible options from vimrc
+" ========================================================
+set scrolloff=5
+set wildmenu
+set wildmode=longest:full,full
+set laststatus=2
+syntax on
+
+" Incompatible with JetBrains IDEs
+" ========================================================
+" set nobackup          - IdeaVim doesn't create backup files
+" set noswapfile        - IdeaVim doesn't create swap files
+" set nocompatible      - Not relevant for IdeaVim
+" set encoding=utf-8    - Handled by IDE
+
+" AI suggested top configuration options
+" ========================================================
+
+" Relative line numbers for easier motion commands (5j, 10k, etc.)
+set relativenumber
+
+" Use 'number' instead of 'linenumber' (standard vim option)
+set number
+
+" Sync IdeaVim marks with IDE bookmarks
+set ideamarks
+
+" Refactoring mode: keep cursor position after refactoring
+" Options: keep, select, visual
+set idearefactormode=keep
+
+" Make substitution global by default (no need for /g flag)
+set gdefault
+
+" Additional IdeaVim plugins
+set commentary          " Enhanced comment functionality (gc operator)
+set exchange            " Exchange text with cx operator
+set argtextobj          " Function argument text objects (ia/aa)
+set textobj-entire      " Entire file text object (ae/ie)
+set ReplaceWithRegister " Replace with register (gr operator)
+set quickscope          " Highlight unique chars for f/F/t/T

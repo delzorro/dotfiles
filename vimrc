@@ -2,10 +2,14 @@
 set nocompatible
 
 " Set alternative leader key
-let mapleader = ";"
+let mapleader = ","
+
+" , is my leader, so remap backwards repeat to backslash
+nnoremap \ ,
+vnoremap \ ,
 
 " Plugins + options
-if filereadable(expand("~/.files/vimrc.plugins"))
+if !exists('g:skipPlugins') && filereadable(expand("~/.files/vimrc.plugins"))
 	source ~/.files/vimrc.plugins
 endif
 
@@ -67,7 +71,7 @@ highlight Visual cterm=reverse ctermbg=NONE
 
 " Appearance 
 syntax on
-colorscheme gruvbox
+colorscheme zaibatsu
 set background=dark
 " hi Normal ctermbg=16 | " guibg=#00FF00 | " force background to black (better with lesser screens)
 set t_ut=
@@ -86,3 +90,6 @@ set statusline+=%*
 " Completion settings
 set wildmenu
 set wildmode=longest:full,full
+
+" md file config
+let g:markdown_fenced_languages = ['bash=sh', 'css', 'javascript', 'js=javascript', 'json=javascript', 'perl', 'php', 'python', 'ruby', 'sass', 'xml', 'html']
