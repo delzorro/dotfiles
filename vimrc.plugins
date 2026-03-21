@@ -9,7 +9,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " In-file tag outliner
-Plug 'ludovicchabant/vim-gutentags' " ctag manager
 Plug 'majutsushi/tagbar', { 'do': 'cp -R ./plugin ~/.vim/' } " Used for code-file outliner
 
 " Plugin outside ~/.vim/plugged with post-update hook
@@ -22,10 +21,6 @@ Plug 'itchyny/lightline.vim'
 " Syntax checker
 Plug 'w0rp/ale' " (vim 8+)
 "Plug 'vim-syntastic/syntastic'
-
-" Highligt unused/unassigned local variables
-" (doesn't seem to work)
-Plug '~/.vim/plugged/localvarcheck'
 
 " Colorschemes
 "Plug 'morhetz/gruvbox'
@@ -62,66 +57,6 @@ let g:tagbar_type_php  = {
     \ ]
   \ }
 
-
-" Gutentags settings
-" - Have the tag-functionality include (Akyla) framework (php) files
-set tags+=~/framework-trunk/tags 
-let g:gutentags_ctags_exclude = [
-      \ '*.svn', '*.git', '*.svg', '*.hg',
-      \ 'cache',
-      \ 'upload',
-      \ 'session',
-      \ 'Zend',
-      \ 'css',
-      \ 'js',
-      \ 'PhpOffice',
-      \ 'doc',
-      \ 'log',
-      \ 'Plugin',
-      \ '*/tests/*',
-      \ 'build',
-      \ 'dist',
-      \ '*sites/*/files/*',
-      \ 'bin',
-      \ 'node_modules',
-      \ 'bower_components',
-      \ 'compiled',
-      \ 'docs',
-      \ 'example',
-      \ 'bundle',
-      \ 'vendor',
-      \ '*.md',
-      \ '*-lock.json',
-      \ '*.lock',
-      \ '*bundle*.js',
-      \ '*build*.js',
-      \ '.*rc*',
-      \ '*.json',
-      \ '*.min.*',
-      \ '*.map',
-      \ '*.bak',
-      \ '*.zip',
-      \ '*.pyc',
-      \ '*.class',
-      \ '*.sln',
-      \ '*.Master',
-      \ '*.csproj',
-      \ '*.tmp',
-      \ '*.csproj.user',
-      \ '*.cache',
-      \ '*.pdb',
-      \ 'tags*',
-      \ 'cscope.*',
-      \ '*.css',
-      \ '*.less',
-      \ '*.scss',
-      \ '*.exe', '*.dll',
-      \ '*.mp3', '*.ogg', '*.flac',
-      \ '*.swp', '*.swo',
-      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
-      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
-      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
-      \ ]
 " Syntastic options
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
