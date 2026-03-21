@@ -72,9 +72,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Default fzf bash-izzle
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
 # Load shell indepenent settings
 [ -f ~/.files/shellrc ] && source ~/.files/shellrc
 

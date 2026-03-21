@@ -16,9 +16,6 @@ PROMPT+='%F{010}%n@%m%F{015}:' # user@machine
 PROMPT+='%F{039}%(5~|%-1~/…/%3~|%4~)%F{015}»%f ' # current directory notation, in which long paths are trimmed down
 #PROMPT+='$(git_prompt_info)' # I find this not really necessary
 
-# Default fzf zsh-izzle
-#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # Load shell indepenant settings
 [ -f ~/.files/shellrc ] && source ~/.files/shellrc
 

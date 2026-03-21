@@ -1,0 +1,45 @@
+
+# Fuzzy cd
+fcd() {
+  local dir
+  dir=$(find "${1:-.}" -type d \
+    -not -path "*/.git/*" \
+    -not -path "*/node_modules/*" \
+    2>/dev/null \
+    | fzf --preview 'ls -la --color=always {} | head -50')
+  [ -n "$dir" ] && cd "$dir"
+}
+
+# Fuzzy open in editor
+fe() {
+  local file
+  file=$(find . -type f \
+    -not -path "*/.git/*" \
+    -not -path "*/node_modules/*" \
+    2>/dev/null \
+    | fzf --preview 'bat --color=always {}')
+  [ -n "$file" ] && ${EDITOR:-vim} "$file"
+}
+
+# Kill process
+fkill() {
+  local pid
+  pid=$(ps aux | fzf --header-lines=1 | awk '{print $2}')
+  [ -n "$pid" ] && kill -${1:-9} "$pid"
+}
+
+# Git branch switchen
+fbr() {
+  git branch | fzf | xargs git checkout
+}
+
+# Git log browsen
+fgl() {
+  git log --oneline | fzf --preview 'git show {1}' | awk '{print $1}' | xargs git show
+}
+
+# Docker container selecteren
+fdoc() {
+  docker ps | fzf --header-lines=1 | awk '{print $1}'
+}
+
