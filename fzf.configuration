@@ -18,7 +18,7 @@ export FZF_BINDING_OPTS="
   --bind 'ctrl-d:deselect-all'
   --bind 'ctrl-/:toggle-preview'
   --bind 'ctrl-y:execute-silent(echo {} | pbcopy)'  # kopieer naar clipboard
-  --bind 'ctrl-e:execute(echo {} | xargs $EDITOR)'  # open in editor
+  --bind 'ctrl-e:execute(${EDITOR:-vim} {q})'		# open in editor
   --bind 'ctrl-o:execute-silent(open {})'            # open bestand (macOS)
   --bind 'alt-j:down,alt-k:up'                       # Vim-stijl navigatie
 "
@@ -28,13 +28,13 @@ export FZF_DEFAULT_COMMAND='find . -type f -not -path "*/.git/*" -not -path "*/n
 
 # Default options
 export FZF_DEFAULT_OPTS="
-  --height=~80%
+  --height=80%
   --min-height=12
   --layout=reverse
   --border=rounded
   --border-label=' fzf '
   --border-label-pos=top
-  --margin=2,20
+  --margin=3%,10%
   --padding=1,2
   --prompt='❯ '
   --pointer='▶'
@@ -42,15 +42,18 @@ export FZF_DEFAULT_OPTS="
   --separator='─'
   --scrollbar='▐'
   --info=inline-right
+  --preview-window=right:60%
+  --multi 			#default
+  --preview 'bat --color=always --line-range :500 {}'
+  --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)+abort' 
+  --bind 'ctrl-e:execute(vim -p {+})'
+  --bind 'ctrl-/:toggle-preview'
+  --bind 'ctrl-a:select-all'
+  --bind 'ctrl-d:deselect-all'
 "
-#${FZF_COLOR_OPTS_DRACULA}
 
 # CTRL-T: file lookup with find + bat preview
 export FZF_CTRL_T_COMMAND='find . -type f -not -path "*/.git/*" -not -path "*/node_modules/*" 2>/dev/null'
-export FZF_CTRL_T_OPTS="
-  --bind 'ctrl-/:toggle-preview'
-  --preview 'bat --color=always --line-range :500 {}'
-"
 
 # ALT-C: directory navigation with find + ls preview
 export FZF_ALT_C_COMMAND='find . -type d -not -path "*/.git/*" -not -path "*/node_modules/*" 2>/dev/null'
@@ -59,9 +62,9 @@ export FZF_ALT_C_OPTS="--preview 'ls -la --color=always {} 2>/dev/null | head -5
 # CTRL-R: history lookup 
 export FZF_CTRL_R_OPTS="
   --preview 'echo {}'
-  --preview-window up:3:hidden:wrap
-  --bind 'ctrl-/:toggle-preview'
-  --bind 'ctrl-y:execute-silent(echo -n {2..} | xclip -selection clipboard 2>/dev/null || echo -n {2..} | pbcopy 2>/dev/null)+abort'
+  --no-multi
+  --no-preview
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'    # previous/alternative: xclip -selection clipboard 2>/dev/null
   --color header:italic
-  --header 'CTRL-Y om te kopiëren naar klembord'
+  --header 'C-y to copy item/selection to clipboard'
 "

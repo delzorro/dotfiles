@@ -28,7 +28,7 @@ Plug 'w0rp/ale' " (vim 8+)
 Plug '~/.vim/plugged/localvarcheck'
 
 " Colorschemes
-Plug 'morhetz/gruvbox'
+"Plug 'morhetz/gruvbox'
 "Plug 'altercation/vim-colors-solarized'
 "Plug 'patstockwell/vim-monokai-tasty'
 "Plug 'tpope/vim-vividchalk'
@@ -128,3 +128,20 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+" =======================================================================
+" Vim plugings settings
+" =======================================================================
+
+" Tagbar mapping
+nmap <Leader>r :TagbarToggle<CR> 							" mnemonic : Reflection
+nnoremap <silent><C-w><C-]> <C-w><C-]><C-w>T
+
+" NERDTree mapping
+map <Leader>e :NERDTreeToggle<CR> 							" mnemonic : Explorer
+
+" FZF settings
+" Altered call to fzf; stepping through previous searches with Ctrl-P and Ctrl-N
+command! -bang -nargs=? -complete=dir FilesWithHistory
+			\ call fzf#vim#files(<q-args>, {'options': ['--history', '--print-query', '--preview', 'cat {}']}, <bang>0)     
+"mnemonic: Find / Files
+nmap <Leader>f :FilesWithHistory<CR> 						

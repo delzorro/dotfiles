@@ -25,30 +25,10 @@ nnoremap <C-l> gt<CR>
 
 " Generate phpdoc for PHP (class) methods
 " (Create a logical link from .vim/autoload to the file dotfiles/vim.autoload/phpDoc.vim first!)
-nnoremap <Leader>d :call phpDoc#createPhpDoc()<CR>			" mnemonic : Document
-
-" Tagbar mapping
-nmap <Leader>r :TagbarToggle<CR> 							" mnemonic : Reflection
-nnoremap <silent><C-w><C-]> <C-w><C-]><C-w>T
-
-" NERDTree mapping
-map <Leader>e :NERDTreeToggle<CR> 							" mnemonic : Explorer
-
-" FZF settings
-" Altered call to fzf; stepping through previous searches with Ctrl-P and Ctrl-N
-command! -bang -nargs=? -complete=dir FilesWithHistory
-			\ call fzf#vim#files(<q-args>, {'options': ['--history', '--print-query', '--preview', 'cat {}']}, <bang>0)     
-"nmap <Leader>f :Files<CR> 						" mnemonic: Find / Files
-nmap <Leader>f :FilesWithHistory<CR> 						" mnemonic: Find / Files
-"nmap <Leader>ff :FilesWithHistory |							" + <dir>
-"nmap <C-t> :Tags<CR>
+"nnoremap <Leader>d :call phpDoc#createPhpDoc()<CR>			" mnemonic : Document
 
 " Toggle special char visibility
 noremap <Leader>c :set list!<CR>							" mnemonic: Character
 
 " Toggle display numbers
 noremap <Leader>n :set number!<CR>							" mnemonic: Number
-
-" ; is my leader, so map ; to <space>
-nnoremap <Space> ;
-vnoremap <Space> ;
