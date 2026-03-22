@@ -1,8 +1,8 @@
-"" Base Settings
-"" ========================================================
+"
+" Base Settings
+" ========================================================
 
 set scrolloff=10
-set linenumber
 set showmode
 set showcmd
 
@@ -15,11 +15,9 @@ set visualbell
 set cursorline                                                " Highlight current cursor line
 set matchpairs+=<:>
 
-
 " Use system clipboard
 set clipboard+=unnamed,unnamedplus " ideaput??, ^??
 
-" Added @ 2026.03
 set listchars=tab:→\ ,space:·,nbsp:·,trail:•,eol:¶,precedes:«,extends:»
 set noexpandtab
 set sw=4
@@ -30,11 +28,10 @@ set splitbelow
 set splitright
 set smartindent
 let mapleader = ","
-" eoAdded
 
 
-"" Plugin Settings
-"" ========================================================
+" Plugin Settings
+" ========================================================
 
 set surround
 set highlightedyank
@@ -119,8 +116,8 @@ let g:WhichKeyDesc_errors_next = "<leader>en Go to next error in solution"
 let g:WhichKeyDesc_errors_prev = "<leader>ep Go to previous error in solution"
 
 
-"" Key mappings
-"" ========================================================
+" Key mappings
+" ========================================================
 
 " Misc
 nnoremap <Esc> :nohlsearch<CR>
@@ -143,10 +140,8 @@ map ge ]b
 nnoremap <C-l> :tabnext<CR>
 nnoremap <C-h> :tabprev<CR>
 
-" Jump between methods TODO
-" nnoremap [[ <Action>(MethodUp) 		-> Doesn't work.. ??
+" Jump between methods
 nnoremap [[ :action MethodUp<CR>
-" nnoremap ]] <Action>(MethodDown) 		-> Doesn't work.. ??
 nnoremap ]] :action MethodDown<CR>
 
 " Easy visual indentation
@@ -156,19 +151,19 @@ vnoremap > >gv
 " Execute macro saved in 'q' register
 " nnoremap qj @q -> not so useful
 
-" Popup navigation
-inoremap <C-j> <Action>(PopupMenu-selectNext)
-inoremap <C-k> <Action>(PopupMenu-selectPrev)
+" Popup navigation <- lijkt niet echt te werken
+"inoremap <C-j> <Action>(PopupMenu-selectNext)
+"inoremap <C-k> <Action>(PopupMenu-selectPrev)
+"inoremap <C-j> <Action>(NextTemplateVariable)
+"inoremap <C-k> <Action>(PreviousTemplateVariable)
 
-" Added @ 2026.03
 inoremap <silent> <Leader>w <Esc>:w<CR>
 nnoremap <silent> <Leader>w :w<CR>
 inoremap <silent> <Leader>q <Esc>:q<CR>
 nnoremap <silent> <Leader>q :q<CR>
-" eoAdded
 
-"" Leader commands
-"" ========================================================
+" Leader commands
+" ========================================================
 
 " Show/hides - Added @ 2026.03
 nnoremap <Leader>l :set list!<CR>
@@ -176,10 +171,8 @@ nnoremap <Leader>n :set number!<CR>
 " eoAdded
 
 " Comment lines
-map <leader>c <action>(CommentByLineComment)
-
-" Jump around with easymotion TODO
-map <leader>j <Plug>(easymotion-s)
+"imap <leader>c <Action>(CommentByLineComment)
+map <leader>c <Action>(CommentByLineComment)
 
 " Open NERDTree (use q to exit)
 map <leader>x :NERDTreeToggle<CR>
@@ -190,7 +183,7 @@ map <leader>zo :action ExpandAllRegions<CR>
 
 " Window splits
 map <leader>wv <Action>(SplitVertically)
-map <leader>ws <Action>(SplitHorizontally)
+map <leader>wh <Action>(SplitHorizontally)
 map <leader>wu <Action>(Unsplit)
 map <leader>wm <Action>(MoveEditorToOppositeTabGroup)
 
@@ -214,17 +207,16 @@ map <leader>gd <Action>(GotoDeclaration)
 map <leader>gy <Action>(GotoTypeDeclaration)
 map <leader>gi <Action>(GotoImplementation)
 map <leader>gm <Action>(GotoSuperMethod)
-nmap <C-o> <Action>(Back)
-nmap <C-i> <Action>(Forward)
+map <C-o> <Action>(Back)
+map <C-i> <Action>(Forward)
 " map <leader>gt <Action>(GotoTest)
 " map <leader>gl <Action>(GotoLine)
 
 
 " Show actions
-nmap <leader>su <Action>(ShowUsages)
-nmap <leader>sa <Action>(ShowIntentionActions)
-nmap <leader>sh <Action>(ShowHoverInfo)
-" leader ug <-- HERE
+map <leader>su <Action>(ShowUsages)
+map <leader>sa <Action>(ShowIntentionActions)
+map <leader>sh <Action>(ShowHoverInfo)
 
 " Close active tab
 map <leader>q <action>(CloseContent)
@@ -236,6 +228,7 @@ map <leader>rv <Action>(IntroduceVariable)
 map <leader>rf <Action>(IntroduceField)
 map <leader>rs <Action>(ChangeSignature)
 map <leader>rr <Action>(Refactorings.QuickListPopupAction)
+map <leader>ri <Action>(OptimizeImports)
 
 " Versioning actions
 map <leader>vc <Action>(CheckinProject)
@@ -243,8 +236,8 @@ map <leader>vs <Action>(ActivateVersionControlToolWindow)
 map <leader>vb <Action>(Git.Branches)
 
 " Errors
-map <leader>en <Action>(ReSharperGotoNextErrorInSolution)
-map <leader>ep <Action>(ReSharperGotoPrevErrorInSolution)
+map <leader>en <Action>(GotoNextError)
+map <leader>ep <Action>(GotoPreviousError)
 
 " Additional compatible options from vimrc
 " ========================================================
@@ -254,18 +247,12 @@ set wildmode=longest:full,full
 set laststatus=2
 syntax on
 
-" Incompatible with JetBrains IDEs
-" ========================================================
-" set nobackup          - IdeaVim doesn't create backup files
-" set noswapfile        - IdeaVim doesn't create swap files
-" set nocompatible      - Not relevant for IdeaVim
-" set encoding=utf-8    - Handled by IDE
 
 " AI suggested top configuration options
 " ========================================================
 
 " Relative line numbers for easier motion commands (5j, 10k, etc.)
-set relativenumber
+"set relativenumber
 
 " Use 'number' instead of 'linenumber' (standard vim option)
 set number
