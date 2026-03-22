@@ -2,7 +2,7 @@
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Load convenient aliases
-[ -f ~/.files/shell_aliases ] && source ~/.files/shell_aliases
+[ -f ~/.files/shell.aliases ] && source ~/.files/shell.aliases
 
 # Load custom shell function
 if [[ -d ~/.files/shell.functions ]];  then
@@ -12,14 +12,16 @@ if [[ -d ~/.files/shell.functions ]];  then
 fi
 
 # Some more fzf settings
-export FZF_DEFAULT_OPTS='
---color fg:250,bg:235,hl:65,fg+:15,bg+:239,hl+:108
---color info:108,prompt:109,spinner:108,pointer:168,marker:168
-'
+#export FZF_DEFAULT_OPTS='
+#--color fg:250,bg:235,hl:65,fg+:15,bg+:239,hl+:108
+#--color info:108,prompt:109,spinner:108,pointer:168,marker:168
+#'
+
 # Exclude not relevant parts from fzf results
 #export FZF_DEFAULT_COMMAND="find . -path '*cache*' -prune -o -path './uploads' -prune -o -path './session' -prune -o -path '*svn*' -prune -o -print | grep -E 'php$|css$|js$'"
-export FZF_DEFAULT_COMMAND="find . -path '*cache*' -prune -o -path './uploads' -prune -o -path './session' -prune -o -path '*svn*' -prune -path '*git*' -prune -o -print"
+#export FZF_DEFAULT_COMMAND="find . -path '*cache*' -prune -o -path './uploads' -prune -o -path './session' -prune -o -path '*svn*' -prune -path '*git*' -prune -o -print"
 
 # Make vim the default svn and git editor
 export SVN_EDITOR="vim"
 export GIT_EDITOR="vim"
+export EDITOR="vim"

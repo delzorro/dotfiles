@@ -1,15 +1,20 @@
-# Define file find constant
-readonly FILE_FIND='ffind'
 
-# Define code find constant
-readonly CODE_FIND='cfind'
+[[ -z "${FILE_FIND}" ]] && {
+	# Define file find constant
+    readonly FILE_FIND='ffind'
+}
+
+[[ -z "${CODE_FIND}" ]] && {
+	# Define code find constant
+    readonly CODE_FIND='cfind'
+}
 
 #
 # This method displays the usage of the requested code finder
 #
-function help { 
-	methodName=${1-"[${CODE_FIND}|${FILE_FIND}]"}
-	description='Convenience functions for searching for/through code files based on given search criteria'
+function convenientFinderHelp { 
+	local methodName=${1-"[${CODE_FIND}|${FILE_FIND}]"}
+	local description='Convenience functions for searching for/through code files based on given search criteria'
 	declare -A descriptions
 	descriptions[$CODE_FIND]='Convenience function for searching through code files based on given search criteria'
 	descriptions[$FILE_FIND]='Convenience function for searching for code files based on given search criteria'
@@ -22,17 +27,17 @@ function help {
  * ${description}. 
  * Base path defaults to current directory, if not given.
  * Supported options are:
-   -e for file extension, default php,  
+   -e for file extension, default go,  
    -C remove greps coloring
    -i for case insensitive search, 
    -h for displaying this text" >&2
 }
+export -f convenientFinderHelp
 
 #
 # This function parses the options/arguments and runs the requested find method
 #
 function findHelper {
-
 	# Check method support
 	local findMethod="${1-"No method"}"
 	local supportedMethods=($CODE_FIND $FILE_FIND)
@@ -44,7 +49,7 @@ function findHelper {
 
 	# Options/arguments are expected
 	[[ "$#" -eq 0 ]] && {
-		help $findMethod
+		convenientFinderHelp $findMethod
 		return 1	
 	}
 
@@ -53,19 +58,19 @@ function findHelper {
 	#   - if a directory -> OK
 	#   - if not a directory && more arguments -> erronous call
 	basePath="."
-	if [[ ! "$1" =~ '-[a-zA-Z]' ]]; then
+	if [[ ! "$1" =~ "-[a-zA-Z]" ]]; then
 		if [[ -d $1 ]]; then
 			basePath="$1"
 			shift 1
 		elif [[ ! -d $1 && "$#" -gt 1 ]]; then 
 			echo "$1 is not a directory" >&2
-			help $findMethod
+			convenientFinderHelp $findMethod
 			return 1
 		fi
 	fi
 
 	# Parse option arguments with getopts
-	local extension="php"
+	local extension="go"
 	local coloring="always"
 	local caseInsensitive=''
 	local OPTIND=1
@@ -81,7 +86,7 @@ function findHelper {
 				coloring="none"
 				;;
 			h)
-				help $findMethod
+				convenientFinderHelp $findMethod
 				return 1
 				;;
 			:)
@@ -96,7 +101,7 @@ function findHelper {
 	done
 	shift $(($OPTIND-1))
 	if [[ $# -eq 0 ]]; then
-		help $findMethod
+		convenientFinderHelp $findMethod
 		return 3
 	fi
 

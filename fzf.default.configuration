@@ -39,11 +39,13 @@ export FZF_DEFAULT_OPTS="
   --prompt='❯ '
   --pointer='▶'
   --marker='✓'
+  --color=marker:#55ff55
   --separator='─'
   --scrollbar='▐'
   --info=inline-right
   --preview-window=right:60%
   --multi 			#default
+  --color=hl:#55ff55,hl+:#55ff55
   --preview 'bat --color=always --line-range :500 {}'
   --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)+abort' 
   --bind 'ctrl-e:execute(vim -p {+})'

@@ -1,5 +1,5 @@
 source <(fzf --zsh)
 
-source ~/.files/fzf.configuration
+source ~/.files/fzf.default.configuration
 
 source ~/.files/fzf.shell.functions
