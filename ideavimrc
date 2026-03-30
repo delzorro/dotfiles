@@ -127,14 +127,15 @@ nnoremap \ ,
 vnoremap \ ,
 
 " Default navigation
+" - disabled, as this makes a switch of (letter-)casing already a word..
 " - move to beginning of next word
-map w [w
+"map w [w 
 " - move to end of next word
-map e ]w
+"map e ]w
 " - move to beginning of previous word
-map b [b
+"map b [b
 " - move to end of previous word
-map ge ]b
+"map ge ]b
 
 " Tab navigation
 nnoremap <C-l> :tabnext<CR>
