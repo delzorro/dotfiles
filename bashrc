@@ -72,6 +72,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# Set shell-mode to default / emacs (possible requirement for tmux)
+set -o emacs
+
 # Load shell indepenent settings
 [ -f ~/.files/shellrc ] && source ~/.files/shellrc
 
