@@ -43,15 +43,15 @@ export FZF_DEFAULT_OPTS="
   --separator='─'
   --scrollbar='▐'
   --info=inline-right
-  --preview-window=right:60%
+  --preview-window=right:60%,wrap
   --multi 			#default
   --color=hl:#55ff55,hl+:#55ff55
   --preview 'bat --color=always --line-range :500 {}'
   --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)+abort' 
   --bind 'ctrl-e:execute(vim -p {+})'
   --bind 'ctrl-/:toggle-preview'
-  --bind 'ctrl-a:select-all'
-  --bind 'ctrl-d:deselect-all'
+  --bind 'ctrl-a:toggle-all' # TAB selects a/the current item, and continues to the next item
+  --bind 'ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up'
 "
 
 # CTRL-T: file lookup with find + bat preview
@@ -65,7 +65,8 @@ export FZF_ALT_C_OPTS="--preview 'ls -la --color=always {} 2>/dev/null | head -5
 export FZF_CTRL_R_OPTS="
   --preview 'echo {}'
   --no-multi
-  --no-preview
+  #--no-preview
+  --preview-window=hidden # default open without preview
   --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'    # previous/alternative: xclip -selection clipboard 2>/dev/null
   --color header:italic
   --header 'C-y to copy item/selection to clipboard'

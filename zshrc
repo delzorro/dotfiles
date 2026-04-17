@@ -45,3 +45,10 @@ export NVM_DIR="$HOME/.nvm"
 if command -v fzf >/dev/null 2>&1; then
 	source ~/.files/fzf.zsh
 fi
+
+# Laad de edit-command-line functie
+autoload -U edit-command-line
+zle -N edit-command-line
+
+# Bind de functie aan een toets (bijv. Ctrl-x Ctrl-e)
+bindkey '^x^e' edit-command-line
