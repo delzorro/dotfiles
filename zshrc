@@ -52,3 +52,4 @@ zle -N edit-command-line
 
 # Bind de functie aan een toets (bijv. Ctrl-x Ctrl-e)
 bindkey '^x^e' edit-command-line
+bindkey "^[[3~" delete-char
