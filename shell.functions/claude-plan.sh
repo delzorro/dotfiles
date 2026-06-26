@@ -19,24 +19,13 @@ function claude-plan {
 	tmux split-window -h -p 55
 
 	# 4. Start de geavanceerde bat-viewer in het nieuwe rechterpaneel
-	# Inclusief Git-wijzigingen, regelnummers, paging en automatische loop
-	#tmux send-keys "bat --loop --paging=always --wrap=character --style=numbers,changes plan.md" C-m
-	#echo plan.md | entr -c bat --paging=never --wrap=character --style=numbers,changes plan.md
-	#tmux send-keys "echo plan.md | entr -s 'tput cup 0 0 && tput ed && bat --paging=never --wrap=character --style=numbers,changes plan.md && tput cup 0 0'" C-m
-	#tmux send-keys "view +set\ autoread plan.md" C-m
-	#tmux send-keys "vim plan.md" C-m
-	#tmux send-keys "bat --color=always --style=numbers,changes plan.md | less -r --follow-name" C-m
-	#tmux send-keys "nvim -R -c 'set autoread updatetime=300 | autocmd CursorHold,BufEnter,FocusGained * checktime' plan.md" C-m
-	#tmux send-keys "nvim -R -c 'syntax on | set ft=markdown | set autoread | call timer_start(500, {-> execute(\"checktime\")}, {\"repeat\": -1})' plan.md" C-m
-	#tmux send-keys "vim -R -c 'syntax on | set ft=markdown | set autoread | call timer_start(500, {-> execute(\"checktime\")}, {\"repeat\": -1})' plan.md" C-m
-	#tmux send-keys "vim -R -c 'syntax on | set ft=markdown | set termguicolors | set conceallevel=2 | set autoread | call timer_start(500, {-> execute(\"checktime\")}, {\"repeat\": -1})' plan.md" C-m
 	tmux send-keys "vim -u ~/.files/claude/claude-plan.vimrc -R plan.md" C-m
 
 	# 5. Switch terug naar het linkerpaneel (je actieve chatvenster)
 	tmux select-pane -t 1
 
 	# 6. Start Claude Code op in het linkerpaneel
-	tmux send-keys "clear && claude --permission-mode plan" C-m
+	tmux send-keys "clear && claude" C-m
 }
 
 # Export function to also make it accessible in subshells
