@@ -22,6 +22,9 @@ function! s:SetMarkdownHighlights()
   highlight markdownBoldItalic       guifg=#FFFFFF ctermfg=15  gui=bold,italic    cterm=bold,italic
   highlight markdownCode             guifg=#4ECDC4 ctermfg=80
   highlight markdownCodeBlock        guifg=#4ECDC4 ctermfg=80
+  " Fence-regels: zichtbare afbakening van code blocks
+  highlight mkdCodeStart             guifg=#5588AA ctermfg=67 gui=bold cterm=bold
+  highlight mkdCodeEnd               guifg=#5588AA ctermfg=67 gui=bold cterm=bold
   highlight markdownLinkText         guifg=#82AAFF ctermfg=111 gui=underline      cterm=underline
   highlight markdownUrl              guifg=#444444 ctermfg=238
   highlight markdownListMarker       guifg=#FFD93D ctermfg=220
