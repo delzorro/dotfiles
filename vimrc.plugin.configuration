@@ -31,6 +31,10 @@ Plug 'w0rp/ale' " (vim 8+)
 " Defaults everyone can agree on
 Plug 'tpope/vim-sensible'
 
+" Markdown
+Plug 'godlygeek/tabular'
+Plug 'preservim/vim-markdown'
+
 " Initialize plugin system
 call plug#end()
 
@@ -62,6 +66,13 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+" vim-markdown options
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_conceal = 1
+let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_fenced_languages = ['python', 'javascript', 'typescript', 'bash=sh', 'php', 'html', 'css', 'json', 'sql']
 
 " =======================================================================
 " Vim plugings settings

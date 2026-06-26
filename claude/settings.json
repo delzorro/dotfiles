@@ -1,0 +1,15 @@
+{
+  "theme": "dark",
+  "behavior": {
+    "autoScroll": true
+  },
+  "permissions": {
+    "defaultMode": "default",
+    "trustedTools": [
+      "view_file",
+      "list_dir",
+      "glob",
+      "grep"
+    ]
+  }
+}

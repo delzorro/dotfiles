@@ -1,0 +1,35 @@
+" Markdown syntax highlighting
+" Wrapped in autocmds zodat het ook na een colorscheme change actief blijft
+
+function! s:SetMarkdownHighlights()
+  highlight markdownH1               guifg=#FF00FF ctermfg=201 gui=bold,underline cterm=bold,underline
+  highlight markdownH2               guifg=#FF6B6B ctermfg=203 gui=bold           cterm=bold
+  highlight markdownH3               guifg=#FFB347 ctermfg=215 gui=bold           cterm=bold
+  highlight markdownH4               guifg=#FFD93D ctermfg=220 gui=bold           cterm=bold
+  highlight markdownH5               guifg=#6BCB77 ctermfg=114
+  highlight markdownH6               guifg=#4ECDC4 ctermfg=80
+  highlight markdownHeadingDelimiter guifg=#444444 ctermfg=238
+  highlight mkdHeading               guifg=#444444 ctermfg=238
+
+  hi link htmlH1 markdownH1
+  hi link htmlH2 markdownH2
+  hi link htmlH3 markdownH3
+  hi link htmlH4 markdownH4
+  hi link htmlH5 markdownH5
+  hi link htmlH6 markdownH6
+  highlight markdownBold             guifg=#FFFFFF ctermfg=15  gui=bold           cterm=bold
+  highlight markdownItalic           guifg=#E0E0E0 ctermfg=254 gui=italic         cterm=italic
+  highlight markdownBoldItalic       guifg=#FFFFFF ctermfg=15  gui=bold,italic    cterm=bold,italic
+  highlight markdownCode             guifg=#4ECDC4 ctermfg=80
+  highlight markdownCodeBlock        guifg=#4ECDC4 ctermfg=80
+  highlight markdownLinkText         guifg=#82AAFF ctermfg=111 gui=underline      cterm=underline
+  highlight markdownUrl              guifg=#444444 ctermfg=238
+  highlight markdownListMarker       guifg=#FFD93D ctermfg=220
+endfunction
+
+augroup MarkdownStyling
+  autocmd!
+  autocmd FileType markdown call s:SetMarkdownHighlights()
+  autocmd FileType markdown setlocal conceallevel=2
+  autocmd ColorScheme *     if &ft ==# 'markdown' | call s:SetMarkdownHighlights() | endif
+augroup END
