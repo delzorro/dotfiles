@@ -20,8 +20,8 @@ function clue {
 	tmux set-hook -w window-resized "resize-pane -t $RIGHT_PANE -x 55%"
 
 	# 4. Start de markdown viewer in het nieuwe rechterpaneel
-	tmux send-keys "vim -u ~/.files/claude/claude-plan.vimrc -R plan.md" C-m
-	# tmux send-keys "nvim -u ~/.files/claude/claude-plan.nvimrc -R plan.md" C-m
+	tmux send-keys "nvim -u ~/.files/claude/claude-plan.nvimrc -R plan.md" C-m
+	# tmux send-keys "vim -u ~/.files/claude/claude-plan.vimrc -R plan.md" C-m
 	# tmux send-keys "presenterm plan.md" C-m
 	# tmux send-keys "echo plan.md | entr sh -c 'tmux clear-history; clear; glow plan.md'" C-m
 
