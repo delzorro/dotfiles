@@ -1,20 +1,26 @@
 # My dotfiles (.files)
 
-Dotfiles voor macOS met Ghostty, tmux, vim, zsh en FZF.
+
+Dotfiles voor macOS en Debian-gebaseerde Linux-distributies, met Ghostty, tmux, vim, zsh en FZF.
 
 ## Prerequisites
 
-Installeer via Homebrew:
+**macOS** — installeer via Homebrew:
 
 ```bash
 brew install vim tmux fzf bat universal-ctags
 brew install --cask ghostty
 ```
 
-Optioneel — Nerd Font voor iconen in NERDTree en lightline:
+**Debian/Ubuntu** — installeer via apt:
+
 ```bash
-brew install --cask font-jetbrains-mono-nerd-font
+sudo apt install vim tmux fzf bat universal-ctags
 ```
+
+Ghostty op Linux: zie [ghostty.org](https://ghostty.org) voor de officiele installatie-instructies.
+
+> Op oudere Ubuntu-versies (< 22.04) heet het `bat`-binary `batcat`. Voeg dan toe aan `~/.bashrc` / `~/.zshrc`: `alias bat=batcat`
 
 Optioneel — NVM voor Node.js versiebeheer (lazy-loaded bij eerste gebruik):
 ```bash
@@ -83,7 +89,7 @@ Buiten Ghostty (bijv. SSH zonder tmux) schakelt vim automatisch terug naar 256-k
 
 ```bash
 # Wordt automatisch geladen via .zshrc / .bashrc
-# Geen extra stap nodig na brew install fzf
+# Geen extra stap nodig na installatie (brew / apt)
 ```
 
 Keybindings en opties staan in `fzf/configuration.default`. Actieve bindings:
