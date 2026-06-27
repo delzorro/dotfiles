@@ -25,6 +25,7 @@ backup() {
     ok "backup  → $(basename "$file").bak.${DATE}"
 }
 
+# Voeg regel toe aan het einde van een bestand, met lege regel als scheiding.
 append_once() {
     local file="$1" line="$2"
     if grep -qF "$line" "$file" 2>/dev/null; then
@@ -33,24 +34,47 @@ append_once() {
     fi
     backup "$file"
     touch "$file"
+    [[ -s "$file" ]] && printf '\n' >> "$file"
     printf '%s\n' "$line" >> "$file"
     ok "toegevoegd → $(basename "$file")"
 }
 
+# Voeg regel toe aan het begin van een bestand (bijv. SSH Include).
+prepend_once() {
+    local file="$1" line="$2"
+    if grep -qF "$line" "$file" 2>/dev/null; then
+        skip "al aanwezig  $(basename "$file")"
+        return
+    fi
+    backup "$file"
+    touch "$file"
+    local tmp
+    tmp=$(mktemp)
+    if [[ -s "$file" ]]; then
+        { printf '%s\n\n' "$line"; cat "$file"; } > "$tmp"
+    else
+        printf '%s\n' "$line" > "$tmp"
+    fi
+    mv "$tmp" "$file"
+    ok "toegevoegd (begin) → $(basename "$file")"
+}
+
+# Maak een symlink aan, met backup van een eventueel bestaand regulier bestand.
 symlink() {
     local src="$1" dst="$2"
     if [[ -L "$dst" && "$(readlink "$dst")" == "$src" ]]; then
         skip "symlink bestaat al  $(basename "$dst")"
         return
     fi
-    [[ -L "$dst" ]] && rm "$dst"
     backup "$dst"
+    # Verwijder bestaand bestand of foute symlink zodat ln -s niet faalt
+    [[ -e "$dst" || -L "$dst" ]] && rm "$dst"
     ln -s "$src" "$dst"
     ok "symlink    $(basename "$dst") → $src"
 }
 
 require() {
-    command -v "$1" &>/dev/null || { echo "  Vereist: $1 niet gevonden — sla stap over."; return 1; }
+    command -v "$1" &>/dev/null || { info "Vereist: $1 niet gevonden — sla stap over."; return 1; }
 }
 
 # ── installatie ───────────────────────────────────────────────────────────────
@@ -96,10 +120,12 @@ else
 fi
 
 # 5. SSH
+# Include bovenaan: SSH verwerkt top-down (eerste match wint), shared config als basis,
+# machine-specifieke overrides eronder.
 log "5. SSH"
 mkdir -p "$HOME/.ssh"
 chmod 700 "$HOME/.ssh"
-append_once "$HOME/.ssh/config" "Include ~/.files/ssh/config*"
+prepend_once "$HOME/.ssh/config" "Include ~/.files/ssh/config*"
 
 # 6. Claude Code
 log "6. Claude Code"
