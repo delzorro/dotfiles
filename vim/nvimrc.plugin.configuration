@@ -22,6 +22,27 @@ lua << EOF
 
   local ok_rm, rm = pcall(require, 'render-markdown')
   if ok_rm then
-    rm.setup({})
+    rm.setup({
+      heading = {
+        -- toon '# ' i.p.v. ①②③ symbolen
+        icons = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
+      },
+    })
   end
+
+  -- Inline code styling: geen achtergrond, cyan kleur, backticks zichtbaar
+  -- Geneste defer: eerst highlights (triggert rm re-render), dan conceallevel erna
+  vim.api.nvim_create_autocmd('BufWinEnter', {
+    pattern = '*.md',
+    callback = function()
+      vim.defer_fn(function()
+        vim.api.nvim_set_hl(0, 'RenderMarkdownCodeInline', { fg = '#7dcfff' })
+        vim.api.nvim_set_hl(0, '@markup.raw.markdown_inline', { fg = '#7dcfff' })
+        vim.defer_fn(function()
+          vim.opt_local.conceallevel = 0
+        end, 150)
+      end, 100)
+    end,
+  })
+
 EOF
