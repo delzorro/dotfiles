@@ -64,7 +64,7 @@ printf 'if filereadable(expand("~/.files/ideavimrc.default"))\n  source ~/.files
 
 `~/.tmux.conf` is machine-specifiek. Maak het eenmalig aan:
 ```bash
-echo "if-shell '[ -f ~/.files/tmux.conf.default ]' 'source-file ~/.files/tmux.conf.default'" >> ~/.tmux.conf
+echo 'source-file -q ~/.files/tmux.conf.default' >> ~/.tmux.conf
 ```
 
 ### 4. Ghostty

@@ -57,9 +57,7 @@ Options/flags are:
 	# remote defaultroute option, and have traffic meant for office routed through
 	route add -net 192.168.0.0/16 -interface ppp0
 	route add -net 10.19.0.0/16 -interface ppp0
-	route add -net 185.6.160.222/24 -interface ppp0
-	route add -net 213.51.64.66/24 -interface ppp0
-	route add -net 192.168.0.0/24 -interface ppp0
+	# ...
 }
 
 # Export function to also make it accessible in subshells

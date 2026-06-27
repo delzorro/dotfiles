@@ -19,17 +19,6 @@ PROMPT+='%F{039}%(5~|%-1~/…/%3~|%4~)%F{015}»%f ' # current directory notation
 # Set shell-mode to default / emacs (possible requirement for tmux)
 bindkey -e
 
-function sudo {
-	local firstArg=$1
-	if [[ $(type $firstArg) =~ "function" ]]
-	then
-		shift && command sudo zsh -c "$(declare -f $firstArg); SSTP_VPN_PID=$SSTP_VPN_PID; $firstArg $*"
-	else
-		command sudo "$@"
-	fi
-}
-alias sudo='sudo '
-
 # fzf initialisatie/configuratie
 if command -v fzf >/dev/null 2>&1; then
 	source ~/.files/fzf.zsh

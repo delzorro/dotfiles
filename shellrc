@@ -11,16 +11,6 @@ if [[ -d ~/.files/shell.functions ]];  then
 	done
 fi
 
-# Some more fzf settings
-#export FZF_DEFAULT_OPTS='
-#--color fg:250,bg:235,hl:65,fg+:15,bg+:239,hl+:108
-#--color info:108,prompt:109,spinner:108,pointer:168,marker:168
-#'
-
-# Exclude not relevant parts from fzf results
-#export FZF_DEFAULT_COMMAND="find . -path '*cache*' -prune -o -path './uploads' -prune -o -path './session' -prune -o -path '*svn*' -prune -o -print | grep -E 'php$|css$|js$'"
-#export FZF_DEFAULT_COMMAND="find . -path '*cache*' -prune -o -path './uploads' -prune -o -path './session' -prune -o -path '*svn*' -prune -path '*git*' -prune -o -print"
-
 # Make vim the default svn and git editor
 export SVN_EDITOR="vim"
 export GIT_EDITOR="vim"
