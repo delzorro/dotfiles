@@ -42,5 +42,8 @@ augroup MarkdownStyling
   autocmd!
   autocmd FileType markdown call s:SetMarkdownHighlights()
   autocmd FileType markdown setlocal conceallevel=2
+  autocmd FileType markdown syntax sync fromstart
   autocmd ColorScheme *     if &ft ==# 'markdown' | call s:SetMarkdownHighlights() | endif
 augroup END
+
+nnoremap <Leader>tf :TableFormat<CR>
