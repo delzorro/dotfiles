@@ -33,12 +33,6 @@ PROMPT_COMMAND=setBashPromp
 function setBashPromp {
     local EXIT="$?"             # This needs to be first
 
-	# set variable identifying the chroot you work in (used in the prompt below)
-	# -> (how) is this used ??
-	debian_chroot=""
-	if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-			debian_chroot=$(cat /etc/debian_chroot)
-	fi
     local resetCol='\[\e[0m\]'
     local redCol='\[\e[0;31m\]'
     local greenCol='\[\e[0;32m\]'
@@ -47,9 +41,6 @@ function setBashPromp {
     local lightBlueCol='\[\e[0;94m\]'
 	local boldYellowCol='\[\e[1;33m\]'
     local purpleColor='\[\e[0;35m\]'
-	# Former PS1 configuration
-	#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\a\[\033[00m\]\$ '
-
 	# Current PS1 configuration
 	PS1="${lightGreenCol}\u@\h:${boldBlueCol}\w\a${resetCol}\$ "
 	# Display whether last command's exit code was an error code
@@ -79,7 +70,7 @@ set -o emacs
 
 # fzf initialisatie/configuratie
 if command -v fzf >/dev/null 2>&1; then
-	eval "$(fzf --bash)"
+	source ~/.files/fzf.bash
 fi
 
 

@@ -1,5 +1,5 @@
 # make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Load convenient aliases
 [ -f ~/.files/shell.aliases ] && source ~/.files/shell.aliases
@@ -25,3 +25,18 @@ fi
 export SVN_EDITOR="vim"
 export GIT_EDITOR="vim"
 export EDITOR="vim"
+
+# Homebrew — alleen toevoegen als aanwezig (macOS/Homebrew)
+[ -d /opt/homebrew/bin ] && export PATH=/opt/homebrew/bin:$PATH
+
+# Java — alleen toevoegen als aanwezig (macOS/Homebrew)
+[ -d /opt/homebrew/opt/openjdk/bin ] && export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+# NVM — lazy loading, alleen als installatie aanwezig
+if [ -d "$HOME/.nvm" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  nvm()  { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; nvm  "$@"; }
+  node() { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; node "$@"; }
+  npm()  { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; npm  "$@"; }
+  npx()  { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; npx  "$@"; }
+fi

@@ -1,0 +1,4 @@
+# .bash_profile.default — gedeelde defaults (via .files)
+
+# Laad bashrc voor aliassen en functies
+[ -f ~/.bashrc ] && source ~/.bashrc

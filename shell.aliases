@@ -18,15 +18,8 @@ function initializeAliases {
 	# Determine os type
 	local osType=$(uname)
 
-	# enable color support of ls and also add handy aliases
-	# Darwin i.e. Mac OS
-	if [ $osType = 'Darwin' ] && [ -x /usr/local/bin/gdircolors ]; then
-		eval "$(gdircolors -b)"
-		initializeColorAliases $osType
-	elif [ -x /usr/bin/dircolors ]; then
-		test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-		initializeColorAliases $osType
-	fi
+	# Kleurondersteuning: ls -G (macOS) of --color=auto (Linux), werkt zonder dircolors
+	initializeColorAliases $osType
 
 	# some more ls aliases
 	alias ll='ls -alF'
@@ -34,9 +27,12 @@ function initializeAliases {
 	alias l='ls -CF'
 	alias less="less -R"
 
-	# Add an "alert" alias for long running commands.  Use like so:
-	#   sleep 10; alert
-	alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+	# Alert alias voor lange commando's. Gebruik: sleep 10; alert
+	if [ $osType = 'Darwin' ]; then
+		alias alert='osascript -e "display notification \"$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\''\" with title \"$([ $? = 0 ] && echo done || echo error)\""'
+	else
+		alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+	fi
 }
 
 # Initialize aliases

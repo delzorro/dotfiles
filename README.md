@@ -27,18 +27,23 @@ De `.files`-directory staat in je homedir (`~/.files`).
 
 ### 1. Shell (zsh / bash)
 
+Shell-configs zijn machine-specifieke bestanden (niet gesymlinkt) die de gedeelde `.default`-versie
+uit `.files` inladen. Maak ze eenmalig aan:
+
 ```bash
-ln -s ~/.files/bashrc          ~/.bashrc
-ln -s ~/.files/bash_profile    ~/.bash_profile
-ln -s ~/.files/zshrc           ~/.zshrc
-ln -s ~/.files/zshenv          ~/.zshenv
+echo '[ -f ~/.files/bash_profile.default ] && source ~/.files/bash_profile.default' >> ~/.bash_profile
+echo '[ -f ~/.files/bashrc.default ]       && source ~/.files/bashrc.default'       >> ~/.bashrc
+echo '[ -f ~/.files/zshrc.default ]        && source ~/.files/zshrc.default'        >> ~/.zshrc
+echo '[ -f ~/.files/zshenv.default ]       && source ~/.files/zshenv.default'       >> ~/.zshenv
 ```
+
+Machine-specifieke toevoegingen (zoals Rancher Desktop, Cloud SDK, project-specifieke PATH-entries)
+horen direct in de betreffende `~/.*` bestanden, niet in `.files`.
 
 ### 2. Vim
 
 ```bash
 ln -s ~/.files/vimrc           ~/.vimrc
-ln -s ~/.files/ideavimrc       ~/.ideavimrc
 ```
 
 vim-plug installeren:
@@ -50,17 +55,24 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 Open daarna vim en run `:PlugInstall` om alle plugins te installeren.
 `bat` en `universal-ctags` zijn vereist voor respectievelijk FZF-previews in vim en tagbar.
 
+`~/.ideavimrc` is machine-specifiek. Maak het eenmalig aan:
+```bash
+printf 'if filereadable(expand("~/.files/ideavimrc.default"))\n  source ~/.files/ideavimrc.default\nendif\n' >> ~/.ideavimrc
+```
+
 ### 3. Tmux
 
+`~/.tmux.conf` is machine-specifiek. Maak het eenmalig aan:
 ```bash
-ln -s ~/.files/tmux.conf       ~/.tmux.conf
+echo "if-shell '[ -f ~/.files/tmux.conf.default ]' 'source-file ~/.files/tmux.conf.default'" >> ~/.tmux.conf
 ```
 
 ### 4. Ghostty
 
+`~/.config/ghostty/config` is machine-specifiek. Maak het eenmalig aan:
 ```bash
 mkdir -p ~/.config/ghostty
-ln -s ~/.files/ghostty.config  ~/.config/ghostty/config
+echo 'config-file = ~/.files/ghostty.config.default' >> ~/.config/ghostty/config
 ```
 
 True color is geconfigureerd via Ghostty → tmux → vim: vim-colorschemes tonen hiermee
