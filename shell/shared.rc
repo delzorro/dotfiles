@@ -2,11 +2,11 @@
 command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Load convenient aliases
-[ -f ~/.files/shell.aliases ] && source ~/.files/shell.aliases
+[ -f ~/.files/shell/aliases ] && source ~/.files/shell/aliases
 
 # Load custom shell function
-if [[ -d ~/.files/shell.functions ]];  then
-	for func in ~/.files/shell.functions/*.sh; do
+if [[ -d ~/.files/shell/functions ]];  then
+	for func in ~/.files/shell/functions/*.sh; do
 		source "${func}" >/dev/null
 	done
 fi

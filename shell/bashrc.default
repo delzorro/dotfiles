@@ -66,11 +66,11 @@ fi
 set -o emacs
 
 # Load shell indepenent settings
-[ -f ~/.files/shellrc ] && source ~/.files/shellrc
+[ -f ~/.files/shell/shared.rc ] && source ~/.files/shell/shared.rc
 
 # fzf initialisatie/configuratie
 if command -v fzf >/dev/null 2>&1; then
-	source ~/.files/fzf.bash
+	source ~/.files/fzf/bash
 fi
 
 

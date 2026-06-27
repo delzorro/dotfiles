@@ -1,0 +1,19 @@
+" Default configuration
+source ~/.files/vim/vimrc.default.configuration
+
+" Markdown configuration
+source ~/.files/vim/vimrc.markdown.configuration
+
+" Plugins configuration
+if !exists('g:skipPlugins') && filereadable(expand("~/.files/vim/vimrc.plugin.configuration"))
+	source ~/.files/vim/vimrc.plugin.configuration
+endif
+
+" Allow pasting
+function! HasPaste()
+  if &paste
+    return 'PASTE MODE  '
+  else
+    return ''
+  endif
+endfunction

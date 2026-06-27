@@ -1,11 +1,11 @@
 # --- Font ---
 # Nerd Font varianten zijn praktisch voor iconen in NERDTree, lightline etc.
 # Installeer via: brew install --cask font-jetbrains-mono-nerd-font
-#font-family = JetBrainsMono Nerd Font Mono  # populair, goede ligatures
-#font-family = Menlo                          # macOS standaard pre-SF Mono
-#font-family = SF Mono                        # Apple's eigen monospace, clean
+#font-family = JetBrainsMono Nerd Font Mono
+#font-family = Menlo
+#font-family = SF Mono
 font-family = Monaco
-font-size = 14
+font-size = 15
 
 # --- Theme ---
 theme = Kitty Default

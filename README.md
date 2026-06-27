@@ -31,10 +31,10 @@ Shell-configs zijn machine-specifieke bestanden (niet gesymlinkt) die de gedeeld
 uit `.files` inladen. Maak ze eenmalig aan:
 
 ```bash
-echo '[ -f ~/.files/bash_profile.default ] && source ~/.files/bash_profile.default' >> ~/.bash_profile
-echo '[ -f ~/.files/bashrc.default ]       && source ~/.files/bashrc.default'       >> ~/.bashrc
-echo '[ -f ~/.files/zshrc.default ]        && source ~/.files/zshrc.default'        >> ~/.zshrc
-echo '[ -f ~/.files/zshenv.default ]       && source ~/.files/zshenv.default'       >> ~/.zshenv
+echo '[ -f ~/.files/shell/bash_profile.default ] && source ~/.files/shell/bash_profile.default' >> ~/.bash_profile
+echo '[ -f ~/.files/shell/bashrc.default ]       && source ~/.files/shell/bashrc.default'       >> ~/.bashrc
+echo '[ -f ~/.files/shell/zshrc.default ]        && source ~/.files/shell/zshrc.default'        >> ~/.zshrc
+echo '[ -f ~/.files/shell/zshenv.default ]       && source ~/.files/shell/zshenv.default'       >> ~/.zshenv
 ```
 
 Machine-specifieke toevoegingen (zoals Rancher Desktop, Cloud SDK, project-specifieke PATH-entries)
@@ -43,7 +43,7 @@ horen direct in de betreffende `~/.*` bestanden, niet in `.files`.
 ### 2. Vim
 
 ```bash
-ln -s ~/.files/vimrc           ~/.vimrc
+ln -s ~/.files/vim/vimrc.all.configuration ~/.vimrc
 ```
 
 vim-plug installeren:
@@ -57,14 +57,14 @@ Open daarna vim en run `:PlugInstall` om alle plugins te installeren.
 
 `~/.ideavimrc` is machine-specifiek. Maak het eenmalig aan:
 ```bash
-printf 'if filereadable(expand("~/.files/ideavimrc.default"))\n  source ~/.files/ideavimrc.default\nendif\n' >> ~/.ideavimrc
+printf 'if filereadable(expand("~/.files/vim/ideavimrc.default"))\n  source ~/.files/vim/ideavimrc.default\nendif\n' >> ~/.ideavimrc
 ```
 
 ### 3. Tmux
 
 `~/.tmux.conf` is machine-specifiek. Maak het eenmalig aan:
 ```bash
-echo 'source-file -q ~/.files/tmux.conf.default' >> ~/.tmux.conf
+echo 'source-file -q ~/.files/tmux/conf.default' >> ~/.tmux.conf
 ```
 
 ### 4. Ghostty
@@ -72,7 +72,7 @@ echo 'source-file -q ~/.files/tmux.conf.default' >> ~/.tmux.conf
 `~/.config/ghostty/config` is machine-specifiek. Maak het eenmalig aan:
 ```bash
 mkdir -p ~/.config/ghostty
-echo 'config-file = ~/.files/ghostty.config.default' >> ~/.config/ghostty/config
+echo 'config-file = ~/.files/ghostty/config.default' >> ~/.config/ghostty/config
 ```
 
 True color is geconfigureerd via Ghostty → tmux → vim: vim-colorschemes tonen hiermee
@@ -87,7 +87,7 @@ Buiten Ghostty (bijv. SSH zonder tmux) schakelt vim automatisch terug naar 256-k
 # Geen extra stap nodig na brew install fzf
 ```
 
-Keybindings en opties staan in `fzf.default.configuration`. Actieve bindings:
+Keybindings en opties staan in `fzf/default.configuration`. Actieve bindings:
 - `Ctrl-R` — geschiedenis zoeken met preview
 - `Ctrl-T` — bestandszoeker met bat-preview
 - `Alt-C` — directory-navigatie
