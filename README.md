@@ -120,13 +120,43 @@ ln -s ~/.files/claude/CLAUDE.personal.md ~/.claude/CLAUDE.md
 Dit zorgt dat Claude altijd je persoonlijke gedragsregels en taalvoorkeur laadt, ongeacht
 vanuit welk project je werkt.
 
+**clue** (**C**laude **L**ocal **U**nified **E**xperience) is een wrapper die Claude Code opstart
+in een gesplitst tmux-venster met een `plan.md` preview rechts. In combinatie met `CLAUDE.md`
+houdt Claude de `plan.md` automatisch bij als levend plan-document.
+
+```bash
+clue
+```
+
 ## Gebruik
 
-- **clue** (**C**laude **L**ocal **U**nified **E**xperience) — start een gesplitst tmux-venster:
-  Claude links, `plan.md` preview rechts. In combinatie met `~/.claude/CLAUDE.md` houdt
-  Claude de `plan.md` automatisch bij als levend plan-document.
-  ```bash
-  clue
-  ```
+Typische workflow per werksessie:
+
+### 1. Open Ghostty en start een tmux-sessie
+
+```bash
+tmux new-session -s dev          # nieuwe sessie
+# of
+tmux attach -t dev               # bestaande sessie hervatten
+```
+
+### 2. Navigeer naar je project
+
+```bash
+cd ~/projects/mijn-project
+```
+
+### 3. Start de Claude-werkomgeving
+
+```bash
+clue
+```
+
+Dit opent een gesplitst venster: Claude Code links (55%) en een live `plan.md` preview rechts
+(45%). Claude werkt het plan automatisch bij op basis van de instructies in `~/.claude/CLAUDE.md`.
+
+### Overige sneltoetsen
+
 - **Tagbar** (`<leader>r`) — toont symbolen/functies van het huidige bestand; vereist `universal-ctags`.
 - **Prefix tmux** — `Ctrl-\`; pane-navigatie met `Alt-hjkl`.
+- **FZF in vim** — `<leader>f` voor bestandszoeker met preview.
