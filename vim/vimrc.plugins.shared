@@ -1,0 +1,86 @@
+" =======================================================================
+" Plugin options
+" =======================================================================
+
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+let g:tagbar_autofocus = 1
+let g:tagbar_foldlevel = 1
+let g:tagbar_autoclose = 1
+let g:tagbar_type_php  = {
+    \ 'ctagstype' : 'php',
+    \ 'kinds'     : [
+        \ 'i:interfaces',
+        \ 'c:classes',
+        \ 'd:constant definitions',
+        \ 'f:functions',
+        \ 'j:javascript functions:1'
+    \ ]
+  \ }
+
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_conceal = 1
+let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_fenced_languages = ['python', 'javascript', 'typescript', 'bash=sh', 'php', 'html', 'css', 'json', 'sql']
+
+" =======================================================================
+" Lightline colorscheme — matches the vim color palette
+" Palette format per entry: [guifg, guibg, ctermfg, ctermbg]
+" =======================================================================
+
+let s:mid  = [['#888888','#1A1A1A',244,234]]
+let s:rgt  = [['#888888','#222222',244,235],['#666666','#1A1A1A',242,234]]
+let s:sec  = [['#CCCCCC','#2D2D2D',252,236]]
+
+let g:lightline#colorscheme#dotfiles#palette = {
+  \ 'normal': {
+  \   'left':    [['#EEEEEE','#3D6080',255,67], s:sec[0]],
+  \   'middle':  s:mid,
+  \   'right':   s:rgt,
+  \   'error':   [['#EEEEEE','#CC4444',255,160]],
+  \   'warning': [['#1A1A1A','#DDAA66',234,179]],
+  \ },
+  \ 'insert': {
+  \   'left':   [['#1A1A1A','#7AAFCA',234,110], s:sec[0]],
+  \   'middle': s:mid,
+  \   'right':  s:rgt,
+  \ },
+  \ 'replace': {
+  \   'left':   [['#1A1A1A','#DDAA66',234,179], s:sec[0]],
+  \   'middle': s:mid,
+  \   'right':  s:rgt,
+  \ },
+  \ 'visual': {
+  \   'left':   [['#EEEEEE','#9999DD',255,104], s:sec[0]],
+  \   'middle': s:mid,
+  \   'right':  s:rgt,
+  \ },
+  \ 'inactive': {
+  \   'left':   [['#555555','#1A1A1A',240,234]],
+  \   'middle': [['#555555','#1A1A1A',240,234]],
+  \   'right':  [['#555555','#1A1A1A',240,234]],
+  \ },
+  \ 'tabline': {
+  \   'left':   [s:sec[0]],
+  \   'tabsel': [['#EEEEEE','#3D6080',255,67]],
+  \   'middle': [['#666666','#1A1A1A',242,234]],
+  \   'right':  s:rgt,
+  \ },
+  \ }
+
+let g:lightline = { 'colorscheme': 'dotfiles' }
+set noshowmode
+
+" =======================================================================
+" Keybindings
+" =======================================================================
+
+nmap <Leader>r :TagbarToggle<CR>
+nnoremap <silent><C-w><C-]> <C-w><C-]><C-w>T
+map <Leader>e :NERDTreeToggle<CR>
+
+command! -bang -nargs=? -complete=dir FilesWithHistory
+			\ call fzf#vim#files(<q-args>, {'options': ['--history', '--print-query', '--preview', 'bat --color=always --line-range :500 {}', '--bind', 'ctrl-n:down,ctrl-p:up']}, <bang>0)
+nmap <Leader>f :FilesWithHistory<CR>

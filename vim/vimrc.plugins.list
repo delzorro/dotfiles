@@ -1,0 +1,9 @@
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'preservim/tagbar'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'itchyny/lightline.vim'
+Plug 'w0rp/ale'
+Plug 'tpope/vim-sensible'
+Plug 'godlygeek/tabular'
+Plug 'preservim/vim-markdown'

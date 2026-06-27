@@ -8,7 +8,7 @@ Dotfiles voor macOS en Debian-gebaseerde Linux-distributies, met Ghostty, tmux, 
 **macOS** — installeer via Homebrew:
 
 ```bash
-brew install vim tmux fzf bat universal-ctags
+brew install vim neovim tmux fzf bat universal-ctags
 brew install --cask ghostty
 ```
 
@@ -60,19 +60,23 @@ echo '[ -f ~/.files/shell/zshenv.default ]       && source ~/.files/shell/zshenv
 
 Machine-specifieke toevoegingen (zoals bijvoorbeeld project-specifieke PATH-entries) horen direct in de betreffende `~/.*` bestanden, niet in `.files`.
 
-### 2. Vim
+### 2. Vim + Neovim
 
 ```bash
 ln -s ~/.files/vim/vimrc.all.configuration ~/.vimrc
+mkdir -p ~/.config/nvim
+ln -s ~/.files/vim/nvim.init.vim ~/.config/nvim/init.vim
 ```
 
-vim-plug installeren:
+vim-plug installeren voor beide:
 ```bash
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
-Open daarna vim en run `:PlugInstall` om alle plugins te installeren.
+Open daarna vim en nvim en run `:PlugInstall` in beide. In nvim ook `:TSUpdate` voor de treesitter markdown parser (vereist door `render-markdown.nvim`).
 `bat` en `universal-ctags` zijn vereist voor respectievelijk FZF-previews in vim en tagbar.
 
 `~/.ideavimrc` is machine-specifiek. Maak het eenmalig aan:
@@ -137,7 +141,10 @@ vanuit welk project je werkt.
 
 **clue** (**C**laude **L**ocal **U**nified **E**xperience) is een wrapper die Claude Code opstart
 in een gesplitst tmux-venster met een `plan.md` preview rechts. In combinatie met `CLAUDE.md`
-houdt Claude de `plan.md` automatisch bij als levend plan-document.
+houdt Claude de `plan.md` automatisch bij als levend plan-document. De preview gebruikt `neovim` met `render-markdown.nvim` voor in-buffer markdown-rendering met auto-refresh en scrollpositiebehoud.
+
+Claude structureert het plan met sectie-ankertjes (`[S1]`, `[S2]`, ...) zodat je gerichte
+feedback kunt geven zonder afhankelijk te zijn van regelnummers die verschuiven.
 
 ```bash
 clue

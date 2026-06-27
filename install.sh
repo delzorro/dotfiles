@@ -91,18 +91,35 @@ append_once "$HOME/.bashrc"       "[ -f ~/.files/shell/bashrc.default ]       &&
 append_once "$HOME/.zshrc"        "[ -f ~/.files/shell/zshrc.default ]        && source ~/.files/shell/zshrc.default"
 append_once "$HOME/.zshenv"       "[ -f ~/.files/shell/zshenv.default ]       && source ~/.files/shell/zshenv.default"
 
-# 2. Vim
-log "2. Vim"
+# 2. Vim + Neovim
+log "2. Vim + Neovim"
 symlink "$DOTFILES/vim/vimrc.all.configuration" "$HOME/.vimrc"
 if [[ ! -f "$HOME/.vim/autoload/plug.vim" ]]; then
     if require curl; then
         curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs \
             https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
-            && ok "vim-plug geïnstalleerd"
-        info "→ open vim en run :PlugInstall om plugins te installeren"
+            && ok "vim-plug geïnstalleerd (vim)"
+        info "→ open vim en run :PlugInstall"
     fi
 else
-    skip "vim-plug bestaat al"
+    skip "vim-plug bestaat al (vim)"
+fi
+if command -v nvim &>/dev/null; then
+    mkdir -p "$HOME/.config/nvim"
+    symlink "$DOTFILES/vim/nvim.init.vim" "$HOME/.config/nvim/init.vim"
+    if [[ ! -f "$HOME/.local/share/nvim/site/autoload/plug.vim" ]]; then
+        if require curl; then
+            curl -fLo "$HOME/.local/share/nvim/site/autoload/plug.vim" --create-dirs \
+                https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
+                && ok "vim-plug geïnstalleerd (nvim)"
+            info "→ open nvim en run :PlugInstall, daarna :TSUpdate"
+        fi
+    else
+        skip "vim-plug bestaat al (nvim)"
+    fi
+else
+    skip "nvim niet gevonden — sla neovim configuratie over"
+    info "→ installeer neovim en herrun dit script"
 fi
 
 # 3. Tmux
