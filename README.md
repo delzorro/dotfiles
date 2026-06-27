@@ -108,11 +108,25 @@ Include ~/.files/ssh/config*
 Dit laadt `~/.files/ssh/config.default`, dat `TERM=xterm-256color` meegeeft voor SSH-sessies
 op Linux-servers waar `xterm-ghostty` niet beschikbaar is.
 
+### 7. Claude Code
+
+Koppel de gedeelde CLAUDE.md (persoonlijke instructies voor Claude) aan de door Claude Code
+verwachte locatie:
+
+```bash
+ln -s ~/.files/claude/CLAUDE.personal.md ~/.claude/CLAUDE.md
+```
+
+Dit zorgt dat Claude altijd je persoonlijke gedragsregels en taalvoorkeur laadt, ongeacht
+vanuit welk project je werkt.
+
 ## Gebruik
 
-- **claude-plan** — start een gesplitst tmux-venster: `plan.md` in vim rechts, claude links:
+- **clue** (**C**laude **L**ocal **U**nified **E**xperience) — start een gesplitst tmux-venster:
+  Claude links, `plan.md` preview rechts. In combinatie met `~/.claude/CLAUDE.md` houdt
+  Claude de `plan.md` automatisch bij als levend plan-document.
   ```bash
-  claude-plan
+  clue
   ```
 - **Tagbar** (`<leader>r`) — toont symbolen/functies van het huidige bestand; vereist `universal-ctags`.
 - **Prefix tmux** — `Ctrl-\`; pane-navigatie met `Alt-hjkl`.
