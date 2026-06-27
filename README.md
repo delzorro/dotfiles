@@ -31,6 +31,21 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 
 De `.files`-directory staat in je homedir (`~/.files`).
 
+### Automatisch
+
+Clone de repo en voer het installatiescript uit:
+
+```bash
+git clone <repo-url> ~/.files
+cd ~/.files
+bash install.sh
+```
+
+Het script configureert alle componenten, slaat stappen over die al correct zijn ingesteld,
+en maakt backups van bestaande bestanden als `<bestand>.bak.<datum>`.
+
+### Handmatig
+
 ### 1. Shell (zsh / bash)
 
 Shell-configs zijn machine-specifieke bestanden (niet gesymlinkt) die de gedeelde `.default`-versie
