@@ -87,7 +87,7 @@ Buiten Ghostty (bijv. SSH zonder tmux) schakelt vim automatisch terug naar 256-k
 # Geen extra stap nodig na brew install fzf
 ```
 
-Keybindings en opties staan in `fzf/default.configuration`. Actieve bindings:
+Keybindings en opties staan in `fzf/configuration.default`. Actieve bindings:
 - `Ctrl-R` — geschiedenis zoeken met preview
 - `Ctrl-T` — bestandszoeker met bat-preview
 - `Alt-C` — directory-navigatie
