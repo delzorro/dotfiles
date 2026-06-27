@@ -37,8 +37,7 @@ echo '[ -f ~/.files/shell/zshrc.default ]        && source ~/.files/shell/zshrc.
 echo '[ -f ~/.files/shell/zshenv.default ]       && source ~/.files/shell/zshenv.default'       >> ~/.zshenv
 ```
 
-Machine-specifieke toevoegingen (zoals Rancher Desktop, Cloud SDK, project-specifieke PATH-entries)
-horen direct in de betreffende `~/.*` bestanden, niet in `.files`.
+Machine-specifieke toevoegingen (zoals bijvoorbeeld project-specifieke PATH-entries) horen direct in de betreffende `~/.*` bestanden, niet in `.files`.
 
 ### 2. Vim
 
