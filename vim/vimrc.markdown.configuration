@@ -20,11 +20,19 @@ function! s:SetMarkdownHighlights()
   highlight markdownBold             guifg=#FFFFFF ctermfg=15  gui=bold           cterm=bold
   highlight markdownItalic           guifg=#E0E0E0 ctermfg=254 gui=italic         cterm=italic
   highlight markdownBoldItalic       guifg=#FFFFFF ctermfg=15  gui=bold,italic    cterm=bold,italic
-  highlight markdownCode             guifg=#4ECDC4 ctermfg=80
-  highlight markdownCodeBlock        guifg=#4ECDC4 ctermfg=80
+  highlight markdownCode             guifg=#7AAFCA ctermfg=110
+  highlight markdownCodeBlock        guifg=#7AAFCA ctermfg=110
+  highlight mkdCode                  guifg=#7AAFCA ctermfg=110
+  highlight mkdFencedCodeBlock       guifg=#7AAFCA ctermfg=110
   " Fence-regels: zichtbare afbakening van code blocks
   highlight mkdCodeStart             guifg=#5588AA ctermfg=67 gui=bold cterm=bold
   highlight mkdCodeEnd               guifg=#5588AA ctermfg=67 gui=bold cterm=bold
+  " Embedded syntax (bash etc.): gedempte kleuren i.p.v. standaard schreeuwerig geel
+  highlight Constant                 guifg=#88BB88 ctermfg=108 gui=NONE cterm=NONE
+  highlight String                   guifg=#88BB88 ctermfg=108 gui=NONE cterm=NONE
+  highlight Statement                guifg=#9999DD ctermfg=104 gui=NONE cterm=NONE
+  highlight Type                     guifg=#DDAA66 ctermfg=179 gui=NONE cterm=NONE
+  highlight Special                  guifg=#7AAFCA ctermfg=110 gui=NONE cterm=NONE
   highlight markdownLinkText         guifg=#82AAFF ctermfg=111 gui=underline      cterm=underline
   highlight markdownUrl              guifg=#444444 ctermfg=238
   highlight markdownListMarker       guifg=#FFD93D ctermfg=220
