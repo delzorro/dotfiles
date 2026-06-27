@@ -5,11 +5,11 @@
   },
   "permissions": {
     "defaultMode": "default",
-    "trustedTools": [
-      "view_file",
-      "list_dir",
-      "glob",
-      "grep"
+    "allow": [
+      "Read",
+      "Bash(ls *)",
+      "Bash(find *)",
+      "Bash(grep *)"
     ]
   }
 }

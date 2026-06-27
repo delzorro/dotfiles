@@ -1,5 +1,5 @@
 # Catppuccin thema (populair)
-export FZF_COLOR_OPTS_CAATPPUCCIN="
+export FZF_COLOR_OPTS_CATPPUCCIN="
   --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8
   --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc
   --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8
@@ -20,7 +20,7 @@ export FZF_BINDING_OPTS="
   --bind 'ctrl-y:execute-silent(echo {} | pbcopy)'  # kopieer naar clipboard
   --bind 'ctrl-e:execute(${EDITOR:-vim} {q})'		# open in editor
   --bind 'ctrl-o:execute-silent(open {})'            # open bestand (macOS)
-  --bind 'alt-j:down,alt-k:up'                       # Vim-stijl navigatie
+  --bind 'alt-j:down,alt-k:up'                       # dead code: alt-hjkl onderschept door tmux (tmux.conf: bind-key -n M-hjkl)
 "
 
 # Defaultcommand

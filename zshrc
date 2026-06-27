@@ -22,8 +22,8 @@ bindkey -e
 # Load shell indepenant settings
 [ -f ~/.files/shellrc ] && source ~/.files/shellrc
 
-# Local / MacOS addition for brew
-export PATH=/opt/homebrew/bin:$PATH
+# Homebrew — alleen toevoegen als aanwezig
+[ -d /opt/homebrew/bin ] && export PATH=/opt/homebrew/bin:$PATH
 
 function sudo {
 	local firstArg=$1
@@ -35,11 +35,17 @@ function sudo {
 	fi
 }
 alias sudo='sudo '
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+# Java — alleen toevoegen als aanwezig
+[ -d /opt/homebrew/opt/openjdk/bin ] && export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# NVM — lazy loading, alleen als installatie aanwezig
+if [ -d "$HOME/.nvm" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  nvm()  { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; nvm  "$@"; }
+  node() { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; node "$@"; }
+  npm()  { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; npm  "$@"; }
+  npx()  { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; npx  "$@"; }
+fi
 
 # fzf initialisatie/configuratie
 if command -v fzf >/dev/null 2>&1; then

@@ -9,14 +9,13 @@ function claude-plan {
 
 	# 2. Configureer de lokale Git-uitsluiting (als dat nog niet was gebeurd)
 	if [ -d ".git" ]; then
-		git add -N plan.md 2>/dev/null
 		if ! grep -q "plan.md" .git/info/exclude 2>/dev/null; then
 			echo "plan.md" >> .git/info/exclude 2>/dev/null
 		fi
 	fi
 
 	# 3. Splits het tmux-venster horizontaal (rechterpaneel wordt 55% breed)
-	tmux split-window -h -p 55
+	tmux split-window -h -l 55%
 
 	# 4. Start de geavanceerde bat-viewer in het nieuwe rechterpaneel
 	tmux send-keys "vim -u ~/.files/claude/claude-plan.vimrc -R plan.md" C-m

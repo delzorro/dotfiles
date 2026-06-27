@@ -50,20 +50,24 @@ set listchars=tab:→\ ,space:·,nbsp:·,trail:•,eol:¶,precedes:«,extends:»
 highlight Visual cterm=reverse ctermbg=NONE
 
 " Appearance 
-filetype plugin on
-syntax on
+filetype plugin indent on
+syntax enable
 colorscheme zaibatsu
 set background=dark
+hi Normal      guibg=NONE ctermbg=NONE
+hi NonText     guibg=NONE ctermbg=NONE
+hi EndOfBuffer guibg=NONE ctermbg=NONE
 " hi Normal ctermbg=16 | " guibg=#00FF00 | " force background to black (better with lesser screens)
 set t_ut=
 set t_Co=256
-set term=screen-256color
+if $COLORTERM == 'truecolor' || $COLORTERM == '24bit'
+  set termguicolors
+endif
 "set cursorcolumn                                             " Highlight current cursor column
 "hi CursorColumn cterm=NONE ctermbg=black                     " Set a vertical bar for the cursor
 set cursorline                                                " Highlight current cursor line
 
 "" Status settings
-"set laststatus=2
 set statusline+=%#warningmsg#
 "" set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*

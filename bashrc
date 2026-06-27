@@ -28,7 +28,6 @@ shopt -s checkwinsize
 #shopt -s globstar
 
 # set a fancy prompt (non-color, unless we know we "want" color)
-TERM='xterm-256color'
 PROMPT_COMMAND=setBashPromp
 # Function to set prompt including last command's exist status
 function setBashPromp {

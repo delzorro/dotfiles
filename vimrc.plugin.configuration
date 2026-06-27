@@ -9,7 +9,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " In-file tag outliner
-Plug 'majutsushi/tagbar', { 'do': 'cp -R ./plugin ~/.vim/' } " Used for code-file outliner
+Plug 'preservim/tagbar' " Used for code-file outliner
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir' : '~/.fzf', 'do' : './install --all' }
@@ -61,11 +61,6 @@ let g:tagbar_type_php  = {
     \ ]
   \ }
 
-" Syntastic options
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 " vim-markdown options
 let g:vim_markdown_folding_disabled = 1
@@ -86,8 +81,7 @@ nnoremap <silent><C-w><C-]> <C-w><C-]><C-w>T
 map <Leader>e :NERDTreeToggle<CR> 							" mnemonic : Explorer
 
 " FZF settings
-" Altered call to fzf; stepping through previous searches with Ctrl-P and Ctrl-N
 command! -bang -nargs=? -complete=dir FilesWithHistory
-			\ call fzf#vim#files(<q-args>, {'options': ['--history', '--print-query', '--preview', 'cat {}']}, <bang>0)     
+			\ call fzf#vim#files(<q-args>, {'options': ['--history', '--print-query', '--preview', 'bat --color=always --line-range :500 {}', '--bind', 'ctrl-n:down,ctrl-p:up']}, <bang>0)
 "mnemonic: Find / Files
 nmap <Leader>f :FilesWithHistory<CR> 						

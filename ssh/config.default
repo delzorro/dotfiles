@@ -1,0 +1,3 @@
+# Fallback TERM voor SSH sessies zonder tmux (xterm-ghostty niet beschikbaar op Linux)
+Host *
+  SetEnv TERM=xterm-256color
