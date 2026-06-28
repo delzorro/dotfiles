@@ -15,34 +15,53 @@ lua << EOF
   local ok_ts, ts = pcall(require, 'nvim-treesitter.configs')
   if ok_ts then
     ts.setup({
-      ensure_installed = { 'markdown', 'markdown_inline' },
+      ensure_installed = {
+        'markdown', 'markdown_inline',
+        'javascript', 'typescript', 'tsx',
+        'java', 'c_sharp',
+        'bash', 'yaml', 'json', 'lua',
+        'python', 'go', 'rust', 'css', 'html',
+      },
       highlight = { enable = true },
     })
   end
+
+  -- Inline code highlight: geen achtergrond, cyan — eigen groepnaam zodat
+  -- render-markdown die niet overschrijft. ColorScheme autocmd herdefiniëert
+  -- na 'colorscheme X' (die highlight clear doet).
+  local function apply_markdown_hl()
+    vim.api.nvim_set_hl(0, 'MarkdownInlineCode', { fg = '#7dcfff' })
+    vim.api.nvim_set_hl(0, '@markup.raw.markdown_inline', { fg = '#7dcfff' })
+    -- Tabellen: gewoon wit, geen gradient/rainbow kleuren
+    vim.api.nvim_set_hl(0, 'RenderMarkdownTableHead', { fg = '#dde2f0', bold = true })
+    vim.api.nvim_set_hl(0, 'RenderMarkdownTableRow',  { fg = '#dde2f0' })
+    vim.api.nvim_set_hl(0, 'RenderMarkdownTableFill', { fg = '#dde2f0' })
+    -- Bullets: subtiel wit-grijs
+    vim.api.nvim_set_hl(0, 'RenderMarkdownBullet', { fg = '#9aa5b4' })
+  end
+  apply_markdown_hl()
+  vim.api.nvim_create_autocmd('ColorScheme', { callback = apply_markdown_hl })
 
   local ok_rm, rm = pcall(require, 'render-markdown')
   if ok_rm then
     rm.setup({
       heading = {
-        -- toon '# ' i.p.v. ①②③ symbolen
         icons = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
+      },
+      bullet = {
+        -- niveau 1→4: van klein gevuld naar steeds subtieler
+        icons = { '•', '◦', '▸', '·' },
+      },
+      code = {
+        -- 'normal' = achtergrond op code blocks, geen language badge
+        style = 'normal',
+        highlight_inline = 'MarkdownInlineCode',
+      },
+      render_modes = true,
+      win_options = {
+        -- conceallevel 0: backticks + headings correct, bullets tonen als '-'
+        conceallevel = { default = vim.o.conceallevel, rendered = 0 },
       },
     })
   end
-
-  -- Inline code styling: geen achtergrond, cyan kleur, backticks zichtbaar
-  -- Geneste defer: eerst highlights (triggert rm re-render), dan conceallevel erna
-  vim.api.nvim_create_autocmd('BufWinEnter', {
-    pattern = '*.md',
-    callback = function()
-      vim.defer_fn(function()
-        vim.api.nvim_set_hl(0, 'RenderMarkdownCodeInline', { fg = '#7dcfff' })
-        vim.api.nvim_set_hl(0, '@markup.raw.markdown_inline', { fg = '#7dcfff' })
-        vim.defer_fn(function()
-          vim.opt_local.conceallevel = 0
-        end, 150)
-      end, 100)
-    end,
-  })
-
 EOF
