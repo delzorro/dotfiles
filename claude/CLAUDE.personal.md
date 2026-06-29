@@ -1,7 +1,7 @@
 # Personal Instructions & Behavioral Rules
 
 ## Desktop Plan View Replication
-- **Automated Plan Persistence**: Before starting any non-trivial implementation task — whether or not Plan Mode is active — always write a step-by-step plan to `plan.md` in the project root directory first. Do this silently using your file-writing tools. Wait for the user's confirmation before proceeding with implementation.
+- **Automated Plan Persistence**: Before responding to any non-trivial task — whether it is an analysis, refactoring suggestion, or direct implementation — always write the findings and/or plan to `plan.md` in the project root directory first. Do this silently using your file-writing tools. The trigger is not "is this an implementation task?" but "does my response contain concrete steps or code changes?" If yes, write to `plan.md` first and wait for the user's confirmation before proceeding.
 - **Incremental Updates**: If the user gives feedback on a specific part of the plan, do not just output text. Rewrite/patch `plan.md` immediately so their secondary terminal pane updates in real-time.
 
 ## Communication Preferences
