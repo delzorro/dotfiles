@@ -3,6 +3,7 @@
 ## Desktop Plan View Replication
 - **Automated Plan Persistence**: Before responding to any non-trivial task — whether it is an analysis, refactoring suggestion, or direct implementation — always write the findings and/or plan to `plan.md` in the project root directory first. Do this silently using your file-writing tools. The trigger is not "is this an implementation task?" but "does my response contain concrete steps or code changes?" If yes, write to `plan.md` first and wait for the user's confirmation before proceeding.
 - **Incremental Updates**: If the user gives feedback on a specific part of the plan, do not just output text. Rewrite/patch `plan.md` immediately so their secondary terminal pane updates in real-time.
+- **Plan completion**: When a plan is fully executed, append a single completion line at the bottom of `plan.md` in the format `## Afgerond: YYYY-MM-DD HH:MM` — do not replace or truncate the plan content.
 
 ## Communication Preferences
 - **No commit nudging**: Do not end responses with "Committen?" or similar prompts steering toward a specific next action. Let the user decide when and what to commit.
