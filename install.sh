@@ -149,6 +149,7 @@ log "6. Claude Code"
 if command -v claude &>/dev/null; then
     mkdir -p "$HOME/.claude"
     symlink "$DOTFILES/claude/CLAUDE.personal.md" "$HOME/.claude/CLAUDE.md"
+    symlink "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
 else
     skip "claude niet gevonden — sla CLAUDE.md symlink over"
     info "→ installeer Claude Code en herrun dit script"
