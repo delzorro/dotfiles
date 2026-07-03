@@ -8,7 +8,7 @@ call plug#end()
 source ~/.files/vim/vimrc.plugins.shared
 
 " =======================================================================
-" render-markdown.nvim + treesitter setup
+" treesitter setup (algemeen — parsers voor alle talen, niet markdown-specifiek)
 " =======================================================================
 
 lua << EOF
@@ -25,46 +25,14 @@ lua << EOF
       highlight = { enable = true },
     })
   end
-
-  -- Inline code highlight: geen achtergrond, cyan — eigen groepnaam zodat
-  -- render-markdown die niet overschrijft. ColorScheme autocmd herdefiniëert
-  -- na 'colorscheme X' (die highlight clear doet).
-  local function apply_markdown_hl()
-    vim.api.nvim_set_hl(0, 'MarkdownInlineCode', { fg = '#7dcfff' })
-    vim.api.nvim_set_hl(0, '@markup.raw.markdown_inline', { fg = '#7dcfff' })
-    -- Tabellen: gewoon wit, geen gradient/rainbow kleuren
-    vim.api.nvim_set_hl(0, 'RenderMarkdownTableHead', { fg = '#dde2f0', bold = true })
-    vim.api.nvim_set_hl(0, 'RenderMarkdownTableRow',  { fg = '#dde2f0' })
-    vim.api.nvim_set_hl(0, 'RenderMarkdownTableFill', { fg = '#dde2f0' })
-    -- Bullets: subtiel wit-grijs
-    vim.api.nvim_set_hl(0, 'RenderMarkdownBullet', { fg = '#9aa5b4' })
-  end
-  apply_markdown_hl()
-  vim.api.nvim_create_autocmd('ColorScheme', { callback = apply_markdown_hl })
-
-  local ok_rm, rm = pcall(require, 'render-markdown')
-  if ok_rm then
-    rm.setup({
-      heading = {
-        icons = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
-      },
-      bullet = {
-        -- niveau 1→4: van klein gevuld naar steeds subtieler
-        icons = { '•', '◦', '▸', '·' },
-      },
-      code = {
-        -- 'normal' = achtergrond op code blocks, geen language badge
-        style = 'normal',
-        highlight_inline = 'MarkdownInlineCode',
-      },
-      render_modes = true,
-      win_options = {
-        -- conceallevel 0: backticks + headings correct, bullets tonen als '-'
-        conceallevel = { default = vim.o.conceallevel, rendered = 0 },
-      },
-    })
-  end
 EOF
+
+" Markdown-specifieke highlighting + render-markdown.nvim setup: zie nvim.markdown.configuration.
+" Moet hier staan — ná plug#end() hierboven (require('render-markdown') bestaat pas dan) en
+" vóór 'colorscheme tokyonight-night' hieronder (die het ColorScheme-event afvuurt waarop de
+" custom markdown-kleuren opnieuw toegepast moeten worden; de autocmd moet dus al geregistreerd
+" zijn vóórdat colorscheme draait, anders overschrijft de colorscheme die kleuren juist).
+source ~/.files/vim/nvim.markdown.configuration
 
 colorscheme tokyonight-night
 

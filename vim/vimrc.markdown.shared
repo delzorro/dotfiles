@@ -1,0 +1,10 @@
+" vimrc.markdown.shared — instellingen die identiek horen te zijn in vim én nvim
+" voor markdown-bestanden. Puur editor-opties zonder plugin-afhankelijkheid,
+" dus geen volgorde-eisen aan hoe/wanneer dit gesourced wordt.
+"
+" Gesourced vanuit vimrc.markdown.configuration (vim) en nvim.markdown.configuration (nvim).
+
+augroup MarkdownShared
+  autocmd!
+  autocmd FileType markdown setlocal wrap linebreak breakindent
+augroup END

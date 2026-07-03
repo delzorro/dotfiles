@@ -47,3 +47,6 @@ augroup MarkdownStyling
 augroup END
 
 nnoremap <Leader>tf :TableFormat<CR>
+
+" Instellingen gedeeld met nvim (wrap e.d.) — zie dat bestand voor de toelichting.
+source ~/.files/vim/vimrc.markdown.shared

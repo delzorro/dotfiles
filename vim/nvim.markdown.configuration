@@ -1,0 +1,56 @@
+" nvim.markdown.configuration — markdown-specifieke setup voor nvim
+" (render-markdown.nvim highlighting + plugin-config).
+"
+" Volgorde-eis (afgedwongen door WAAR dit gesourced wordt in nvimrc.plugin.configuration,
+" niet door iets in dit bestand zelf):
+" - moet ná `call plug#end()` gesourced worden, anders bestaat de Lua-module
+"   'render-markdown' nog niet en faalt de require hieronder stilletjes (pcall ok_rm = false).
+" - moet vóór `colorscheme tokyonight-night` gesourced worden: de ColorScheme-autocmd
+"   hieronder moet al geregistreerd staan wanneer colorscheme het ColorScheme-event
+"   afvuurt (colorscheme doet een highlight clear), anders overschrijft de colorscheme
+"   deze custom kleuren in plaats van andersom.
+" Zie nvimrc.plugin.configuration voor de exacte source-positie.
+
+lua << EOF
+  -- Inline code highlight: geen achtergrond, cyan — eigen groepnaam zodat
+  -- render-markdown die niet overschrijft. ColorScheme autocmd herdefiniëert
+  -- na 'colorscheme X' (die highlight clear doet).
+  local function apply_markdown_hl()
+    vim.api.nvim_set_hl(0, 'MarkdownInlineCode', { fg = '#7dcfff' })
+    vim.api.nvim_set_hl(0, '@markup.raw.markdown_inline', { fg = '#7dcfff' })
+    -- Tabellen: gewoon wit, geen gradient/rainbow kleuren
+    vim.api.nvim_set_hl(0, 'RenderMarkdownTableHead', { fg = '#dde2f0', bold = true })
+    vim.api.nvim_set_hl(0, 'RenderMarkdownTableRow',  { fg = '#dde2f0' })
+    vim.api.nvim_set_hl(0, 'RenderMarkdownTableFill', { fg = '#dde2f0' })
+    -- Bullets: subtiel wit-grijs
+    vim.api.nvim_set_hl(0, 'RenderMarkdownBullet', { fg = '#9aa5b4' })
+  end
+  apply_markdown_hl()
+  vim.api.nvim_create_autocmd('ColorScheme', { callback = apply_markdown_hl })
+
+  local ok_rm, rm = pcall(require, 'render-markdown')
+  if ok_rm then
+    rm.setup({
+      heading = {
+        icons = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
+      },
+      bullet = {
+        -- niveau 1→4: van klein gevuld naar steeds subtieler
+        icons = { '•', '◦', '▸', '·' },
+      },
+      code = {
+        -- 'normal' = achtergrond op code blocks, geen language badge
+        style = 'normal',
+        highlight_inline = 'MarkdownInlineCode',
+      },
+      render_modes = true,
+      win_options = {
+        -- conceallevel 0: backticks + headings correct, bullets tonen als '-'
+        conceallevel = { default = vim.o.conceallevel, rendered = 0 },
+      },
+    })
+  end
+EOF
+
+" Instellingen gedeeld met vim (wrap e.d.)
+source ~/.files/vim/vimrc.markdown.shared
