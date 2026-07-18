@@ -4,6 +4,9 @@ command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 # Load convenient aliases
 [ -f ~/.files/shell/aliases ] && source ~/.files/shell/aliases
 
+# Load git prompt helper (__git_ps1) plus GIT_PS1_* config
+[ -f ~/.files/shell/git-prompt.rc ] && source ~/.files/shell/git-prompt.rc
+
 # Load custom shell function
 if [[ -d ~/.files/shell/functions ]];  then
 	for func in ~/.files/shell/functions/*.sh; do

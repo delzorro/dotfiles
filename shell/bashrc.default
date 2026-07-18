@@ -41,8 +41,8 @@ function setBashPromp {
     local lightBlueCol='\[\e[0;94m\]'
 	local boldYellowCol='\[\e[1;33m\]'
     local purpleColor='\[\e[0;35m\]'
-	# Current PS1 configuration
-	PS1="${lightGreenCol}\u@\h:${boldBlueCol}\w\a${resetCol}\$ "
+	# Current PS1 configuration (git segment toegevoegd; leeg buiten repo's)
+	PS1="${lightGreenCol}\u@\h:${boldBlueCol}\w${boldYellowCol}$(__git_ps1_safe ' (%s)')\a${resetCol}\$ "
 	# Display whether last command's exit code was an error code
     if [ $EXIT != 0 ]; then
         PS1="[${redCol}✗${resetCol}]${PS1}"      

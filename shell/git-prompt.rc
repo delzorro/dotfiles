@@ -1,0 +1,28 @@
+# Loader voor git-prompt.sh (uit git contrib).
+# Zoekt op bekende locaties en source't het eerste bestand dat bestaat.
+# Zet daarna de GIT_PS1_*-vars zodat __git_ps1 alle gewenste indicatoren toont.
+
+for __gp_candidate in \
+    /opt/homebrew/etc/bash_completion.d/git-prompt.sh \
+    /usr/local/etc/bash_completion.d/git-prompt.sh \
+    /usr/share/git-core/contrib/completion/git-prompt.sh \
+    /etc/bash_completion.d/git-prompt.sh; do
+    if [ -r "$__gp_candidate" ]; then
+        # shellcheck disable=SC1090
+        . "$__gp_candidate"
+        break
+    fi
+done
+unset __gp_candidate
+
+# Indicatoren (alleen actief als __git_ps1 daadwerkelijk geladen is)
+export GIT_PS1_SHOWDIRTYSTATE=1      # * (unstaged) / + (staged)
+export GIT_PS1_SHOWUNTRACKEDFILES=1  # %
+export GIT_PS1_SHOWUPSTREAM=auto     # < / > / <> / = vs upstream
+
+# Safe wrapper: geeft lege string als __git_ps1 (nog) niet beschikbaar is.
+__git_ps1_safe() {
+    if command -v __git_ps1 >/dev/null 2>&1; then
+        __git_ps1 "$@"
+    fi
+}
