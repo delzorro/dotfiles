@@ -1,24 +1,39 @@
-# Loader voor git-prompt.sh (uit git contrib).
-# Zoekt op bekende locaties en source't het eerste bestand dat bestaat.
-# Zet daarna de GIT_PS1_*-vars zodat __git_ps1 alle gewenste indicatoren toont.
+# Dependency-vrije __git_ps1: toont branch + dirty/untracked/upstream
+# state in git-prompt-format (zelfde symbool-vocabulaire als git contrib).
+# Gebruikt alleen `git` zelf — geen bash-completion/contrib nodig.
+#
+# Indicatoren:
+#   *  unstaged changes
+#   +  staged changes
+#   %  untracked files
+#   <  achter op upstream
+#   >  vóór op upstream
+#   <> divergerend
+#   =  in sync met upstream
 
-for __gp_candidate in \
-    /opt/homebrew/etc/bash_completion.d/git-prompt.sh \
-    /usr/local/etc/bash_completion.d/git-prompt.sh \
-    /usr/share/git-core/contrib/completion/git-prompt.sh \
-    /etc/bash_completion.d/git-prompt.sh; do
-    if [ -r "$__gp_candidate" ]; then
-        # shellcheck disable=SC1090
-        . "$__gp_candidate"
-        break
+__git_ps1() {
+    command -v git >/dev/null 2>&1 || return
+    local branch
+    branch=$(git symbolic-ref --short HEAD 2>/dev/null) \
+        || branch=$(git rev-parse --short HEAD 2>/dev/null) \
+        || return
+    local marks=""
+    git diff --no-ext-diff --quiet 2>/dev/null          || marks+="*"
+    git diff --no-ext-diff --cached --quiet 2>/dev/null || marks+="+"
+    [ -n "$(git ls-files --others --exclude-standard 2>/dev/null | head -1)" ] \
+        && marks+="%"
+    local upstream counts ahead behind
+    if upstream=$(git rev-parse --abbrev-ref '@{u}' 2>/dev/null); then
+        counts=$(git rev-list --left-right --count "@{u}...HEAD" 2>/dev/null)
+        behind=${counts%%$'\t'*}; ahead=${counts##*$'\t'}
+        if   [ "${behind:-0}" -gt 0 ] && [ "${ahead:-0}" -gt 0 ]; then marks+="<>"
+        elif [ "${behind:-0}" -gt 0 ]; then marks+="<"
+        elif [ "${ahead:-0}" -gt 0 ]; then marks+=">"
+        else marks+="="
+        fi
     fi
-done
-unset __gp_candidate
-
-# Indicatoren (alleen actief als __git_ps1 daadwerkelijk geladen is)
-export GIT_PS1_SHOWDIRTYSTATE=1      # * (unstaged) / + (staged)
-export GIT_PS1_SHOWUNTRACKEDFILES=1  # %
-export GIT_PS1_SHOWUPSTREAM=auto     # < / > / <> / = vs upstream
+    printf -- "${1:- (%s)}" "${branch}${marks}"
+}
 
 # Safe wrapper: geeft lege string als __git_ps1 (nog) niet beschikbaar is.
 __git_ps1_safe() {
