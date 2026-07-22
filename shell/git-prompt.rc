@@ -32,7 +32,14 @@ __git_ps1() {
         else marks+="="
         fi
     fi
-    printf -- "${1:- (%s)}" "${branch}${marks}"
+    local out
+    out=$(printf -- "${1:- (%s)}" "${branch}${marks}")
+    # zsh her-interpreteert % in een PROMPT_SUBST-substitutie als prompt-escape
+    # (bv. de untracked-marker `%` zou `%)`/`%f` opeten → corrupte prompt +
+    # doorlekkende kleur). Verdubbel daarom elke % tot %% — alleen onder zsh;
+    # bash gebruikt letterlijke % in PS1 en mag niet ge-escaped worden.
+    [ -n "${ZSH_VERSION:-}" ] && out=${out//\%/%%}
+    printf '%s' "$out"
 }
 
 # Safe wrapper: geeft lege string als __git_ps1 (nog) niet beschikbaar is.
