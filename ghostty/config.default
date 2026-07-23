@@ -33,5 +33,20 @@ copy-on-select = false
 # --- Mouse ---
 mouse-hide-while-typing = true
 
-# Misc
-macos-option-as-alt = true
+# --- Misc ----
+# Zorg dat Option standaard leestekens typt (é, ç, ø, etc.)
+macos-option-as-alt = false
+
+# Woordspringen met pijltjestoetsen
+keybind = alt+left=text:\x1bb
+keybind = alt+right=text:\x1bf
+
+# Woord vooruit verwijderen (Alt+D)
+keybind = alt+d=text:\x1bd
+
+# Woord achteruit springen (Alt+B - handig als alternatief voor pijltje)
+keybind = alt+b=text:\x1bb
+
+# Woord vooruit springen (Alt+F - handig als alternatief voor pijltje)
+keybind = alt+f=text:\x1bf
+macos-option-as-alt = false
