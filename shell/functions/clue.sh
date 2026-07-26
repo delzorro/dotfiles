@@ -5,13 +5,34 @@
 
 function clue {
 
-	# 1. Zorg dat plan.md lokaal bestaat
-	touch plan.md
+	# 0. Bepaal het te gebruiken plan-document
+	#    - Met argument: die naam (zonder .md); dubbele extensie wordt voorkomen.
+	#    - Zonder argument: <git-branch>-plan.md (slashes → '-' zodat het een
+	#      plat bestand blijft), of 'plan.md' als er geen branch/repo is.
+	local PLAN_DOC
+	if [ -n "$1" ]; then
+		PLAN_DOC="${1%.md}.md"
+	else
+		local branch
+		branch=$(git branch --show-current 2>/dev/null)
+		if [ -n "$branch" ]; then
+			PLAN_DOC="${branch//\//-}-plan.md"
+		else
+			PLAN_DOC="plan.md"
+		fi
+	fi
+
+	# 1. Zorg dat het plan-document lokaal bestaat
+	touch "$PLAN_DOC"
+
+	# 1b. Deel de gekozen naam met Claude via een window-scoped tmux-optie
+	#     (runtime-state, geen env-vervuiling of extra bestand op disk)
+	tmux set-option -w @plan_doc "$PLAN_DOC" 2>/dev/null
 
 	# 2. Configureer de lokale Git-uitsluiting (als dat nog niet was gebeurd)
 	if [ -d ".git" ]; then
-		if ! grep -q "plan.md" .git/info/exclude 2>/dev/null; then
-			echo "plan.md" >> .git/info/exclude 2>/dev/null
+		if ! grep -qxF "$PLAN_DOC" .git/info/exclude 2>/dev/null; then
+			echo "$PLAN_DOC" >> .git/info/exclude 2>/dev/null
 		fi
 	fi
 
@@ -20,10 +41,7 @@ function clue {
 	tmux set-hook -w window-resized "resize-pane -t $RIGHT_PANE -x 55%"
 
 	# 4. Start de markdown viewer in het nieuwe rechterpaneel
-	tmux send-keys "nvim -u ~/.files/claude/claude-plan.nvimrc -R plan.md" C-m
-	# tmux send-keys "vim -u ~/.files/claude/claude-plan.vimrc -R plan.md" C-m
-	# tmux send-keys "presenterm plan.md" C-m
-	# tmux send-keys "echo plan.md | entr sh -c 'tmux clear-history; clear; glow plan.md'" C-m
+	tmux send-keys "nvim -u ~/.files/claude/claude-plan.nvimrc -R $PLAN_DOC" C-m
 
 	# 5. Switch terug naar het linkerpaneel (je actieve chatvenster)
 	tmux select-pane -t 1
