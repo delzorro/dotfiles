@@ -60,9 +60,6 @@ Options/flags are:
 	# ...
 }
 
-# Export function to also make it accessible in subshells
-export -f startSstpVpn
-
 function closeSstpVpn {
 
 	# Should be run as root
@@ -85,5 +82,8 @@ function closeSstpVpn {
 	export SSTP_VPN_PID=
 }
 
-# Export function to also make it accessible in subshells
-export -f closeSstpVpn
+# Export function to also make it accessible in subshells; bash-only
+if [ -n "$BASH_VERSION" ]; then
+	export -f startSstpVpn;
+	export -f closeSstpVpn;
+fi

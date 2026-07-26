@@ -32,7 +32,7 @@ function convenientFinderHelp {
    -i for case insensitive search, 
    -h for displaying this text" >&2
 }
-export -f convenientFinderHelp
+# Export function to also make it accessible in subshells; bash-only
 
 #
 # This function parses the options/arguments and runs the requested find method
@@ -114,7 +114,6 @@ function findHelper {
 }
 
 # Export function to also make it accessible in subshells
-export -f findHelper
 
 # This method searches through code files based on given options and search criteria
 function cfind {
@@ -122,12 +121,16 @@ function cfind {
 }
 
 # Export function to also make it accessible in subshells
-export -f cfind
 
 # This method searches for code files based on given options and search criteria
 function ffind {
 	findHelper $FILE_FIND "${@}"
 }
 
-# Export function to also make it accessible in subshells
-export -f ffind
+# Export function to also make it accessible in subshells; bash-only
+if [ -n "$BASH_VERSION" ]; then
+	export -f convenientFinderHelp;
+	export -f ffind;
+	export -f findHelper;
+	export -f cfind;
+fi

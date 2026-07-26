@@ -7,8 +7,8 @@ setopt HIST_IGNORE_SPACE
 setopt APPEND_HISTORY
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-export HISTFILESIZE=10000
-export HISTSIZE=10000
+export HISTFILESIZE=100000
+export HISTSIZE=100000
 
 # Command substitution in PROMPT toestaan (voor $(__git_ps1_safe ...))
 setopt PROMPT_SUBST
@@ -22,6 +22,25 @@ PROMPT+='%F{015}»%f ' # afsluitend prompt-teken
 
 # Set shell-mode to default / emacs (possible requirement for tmux)
 bindkey -e
+
+# Local / MacOS addition for brew
+export PATH=/opt/homebrew/bin:$PATH
+
+function sudo {
+	local firstArg=$1
+	if [[ $(type $firstArg) =~ "function" ]]
+	then
+		shift && command sudo zsh -c "$(declare -f $firstArg); SSTP_VPN_PID=$SSTP_VPN_PID; $firstArg $*"
+	else
+		command sudo "$@"
+	fi
+}
+alias sudo='sudo '
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # fzf initialisatie/configuratie
 if command -v fzf >/dev/null 2>&1; then

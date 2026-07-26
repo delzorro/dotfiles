@@ -18,4 +18,7 @@ function commit {
 }
 
 # Export function to also make it accessible in subshells
-export -f commit
+# bash-only
+if [ -n "$BASH_VERSION" ]; then
+	export -f commit
+fi

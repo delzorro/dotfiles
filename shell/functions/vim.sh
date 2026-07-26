@@ -19,4 +19,4 @@ function vim.disabled {
 }
 
 # Export function to also make it accessible in subshells
-export -f vim.disabled
+#export -f vim.disabled
