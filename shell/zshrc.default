@@ -25,6 +25,15 @@ bindkey -e
 
 # Local / MacOS addition for brew
 export PATH=/opt/homebrew/bin:$PATH
+export PATH=/opt/homebrew/share/google-cloud-sdk/bin:"$PATH"
+
+# uutils (Rust coreutils/findutils) — alleen toevoegen als aanwezig
+_brew_prefix="${HOMEBREW_PREFIX:-$(brew --prefix)}"
+for _uu_pkg in uutils-coreutils uutils-findutils; do
+  _uu_bin="${_brew_prefix}/opt/${_uu_pkg}/libexec/uubin"
+  [[ -d "$_uu_bin" ]] && export PATH="${_uu_bin}:${PATH}"
+done
+unset _uu_pkg _uu_bin _brew_prefix
 
 function sudo {
 	local firstArg=$1
