@@ -13,4 +13,5 @@
 
 ## Coding Standards
 - **Modern Syntax**: Prefer clean, modern patterns (e.g., functional programming, async/await, explicit TypeScript types).
+- **Sparse comments**: Applies to comments you add yourself; leave existing comments untouched (unless your change makes them factually untrue — in that case, flag it and leave the decision to the user). Limit new code comments to what is strictly necessary: only what is confusing, surprising, or deviates from the usual pattern (a non-obvious workaround, a guard whose reason isn't evident from the code, a deliberate deviation from convention). No comments that restate what the code already says, no explanations of standard patterns, no summary block above every function.
 - **Safety First**: In Plan Mode, deeply analyze edge cases, security implications, and potential breaking changes before writing the plan.
