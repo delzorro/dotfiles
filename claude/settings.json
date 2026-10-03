@@ -1,15 +1,24 @@
 {
-  "theme": "dark",
-  "behavior": {
-    "autoScroll": true
-  },
   "permissions": {
-    "defaultMode": "default",
     "allow": [
       "Read",
       "Bash(ls *)",
       "Bash(find *)",
       "Bash(grep *)"
-	]
+    ],
+    "defaultMode": "auto"
+  },
+  "model": "opus[1m]",
+  "autoUpdatesChannel": "stable",
+  "theme": "dark",
+  "behavior": {
+    "autoScroll": true
+  },
+  "env": {
+    "GH_CONFIG_DIR": "/Users/remco/.config/gh-claude",
+    "GIT_CONFIG_COUNT": "1",
+    "GIT_CONFIG_KEY_0": "url.https://github.com/.insteadOf",
+    "GIT_CONFIG_VALUE_0": "git@github.com:",
+    "SSH_AUTH_SOCK": ""
   }
 }
