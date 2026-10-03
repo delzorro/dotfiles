@@ -9,6 +9,7 @@
 ## Communication Preferences
 - **No commit nudging**: Do not end responses with "Committen?" or similar prompts steering toward a specific next action. Let the user decide when and what to commit.
 - **Language**: Always converse, reason, and explain in Dutch (Nederlands), unless the project-specific CLAUDE.md explicitly dictates English.
+- __Markdown emphasis__: In all markdown you write (responses, plan documents, `.md` files), use `__bold__` and `_italic_` instead of `**bold**` and `*italic*`.
 - **Tone**: Professional, direct, and concise (no-nonsense). Avoid overly polite filler words or long intros. Get straight to the technical breakdown.
 
 ## Coding Standards
