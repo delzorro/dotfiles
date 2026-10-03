@@ -1,53 +1,101 @@
 # CLUE — Claude Local Unified Experience
 # Start Claude Code in een gesplitst tmux-venster met plan.md preview rechts.
 # Note: vereist een ~/.claude/CLAUDE.md die Claude instrueert plan.md bij te houden.
+# Gebruik: clue [identifier] [-- <claude-opties>]
+#          clue --resume [identifier] [-- <claude-opties>]
 # @author Remco de Vos
 
 function clue {
 
-	# 0. Bepaal het te gebruiken plan-document
-	#    - Met argument: die naam (zonder .md); dubbele extensie wordt voorkomen.
-	#    - Zonder argument: <git-branch>-plan.md (slashes → '-' zodat het een
-	#      plat bestand blijft), of 'plan.md' als er geen branch/repo is.
-	local PLAN_DOC
-	if [ -n "$1" ]; then
-		PLAN_DOC="${1%.md}.md"
+	# 0. Parse argumenten; alles na '--' is voor claude en gaat ongezien door
+	local id="" resume=""
+	case "$1" in
+		--resume|-r)
+			resume=1
+			shift
+			if [ $# -gt 0 ] && [ "$1" != "--" ]; then
+				id="$1"
+				shift
+			fi
+			;;
+		--|"") ;;
+		-*)
+			echo "clue: gebruik '--' voor claude-opties: clue [identifier] -- $1" >&2
+			return 1
+			;;
+		*)
+			id="$1"
+			shift
+			;;
+	esac
+	if [ "$1" = "--" ]; then
+		shift
+	elif [ $# -gt 0 ]; then
+		echo "clue: onverwacht argument '$1' — gebruik: clue [--resume] [identifier] [-- <claude-opties>]" >&2
+		return 1
+	fi
+	if [ -z "$TMUX_PANE" ]; then
+		echo "clue: werkt alleen binnen tmux" >&2
+		return 1
+	fi
+	id="${id%.md}"
+	id="${id#plan-}"
+	case "$id" in
+		*[!A-Za-z0-9._-]*)
+			echo "clue: identifier mag alleen letters, cijfers en . _ - bevatten: '$id'" >&2
+			return 1
+			;;
+	esac
+
+	# 1. Sessie bepalen. clue houdt zelf bij welke sessie-id bij welke
+	#    identifier hoort (per repo; de laatste regel wint).
+	local root register uuid
+	root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+	register="${XDG_STATE_HOME:-$HOME/.local/state}/clue/sessions"
+	if [ -n "$resume" ]; then
+		if [ -z "$id" ]; then
+			_clue_list "$root" "$register"
+			return 0
+		fi
+		uuid=$(awk -F'\t' -v r="$root" -v i="$id" '$1 == r && $2 == i { u = $3 } END { print u }' "$register" 2>/dev/null)
+		if [ -z "$uuid" ]; then
+			echo "clue: geen sessie '$id' bekend in $root" >&2
+			_clue_list "$root" "$register" >&2
+			return 1
+		fi
 	else
-		local branch
-		branch=$(git branch --show-current 2>/dev/null)
-		if [ -n "$branch" ]; then
-			PLAN_DOC="${branch//\//-}-plan.md"
-		else
-			PLAN_DOC="plan.md"
-		fi
+		uuid=$(uuidgen | tr '[:upper:]' '[:lower:]')
+		[ -n "$id" ] || id="${uuid:0:8}"
+		mkdir -p "${register%/*}"
+		printf '%s\t%s\t%s\n' "$root" "$id" "$uuid" >> "$register"
 	fi
 
-	# 1. Zorg dat het plan-document lokaal bestaat
-	touch "$PLAN_DOC"
+	# 2. Plan-document in de repo-root
+	local plan="$root/plan-$id.md"
+	touch "$plan"
 
-	# 1b. Deel de gekozen naam met Claude via een window-scoped tmux-optie
-	#     (runtime-state, geen env-vervuiling of extra bestand op disk)
-	tmux set-option -w @plan_doc "$PLAN_DOC" 2>/dev/null
+	# 3. Viewer rechts (55%); het nvim-commando wordt getypt, zodat het in de
+	#    historie van dat paneel staat
+	local right_pane
+	right_pane=$(tmux split-window -h -l 55% -c "$root" -P -F '#{pane_id}')
+	tmux set-hook -w window-resized "resize-pane -t $right_pane -x 55%"
+	tmux send-keys -t "$right_pane" "nvim -u ~/.files/claude/claude-plan.nvimrc -R $(printf '%q' "$plan")" C-m
+	tmux select-pane -t "$TMUX_PANE"
 
-	# 2. Configureer de lokale Git-uitsluiting (als dat nog niet was gebeurd)
-	if [ -d ".git" ]; then
-		if ! grep -qxF "$PLAN_DOC" .git/info/exclude 2>/dev/null; then
-			echo "$PLAN_DOC" >> .git/info/exclude 2>/dev/null
-		fi
+	# 4. Claude Code in dit paneel; -n toont de identifier in de --resume-lijst
+	clear
+	if [ -n "$resume" ]; then
+		claude --resume "$uuid" -n "$id" --append-system-prompt "Plan document for this session: $plan" "$@"
+	else
+		claude --session-id "$uuid" -n "$id" --append-system-prompt "Plan document for this session: $plan" "$@"
 	fi
+}
 
-	# 3. Splits het tmux-venster horizontaal (rechterpaneel wordt 55% breed)
-	RIGHT_PANE=$(tmux split-window -h -l 55% -P -F '#{pane_id}')
-	tmux set-hook -w window-resized "resize-pane -t $RIGHT_PANE -x 55%"
-
-	# 4. Start de markdown viewer in het nieuwe rechterpaneel
-	tmux send-keys "nvim -u ~/.files/claude/claude-plan.nvimrc -R $PLAN_DOC" C-m
-
-	# 5. Switch terug naar het linkerpaneel (je actieve chatvenster)
-	tmux select-pane -t 1
-
-	# 6. Start Claude Code op in het linkerpaneel
-	tmux send-keys "clear && claude" C-m
+# Bekende identifiers in deze repo, meest recent onderaan
+function _clue_list {
+	echo "Bekende clue-sessies in $1:"
+	awk -F'\t' -v r="$1" '$1 == r { last[$2] = NR } END { for (i in last) print last[i], i }' "$2" 2>/dev/null \
+		| sort -n | cut -d' ' -f2- | sed 's/^/  /'
 }
 
 # Export function to also make it accessible in subshells
