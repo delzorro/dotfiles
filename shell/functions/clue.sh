@@ -82,12 +82,14 @@ function clue {
 	tmux send-keys -t "$right_pane" "nvim -u ~/.files/claude/claude-plan.nvimrc -R $(printf '%q' "$plan")" C-m
 	tmux select-pane -t "$TMUX_PANE"
 
-	# 4. Claude Code in dit paneel; -n toont de identifier in de --resume-lijst
+	# 4. Claude Code in dit paneel; -n toont de identifier in de --resume-lijst.
+	#    CLUE_ID laat de SessionStart-hook (matcher 'clear') na /clear de nieuwe
+	#    sessie-id in het register zetten.
 	clear
 	if [ -n "$resume" ]; then
-		claude --resume "$uuid" -n "$id" --append-system-prompt "Plan document for this session: $plan" "$@"
+		CLUE_ID="$id" claude --resume "$uuid" -n "$id" --append-system-prompt "Plan document for this session: $plan" "$@"
 	else
-		claude --session-id "$uuid" -n "$id" --append-system-prompt "Plan document for this session: $plan" "$@"
+		CLUE_ID="$id" claude --session-id "$uuid" -n "$id" --append-system-prompt "Plan document for this session: $plan" "$@"
 	fi
 }
 

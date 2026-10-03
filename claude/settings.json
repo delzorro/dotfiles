@@ -20,5 +20,18 @@
     "GIT_CONFIG_KEY_0": "url.https://github.com/.insteadOf",
     "GIT_CONFIG_VALUE_0": "git@github.com:",
     "SSH_AUTH_SOCK": ""
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$CLUE_ID\" ] || exit 0; in=$(cat); cwd=$(printf '%s' \"$in\" | jq -r '.cwd'); root=$(git -C \"$cwd\" rev-parse --show-toplevel 2>/dev/null || echo \"$cwd\"); printf '%s' \"$in\" | jq -r --arg r \"$root\" --arg id \"$CLUE_ID\" '[$r, $id, .session_id] | @tsv' >> \"${XDG_STATE_HOME:-$HOME/.local/state}/clue/sessions\""
+          }
+        ]
+      }
+    ]
   }
 }
