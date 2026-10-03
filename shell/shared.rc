@@ -28,6 +28,10 @@ export EDITOR="vim"
 # NVM — lazy loading, alleen als installatie aanwezig
 if [ -d "$HOME/.nvm" ]; then
   export NVM_DIR="$HOME/.nvm"
+  # Default-versie direct in PATH, zodat globale npm-binaries (ng, tsc, …) werken zonder nvm.sh te laden
+  [ -r "$NVM_DIR/alias/default" ] && { _nvm_v="$(<"$NVM_DIR/alias/default")"; _nvm_default_bin="$NVM_DIR/versions/node/v${_nvm_v#v}/bin"; }
+  [ -d "${_nvm_default_bin:-}" ] && case ":$PATH:" in *":$_nvm_default_bin:"*) ;; *) export PATH="$_nvm_default_bin:$PATH" ;; esac
+  unset _nvm_v _nvm_default_bin
   nvm()  { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; nvm  "$@"; }
   node() { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; node "$@"; }
   npm()  { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; npm  "$@"; }
