@@ -1,10 +1,66 @@
 " vimrc.markdown.shared — instellingen die identiek horen te zijn in vim én nvim
-" voor markdown-bestanden. Puur editor-opties zonder plugin-afhankelijkheid,
-" dus geen volgorde-eisen aan hoe/wanneer dit gesourced wordt.
+" voor markdown-bestanden: editor-opties en de markdown-kleuren. Geen volgorde-eisen:
+" de kleuren worden direct gezet én na elke colorscheme opnieuw.
 "
 " Gesourced vanuit vimrc.markdown.configuration (vim) en nvim.markdown.configuration (nvim).
 
 augroup MarkdownShared
   autocmd!
   autocmd FileType markdown setlocal wrap linebreak breakindent
+augroup END
+
+" Markdown-kleuren, gelijk voor vim (vim-markdown) en nvim (treesitter + render-markdown).
+" Waarden = de effectieve kleuren van tokyonight-night + render-markdown in nvim.
+let s:heading_colors = [
+      \ ['#7aa2f7', '#24293b'], ['#e0af68', '#2e2a2d'], ['#9ece6a', '#272d2d'],
+      \ ['#1abc9c', '#1a2b32'], ['#bb9af7', '#2a283b'], ['#9d7cd8', '#272538']]
+
+" hi clear eerst: attributen op een gelinkte groep worden anders genegeerd
+function! s:Hl(group, attrs) abort
+  execute 'hi clear' a:group
+  execute 'hi' a:group a:attrs
+endfunction
+
+function! s:MarkdownHighlights() abort
+  call s:Hl('MarkdownInlineCode', 'guifg=#7dcfff')
+  if has('nvim')
+    call s:Hl('@markup.raw.markdown_inline', 'guifg=#7dcfff')
+    call s:Hl('RenderMarkdownTableHead', 'guifg=#dde2f0 gui=bold')
+    call s:Hl('RenderMarkdownTableRow',  'guifg=#dde2f0')
+    call s:Hl('RenderMarkdownTableFill', 'guifg=#dde2f0')
+    call s:Hl('RenderMarkdownBullet',    'guifg=#9aa5b4')
+    return
+  endif
+  for i in range(1, 6)
+    let [fg, bg] = s:heading_colors[i - 1]
+    call s:Hl('htmlH' . i, printf('guifg=%s guibg=%s gui=bold', fg, bg))
+  endfor
+  call s:Hl('htmlBold',       'gui=bold')
+  call s:Hl('htmlItalic',     'gui=italic')
+  call s:Hl('htmlBoldItalic', 'gui=bold,italic')
+  call s:Hl('htmlStrike',     'gui=strikethrough')
+  hi! link mkdBold          htmlBold
+  hi! link mkdItalic        htmlItalic
+  hi! link mkdBoldItalic    htmlBoldItalic
+  hi! link mkdStrike        htmlStrike
+  hi! link mkdCode          MarkdownInlineCode
+  hi! link mkdCodeDelimiter MarkdownInlineCode
+  call s:Hl('mkdCodeStart', 'guifg=#9ece6a')
+  hi! link mkdCodeEnd       mkdCodeStart
+  call s:Hl('mkdLink',      'guifg=#2ac3de')
+  hi! link mkdDelimiter     mkdLink
+  call s:Hl('mkdURL',       'gui=underline')
+  hi! link mkdInlineURL     mkdURL
+  call s:Hl('mkdListItem',  'guifg=#9aa5b4')
+  hi! link mkdListItemCheckbox mkdListItem
+  call s:Hl('mkdRule',      'guifg=#ff9e64')
+  hi! link mkdBlockquote    Normal
+endfunction
+
+call s:MarkdownHighlights()
+augroup MarkdownSharedHighlights
+  autocmd!
+  autocmd ColorScheme * call s:MarkdownHighlights()
+  " vim-markdown's syntax-file zet zelf (niet-default) links bij het laden
+  autocmd Syntax markdown call s:MarkdownHighlights()
 augroup END

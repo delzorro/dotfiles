@@ -20,10 +20,13 @@ let g:tagbar_type_php  = {
   \ }
 
 let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_conceal = 1
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_fenced_languages = ['python', 'javascript', 'typescript', 'bash=sh', 'php', 'html', 'css', 'json', 'sql']
+" java.vim includet syntax/markdown.vim voor ///-comments en krijgt dan die van vim-markdown → E28
+let g:java_ignore_markdown = 1
 
 " =======================================================================
 " Lightline colorscheme — matches the vim color palette
