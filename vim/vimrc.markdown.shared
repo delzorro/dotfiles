@@ -15,10 +15,11 @@ let s:heading_colors = [
       \ ['#7aa2f7', '#24293b'], ['#e0af68', '#2e2a2d'], ['#9ece6a', '#272d2d'],
       \ ['#1abc9c', '#1a2b32'], ['#bb9af7', '#2a283b'], ['#9d7cd8', '#272538']]
 
-" hi clear eerst: attributen op een gelinkte groep worden anders genegeerd
+" hi clear eerst: attributen op een gelinkte groep worden anders genegeerd.
+" gui= ook als cterm=: vim in de terminal neemt met termguicolors alleen de kleuren uit gui
 function! s:Hl(group, attrs) abort
   execute 'hi clear' a:group
-  execute 'hi' a:group a:attrs
+  execute 'hi' a:group substitute(a:attrs, '\<gui=\(\S\+\)', 'gui=\1 cterm=\1', '')
 endfunction
 
 function! s:MarkdownHighlights() abort
@@ -29,6 +30,22 @@ function! s:MarkdownHighlights() abort
     call s:Hl('RenderMarkdownTableRow',  'guifg=#dde2f0')
     call s:Hl('RenderMarkdownTableFill', 'guifg=#dde2f0')
     call s:Hl('RenderMarkdownBullet',    'guifg=#9aa5b4')
+    for i in range(1, 6)
+      let [fg, bg] = s:heading_colors[i - 1]
+      call s:Hl('@markup.heading.' . i . '.markdown', printf('guifg=%s guibg=%s gui=bold', fg, bg))
+      call s:Hl('RenderMarkdownH' . i,          printf('guifg=%s guibg=%s gui=bold', fg, bg))
+      call s:Hl('RenderMarkdownH' . i . 'Bg',   'guibg=' . bg)
+    endfor
+    call s:Hl('@markup.heading.markdown',           'guifg=#7aa2f7 gui=bold')
+    call s:Hl('@markup.link.label.markdown_inline', 'guifg=#2ac3de')
+    call s:Hl('@markup.link.markdown_inline',       'guifg=#1abc9c')
+    call s:Hl('@markup.list.markdown',              'guifg=#ff9e64 gui=bold')
+    call s:Hl('@punctuation.special.markdown',      'guifg=#ff9e64')
+    call s:Hl('@markup.quote.markdown',             'guifg=NONE')
+    call s:Hl('@markup.raw.block.markdown',         'guifg=#9ece6a')
+    call s:Hl('@label.markdown',                    'guifg=#7aa2f7')
+    call s:Hl('RenderMarkdownCode',                 'guibg=#16161e')
+    call s:Hl('RenderMarkdownDash',                 'guifg=#ff9e64')
     return
   endif
   for i in range(1, 6)

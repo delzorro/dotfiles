@@ -52,12 +52,17 @@ highlight Visual cterm=reverse ctermbg=NONE
 " Appearance 
 filetype plugin indent on
 syntax enable
+augroup ZaibatsuOverrides
+  autocmd!
+  autocmd ColorScheme zaibatsu
+        \  hi Normal      guibg=NONE ctermbg=NONE
+        \| hi NonText     guibg=NONE ctermbg=NONE
+        \| hi EndOfBuffer guibg=NONE ctermbg=NONE
+augroup END
+" Fallback zonder plugins; het eigenlijke colorscheme kies je met g:colorscheme in vimrc.plugins.shared
 colorscheme zaibatsu
 set background=dark
-hi Normal      guibg=NONE ctermbg=NONE
-hi NonText     guibg=NONE ctermbg=NONE
-hi EndOfBuffer guibg=NONE ctermbg=NONE
-" tokyonight-night (vim + nvim, gezet in de plugin-config): zwarte achtergrond + heldere body-tekst
+" tokyonight-night (alleen nvim, o.a. de plan-viewer): zwarte achtergrond + heldere body-tekst
 augroup TokyonightOverrides
   autocmd!
   autocmd ColorScheme tokyonight-night
@@ -67,17 +72,6 @@ augroup TokyonightOverrides
         \| hi EndOfBuffer guibg=#000000
         \| hi LineNr      guibg=#000000
         \| hi SignColumn  guibg=#000000
-  " De vim-variant zet alleen kleuren; vim-defaults als bold/reverse blijven anders hangen (nvim heeft die niet)
-  if !has('nvim')
-    autocmd ColorScheme tokyonight-night
-          \  hi Statement  gui=NONE | hi Type      gui=NONE | hi NonText gui=NONE
-          \| hi MoreMsg    gui=NONE | hi Question  gui=NONE | hi DiffText gui=NONE
-          \| hi IncSearch  gui=NONE | hi VisualNOS gui=NONE | hi VertSplit gui=NONE
-          \| hi StatusLine gui=NONE | hi StatusLineNC gui=NONE
-          \| hi TabLine    gui=NONE | hi TabLineFill  gui=NONE | hi TabLineSel gui=NONE
-          \| hi DiffDelete gui=NONE guifg=NONE
-          \| hi Visual     guifg=NONE | hi Underlined guifg=NONE | hi WildMenu guifg=NONE
-  endif
 augroup END
 " hi Normal ctermbg=16 | " guibg=#00FF00 | " force background to black (better with lesser screens)
 set t_ut=

@@ -1,11 +1,5 @@
 call plug#begin('~/.vim/plugged')
 source ~/.files/vim/vimrc.plugins.list
-" Zelfde colorscheme als nvim: tokyonight.nvim levert zelf een vim-variant mee
-Plug 'folke/tokyonight.nvim', { 'rtp': 'extras/vim' }
 call plug#end()
 
 source ~/.files/vim/vimrc.plugins.shared
-
-silent! colorscheme tokyonight-night
-" Oude vim-look (zaibatsu + transparante achtergrond) terug: regel hieronder uncommenten
-" colorscheme zaibatsu | hi Normal guibg=NONE | hi NonText guibg=NONE | hi EndOfBuffer guibg=NONE

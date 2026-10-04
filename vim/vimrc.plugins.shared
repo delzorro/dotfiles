@@ -87,3 +87,11 @@ map <Leader>e :NERDTreeToggle<CR>
 command! -bang -nargs=? -complete=dir FilesWithHistory
 			\ call fzf#vim#files(<q-args>, {'options': ['--history', '--print-query', '--preview', 'bat --color=always --line-range :500 {}', '--bind', 'ctrl-n:down,ctrl-p:up']}, <bang>0)
 nmap <Leader>f :FilesWithHistory<CR>
+
+" =======================================================================
+" Colorscheme (vim + nvim). Markdown-kleuren staan los hiervan in vimrc.markdown.shared.
+" Ook ondersteund, alleen in nvim: 'tokyonight-night' (overrides in vimrc.default.configuration)
+" =======================================================================
+
+let g:colorscheme = get(g:, 'colorscheme', 'zaibatsu')
+execute 'silent! colorscheme' g:colorscheme

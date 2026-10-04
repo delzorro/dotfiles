@@ -30,5 +30,3 @@ EOF
 " render-markdown.nvim setup (+ gedeelde markdown-kleuren): zie nvim.markdown.configuration.
 " Moet ná plug#end() hierboven staan — require('render-markdown') bestaat pas dan.
 source ~/.files/vim/nvim.markdown.configuration
-
-colorscheme tokyonight-night
