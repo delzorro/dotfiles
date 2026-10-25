@@ -3,12 +3,12 @@ setopt HIST_IGNORE_ALL_DUPS
 # .. or lines starting with space in the history.
 setopt HIST_IGNORE_SPACE
 
-# Share history between sessions, append to history file after shell exists
 setopt APPEND_HISTORY
+# Nieuwe regels direct wegschrijven en bij elke prompt inlezen uit andere actieve sessies
+setopt SHARE_HISTORY
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-export HISTFILESIZE=100000
 export HISTSIZE=100000
+export SAVEHIST=$HISTSIZE
 
 # Command substitution in PROMPT toestaan (voor $(__git_ps1_safe ...))
 setopt PROMPT_SUBST
