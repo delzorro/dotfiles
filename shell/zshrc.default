@@ -10,6 +10,9 @@ setopt SHARE_HISTORY
 export HISTSIZE=100000
 export SAVEHIST=$HISTSIZE
 
+# Completion-systeem expliciet laden (anders alleen toevallig via gcloud's completion.zsh.inc in ~/.zshrc)
+autoload -Uz compinit && compinit
+
 # Command substitution in PROMPT toestaan (voor $(__git_ps1 ...))
 setopt PROMPT_SUBST
 
