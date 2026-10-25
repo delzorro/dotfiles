@@ -21,6 +21,9 @@ if [ -d "$HOME/.nvm" ]; then
   unset _nvm_v _nvm_default_bin
 fi
 
+# Eigen wrappers (bv. claude met secrets) vóór de echte binaries; als laatste, zodat ze ook vóór NVM staan
+path_prepend ~/.files/shell/bin
+
 # Alles hieronder alleen voor interactieve shells; zsh laadt dit bestand ook voor `zsh -c` (via .zshenv)
 case $- in
 	*i*) ;;

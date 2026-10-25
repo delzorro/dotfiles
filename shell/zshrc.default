@@ -24,6 +24,8 @@ PROMPT+='%F{015}»%f ' # afsluitend prompt-teken
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=/opt/homebrew/share/google-cloud-sdk/bin:"$PATH"
 export PATH=~/.local/bin:"$PATH"
+# Opnieuw vooraan (typeset -U verplaatst): de wrappers in shell/bin moeten vóór ~/.local/bin staan
+export PATH=~/.files/shell/bin:"$PATH"
 
 # uutils (Rust coreutils/findutils) — alleen toevoegen als aanwezig
 if command -v "brew" >/dev/null 2>&1; then

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# @author Remco de Vos
+# Wrapper rond het echte claude-binary: laadt secrets (o.a. GH_TOKEN) alleen in
+# dit eigen proces, zodat ze nooit in de interactieve shell zelf terechtkomen.
+# shell/bin staat vóór ~/.local/bin in PATH (shared.rc, zshrc.default), zodat
+# `claude` overal (interactief, scripts, clue) eerst deze wrapper vindt.
+set -a
+# set -a: elke volgende variabele-toekenning wordt automatisch geëxporteerd,
+# zodat een kaal "KEY=value"-bestand (zonder losse `export`-regels) toch
+# doorwerkt naar het straks ge-exec'te proces.
+[ -f ~/.secrets/claude.env ] && source ~/.secrets/claude.env
+set +a
+# set +a: export-gedrag weer uit, voor het geval hierna nog niet-geheime
+# toekenningen zouden volgen.
+
+# Volledig pad: een PATH-lookup van `claude` zou deze wrapper zelf vinden (oneindige lus)
+exec ~/.local/bin/claude "$@"
