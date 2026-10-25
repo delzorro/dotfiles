@@ -1,25 +1,3 @@
-# make less more friendly for non-text input files, see lesspipe(1)
-command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
-
-# Load convenient aliases
-[ -f ~/.files/shell/aliases ] && source ~/.files/shell/aliases
-
-# Load git prompt helper (__git_ps1) plus GIT_PS1_* config
-[ -f ~/.files/shell/git-prompt.rc ] && source ~/.files/shell/git-prompt.rc
-
-# Instantiate ~/.local/bin if not present
-[ ! -d ~/.local/bin ] && mkdir -p ~/.local/bin
-
-# Load custom shell function
-if [[ -d ~/.files/shell/scripts ]];  then
-	for script in ~/.files/shell/scripts/*.sh; do
-		baseScriptName=${script##*/};
-		baseScriptName=${baseScriptName%.sh};
-		[ -f ~/.local/bin/${baseScriptName} ] && continue
-		ln -s "$script" ~/.local/bin/${baseScriptName}
-	done
-fi
-
 # Make vim the default svn and git editor
 export SVN_EDITOR="vim"
 export GIT_EDITOR="vim"
@@ -38,6 +16,24 @@ if [ -d "$HOME/.nvm" ]; then
   [ -r "$NVM_DIR/alias/default" ] && { _nvm_v="$(<"$NVM_DIR/alias/default")"; _nvm_default_bin="$NVM_DIR/versions/node/v${_nvm_v#v}/bin"; }
   [ -d "${_nvm_default_bin:-}" ] && case ":$PATH:" in *":$_nvm_default_bin:"*) ;; *) export PATH="$_nvm_default_bin:$PATH" ;; esac
   unset _nvm_v _nvm_default_bin
+fi
+
+# Alles hieronder alleen voor interactieve shells; zsh laadt dit bestand ook voor `zsh -c` (via .zshenv)
+case $- in
+	*i*) ;;
+	*) return ;;
+esac
+
+# make less more friendly for non-text input files, see lesspipe(1)
+command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
+
+# Load convenient aliases
+[ -f ~/.files/shell/aliases ] && source ~/.files/shell/aliases
+
+# Load git prompt helper (__git_ps1) plus GIT_PS1_* config
+[ -f ~/.files/shell/git-prompt.rc ] && source ~/.files/shell/git-prompt.rc
+
+if [ -n "${NVM_DIR:-}" ]; then
   nvm()  { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; nvm  "$@"; }
   node() { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; node "$@"; }
   npm()  { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; npm  "$@"; }

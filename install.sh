@@ -73,6 +73,28 @@ symlink() {
     ok "symlink    $(basename "$dst") → $src"
 }
 
+# Link shell/scripts/*.sh als commando in ~/.local/bin en ruim links naar verdwenen scripts op.
+link_scripts() {
+    local bin="$HOME/.local/bin" scripts="$DOTFILES/shell/scripts" script name dst
+    mkdir -p "$bin"
+    for script in "$scripts"/*.sh; do
+        [[ -e "$script" ]] || continue
+        name=$(basename "$script" .sh)
+        dst="$bin/$name"
+        # Commando's die niet uit .files komen (bv. de echte claude-binary) niet overschrijven
+        if [[ -e "$dst" || -L "$dst" ]] && [[ "$(readlink "$dst")" != "$scripts/"* ]]; then
+            skip "bestaat al, niet uit .files  $name"
+            continue
+        fi
+        symlink "$script" "$dst"
+    done
+    for dst in "$bin"/*; do
+        [[ -L "$dst" && ! -e "$dst" && "$(readlink "$dst")" == "$scripts/"* ]] || continue
+        rm "$dst"
+        ok "verwijderd (script bestaat niet meer)  $(basename "$dst")"
+    done
+}
+
 require() {
     command -v "$1" &>/dev/null || { info "Vereist: $1 niet gevonden — sla stap over."; return 1; }
 }
@@ -90,6 +112,7 @@ append_once "$HOME/.bash_profile" "[ -f ~/.files/shell/bash_profile.default ] &&
 append_once "$HOME/.bashrc"       "[ -f ~/.files/shell/bashrc.default ]       && source ~/.files/shell/bashrc.default"
 append_once "$HOME/.zshrc"        "[ -f ~/.files/shell/zshrc.default ]        && source ~/.files/shell/zshrc.default"
 append_once "$HOME/.zshenv"       "[ -f ~/.files/shell/zshenv.default ]       && source ~/.files/shell/zshenv.default"
+link_scripts
 
 # 2. Vim + Neovim
 log "2. Vim + Neovim"
