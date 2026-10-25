@@ -7,11 +7,13 @@ command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 # Load git prompt helper (__git_ps1) plus GIT_PS1_* config
 [ -f ~/.files/shell/git-prompt.rc ] && source ~/.files/shell/git-prompt.rc
 
+# Instantiate ~/.local/bin if not present
+[ ! -d ~/.local/bin ] && mkdir -p ~/.local/bin
+
 # Load custom shell function
 if [[ -d ~/.files/shell/scripts ]];  then
 	for script in ~/.files/shell/scripts/*.sh; do
 		baseScriptName=${script##*/};
-		echo "ln -s "$script" ~/.local/bin/${baseScriptName%.sh}"
 		ln -s "$script" ~/.local/bin/${baseScriptName%.sh}
 	done
 fi
