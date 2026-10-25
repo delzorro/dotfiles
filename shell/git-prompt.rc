@@ -13,22 +13,32 @@
 
 __git_ps1() {
     command -v git >/dev/null 2>&1 || return
-    local branch
-    branch=$(git symbolic-ref --short HEAD 2>/dev/null) \
-        || branch=$(git rev-parse --short HEAD 2>/dev/null) \
-        || return
-    local marks=""
-    git diff --no-ext-diff --quiet 2>/dev/null          || marks+="*"
-    git diff --no-ext-diff --cached --quiet 2>/dev/null || marks+="+"
-    [ -n "$(git ls-files --others --exclude-standard 2>/dev/null | head -1)" ] \
-        && marks+="%"
-    local upstream counts ahead behind
-    if upstream=$(git rev-parse --abbrev-ref '@{u}' 2>/dev/null); then
-        counts=$(git rev-list --left-right --count "@{u}...HEAD" 2>/dev/null)
-        behind=${counts%%$'\t'*}; ahead=${counts##*$'\t'}
-        if   [ "${behind:-0}" -gt 0 ] && [ "${ahead:-0}" -gt 0 ]; then marks+="<>"
-        elif [ "${behind:-0}" -gt 0 ]; then marks+="<"
-        elif [ "${ahead:-0}" -gt 0 ]; then marks+=">"
+    # Eén git-aanroep levert branch, upstream-status en alle markers;
+    # --no-optional-locks: de prompt zet geen index.lock (botst niet met git in een andere pane)
+    local line branch="" ab="" staged="" unstaged="" untracked=""
+    while IFS= read -r line; do
+        case $line in
+            "# branch.head "*) branch=${line#\# branch.head } ;;
+            "# branch.ab "*)   ab=${line#\# branch.ab } ;;
+            "1 "*|"2 "*)
+                if [ "${line:2:1}" != "." ]; then staged="+"; fi
+                if [ "${line:3:1}" != "." ]; then unstaged="*"; fi ;;
+            "u "*) staged="+"; unstaged="*" ;;
+            "? "*) untracked="%" ;;
+        esac
+    done < <(git --no-optional-locks status --porcelain=v2 --branch 2>/dev/null)
+    [ -n "$branch" ] || return
+    if [ "$branch" = "(detached)" ]; then
+        branch=$(git rev-parse --short HEAD 2>/dev/null) || return
+    fi
+    local marks="${unstaged}${staged}${untracked}"
+    # branch.ab ("+ahead -behind") staat er alleen bij een geldige upstream
+    if [ -n "$ab" ]; then
+        local ahead=${ab%% *} behind=${ab##* }
+        ahead=${ahead#+}; behind=${behind#-}
+        if   [ "$behind" -gt 0 ] && [ "$ahead" -gt 0 ]; then marks+="<>"
+        elif [ "$behind" -gt 0 ]; then marks+="<"
+        elif [ "$ahead" -gt 0 ]; then marks+=">"
         else marks+="="
         fi
     fi
@@ -40,11 +50,4 @@ __git_ps1() {
     # bash gebruikt letterlijke % in PS1 en mag niet ge-escaped worden.
     [ -n "${ZSH_VERSION:-}" ] && out=${out//\%/%%}
     printf '%s' "$out"
-}
-
-# Safe wrapper: geeft lege string als __git_ps1 (nog) niet beschikbaar is.
-__git_ps1_safe() {
-    if command -v __git_ps1 >/dev/null 2>&1; then
-        __git_ps1 "$@"
-    fi
 }
