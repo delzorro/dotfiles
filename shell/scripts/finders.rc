@@ -1,0 +1,79 @@
+# Gedeelde helptekst en optie-parsing voor cfind en ffind.
+# Wordt gesourcet, niet gelinkt (install.sh linkt alleen scripts/*.sh).
+
+finders_usage() {
+	local name="$1" description="$2"
+	echo "Usage ${name} [BASEPATH] [OPTIONS] STRINGTOSEARCH 
+ * ${description}. 
+ * Base path defaults to current directory, if not given.
+ * Supported options are:
+   -e for file extension, default go,  
+   -C remove greps coloring
+   -i for case insensitive search, 
+   -h for displaying this text" >&2
+}
+
+# Zet basePath, extension, coloring, caseInsensitive en de zoekargumenten (array pattern)
+finders_parse() {
+	local name="$1" description="$2"
+	shift 2
+
+	# Options/arguments are expected
+	if [[ $# -eq 0 ]]; then
+		finders_usage "$name" "$description"
+		return 1
+	fi
+
+	# Handle a non-option base path at first
+	# - if non-option 
+	#   - if a directory -> OK
+	#   - if not a directory && more arguments -> erronous call
+	basePath="."
+	if [[ $1 != -* ]]; then
+		if [[ -d $1 ]]; then
+			basePath="$1"
+			shift 1
+		elif [[ $# -gt 1 ]]; then
+			echo "$1 is not a directory" >&2
+			finders_usage "$name" "$description"
+			return 1
+		fi
+	fi
+
+	# Parse option arguments with getopts
+	extension="go"
+	coloring="always"
+	caseInsensitive=''
+	local option OPTIND=1
+	while getopts ":e:iCh" option; do
+		case $option in
+			e)
+				extension=$OPTARG
+				;;
+			i)
+				caseInsensitive="-i"
+				;;
+			C)
+				coloring="none"
+				;;
+			h)
+				finders_usage "$name" "$description"
+				return 1
+				;;
+			:)
+				echo "No argument given for option ${OPTARG}" >&2
+				return 2
+				;;
+			?)
+				echo "Option ${OPTARG} is not supported" >&2
+				return 2
+				;;
+		esac
+	done
+	shift $((OPTIND - 1))
+	if [[ $# -eq 0 ]]; then
+		finders_usage "$name" "$description"
+		return 3
+	fi
+	pattern=("$@")
+}
