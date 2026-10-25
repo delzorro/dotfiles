@@ -14,7 +14,9 @@ command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 if [[ -d ~/.files/shell/scripts ]];  then
 	for script in ~/.files/shell/scripts/*.sh; do
 		baseScriptName=${script##*/};
-		ln -s "$script" ~/.local/bin/${baseScriptName%.sh}
+		baseScriptName=${baseScriptName%.sh};
+		[ -f ~/.local/bin/${baseScriptName} ] && continue
+		ln -s "$script" ~/.local/bin/${baseScriptName}
 	done
 fi
 
