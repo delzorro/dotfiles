@@ -1,6 +1,4 @@
 # Make vim the default svn and git editor
-export SVN_EDITOR="vim"
-export GIT_EDITOR="vim"
 export EDITOR="vim"
 
 # Map vooraan in PATH, alleen als hij bestaat en er nog niet in staat

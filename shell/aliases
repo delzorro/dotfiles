@@ -1,9 +1,9 @@
 function initializeColorAliases {
 	# Initialize variables
-	local osType="${1:-'Unknown'}"
+	local osType="$1"
 
 	# Differentiate between OS type
-	if [ $(uname) = 'Darwin' ]; then
+	if [ "$osType" = 'Darwin' ]; then
 		alias ls='ls -G'
 	else
 		alias ls='ls --color=auto'
@@ -28,7 +28,7 @@ function initializeAliases {
 	alias less="less -R"
 
 	# Alert alias voor lange commando's. Gebruik: sleep 10; alert
-	if [ $osType = 'Darwin' ]; then
+	if [ "$osType" = 'Darwin' ]; then
 		alias alert='osascript -e "display notification \"$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\''\" with title \"$([ $? = 0 ] && echo done || echo error)\""'
 	else
 		alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -37,3 +37,4 @@ function initializeAliases {
 
 # Initialize aliases
 initializeAliases
+unset -f initializeAliases initializeColorAliases

@@ -24,8 +24,8 @@ PROMPT+='%F{yellow}$(__git_ps1 " (%s)")' # git branch + status (leeg buiten repo
 PROMPT+='%F{015}»%f ' # afsluitend prompt-teken
 
 # Local / MacOS addition for brew
-export PATH=/opt/homebrew/bin:$PATH
-export PATH=/opt/homebrew/share/google-cloud-sdk/bin:"$PATH"
+[ -d /opt/homebrew/bin ] && export PATH=/opt/homebrew/bin:$PATH
+[ -d /opt/homebrew/share/google-cloud-sdk/bin ] && export PATH=/opt/homebrew/share/google-cloud-sdk/bin:"$PATH"
 export PATH=~/.local/bin:"$PATH"
 # Opnieuw vooraan (typeset -U verplaatst): de wrappers in shell/bin moeten vóór ~/.local/bin staan
 export PATH=~/.files/shell/bin:"$PATH"
@@ -41,7 +41,7 @@ if command -v "brew" >/dev/null 2>&1; then
 fi
 
 alias sudo='sudo '
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+[ -d /opt/homebrew/opt/openjdk/bin ] && export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
 # Laad de edit-command-line functie
 autoload -U edit-command-line
