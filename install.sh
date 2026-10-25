@@ -26,9 +26,11 @@ backup() {
 }
 
 # Voeg regel toe aan het einde van een bestand, met lege regel als scheiding.
+# Optionele 3e parameter: tekst waarop "al aanwezig" wordt gecontroleerd (default: de regel zelf),
+# zodat een anders geschreven source-regel voor hetzelfde bestand ook herkend wordt.
 append_once() {
-    local file="$1" line="$2"
-    if grep -qF "$line" "$file" 2>/dev/null; then
+    local file="$1" line="$2" marker="${3:-$2}"
+    if grep -qF "$marker" "$file" 2>/dev/null; then
         skip "al aanwezig  $(basename "$file")"
         return
     fi
@@ -108,10 +110,10 @@ echo "  backup-suffix: .bak.${DATE}"
 
 # 1. Shell
 log "1. Shell"
-append_once "$HOME/.bash_profile" "[ -f ~/.files/shell/bash_profile.default ] && source ~/.files/shell/bash_profile.default"
-append_once "$HOME/.bashrc"       "[ -f ~/.files/shell/bashrc.default ]       && source ~/.files/shell/bashrc.default"
-append_once "$HOME/.zshrc"        "[ -f ~/.files/shell/zshrc.default ]        && source ~/.files/shell/zshrc.default"
-append_once "$HOME/.zshenv"       "[ -f ~/.files/shell/zshenv.default ]       && source ~/.files/shell/zshenv.default"
+append_once "$HOME/.bash_profile" "[ -f ~/.files/shell/bash_profile.default ] && source ~/.files/shell/bash_profile.default" ".files/shell/bash_profile.default"
+append_once "$HOME/.bashrc"       "[ -f ~/.files/shell/bashrc.default ]       && source ~/.files/shell/bashrc.default" ".files/shell/bashrc.default"
+append_once "$HOME/.zshrc"        "[ -f ~/.files/shell/zshrc.default ]        && source ~/.files/shell/zshrc.default" ".files/shell/zshrc.default"
+append_once "$HOME/.zshenv"       "[ -f ~/.files/shell/zshenv.default ]       && source ~/.files/shell/zshenv.default" ".files/shell/zshenv.default"
 link_scripts
 
 # 2. Vim + Neovim
