@@ -118,7 +118,13 @@ link_scripts
 
 # 2. Vim + Neovim
 log "2. Vim + Neovim"
-symlink "$DOTFILES/vim/vimrc.all.configuration" "$HOME/.vimrc"
+# Oude installaties hadden ~/.vimrc als symlink naar de repo; append_once zou dan in het repo-bestand
+# zelf schrijven (en het zichzelf laten sourcen), dus eerst vervangen door een eigen bestand
+if [[ -L "$HOME/.vimrc" && "$(readlink "$HOME/.vimrc")" == "$DOTFILES/vim/vimrc.all.configuration" ]]; then
+    rm "$HOME/.vimrc"
+    ok "symlink .vimrc vervangen door eigen bestand"
+fi
+append_once "$HOME/.vimrc" 'if filereadable(expand("~/.files/vim/vimrc.all.configuration")) | source ~/.files/vim/vimrc.all.configuration | endif' ".files/vim/vimrc.all.configuration"
 if [[ ! -f "$HOME/.vim/autoload/plug.vim" ]]; then
     if require curl; then
         curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs \
