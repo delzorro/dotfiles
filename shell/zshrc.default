@@ -40,15 +40,6 @@ if command -v "brew" >/dev/null 2>&1; then
 	unset _uu_pkg _uu_bin _brew_prefix
 fi
 
-function sudo {
-	local firstArg=$1
-	if [[ $(type $firstArg) =~ "function" ]]
-	then
-		shift && command sudo zsh -c "$(declare -f $firstArg); SSTP_VPN_PID=$SSTP_VPN_PID; $firstArg $*"
-	else
-		command sudo "$@"
-	fi
-}
 alias sudo='sudo '
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
