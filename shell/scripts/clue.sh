@@ -105,7 +105,8 @@ function clue {
 	local right_pane
 	right_pane=$(tmux split-window -h -l 55% -c "$root" -P -F '#{pane_id}')
 	tmux set-hook -w window-resized "resize-pane -t $right_pane -x 55%"
-	tmux send-keys -t "$right_pane" "nvim -u ~/.files/claude/claude-plan.nvimrc -R $(printf '%q' "$plan")" C-m
+	# env -u: VIM/VIMRUNTIME van Vim (bv. geërfd via een vanuit Vim gestarte tmux-server) laten nvim de vim9script-runtime laden
+	tmux send-keys -t "$right_pane" "env -u VIM -u VIMRUNTIME nvim -u ~/.files/claude/claude-plan.nvimrc -R $(printf '%q' "$plan")" C-m
 	tmux select-pane -t "$TMUX_PANE"
 
 	# 4. Claude Code in dit paneel; -n toont de identifier in de --resume-lijst.
