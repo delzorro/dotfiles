@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Commit implements my svn workflow;
 # - it makes up the (initial) list of files to commit in a temporary file (assuming files are (A)dded to svn if necessary)
 #   (source is either the current (working) directory, or the result from the pipe)
@@ -17,8 +19,4 @@ function commit {
 	rm "${tmpFile}";
 }
 
-# Export function to also make it accessible in subshells
-# bash-only
-if [ -n "$BASH_VERSION" ]; then
-	export -f commit
-fi
+commit "$@"
