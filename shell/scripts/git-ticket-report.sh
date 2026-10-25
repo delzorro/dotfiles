@@ -36,10 +36,28 @@ getGitLog() {
 
 git-ticket-report() {
 
+	# Tool presence check 
+	if ! command -v git; then
+	   echo "Command `git` not found, but required" >&2
+	   return 1	   
+	fi
+
+	# Repos presence check
+	if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+	   echo "Not inside a git-repos" >&2
+	   return 1
+	fi
+
 	# Do argument check
 	if [[ $# -lt 1 || $1 == "-h" || $1 == "--help" ]]; then
 		usage
 		return 1
+	fi
+
+	# Tool presence validation
+	if ! command -v git; then
+	   echo "Command `git` not found, but required" >&2
+	   return 1	   
 	fi
 
 	# Split input parameters
