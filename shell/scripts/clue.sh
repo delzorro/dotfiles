@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
 # CLUE — Claude Local Unified Experience
 # Start Claude Code in een gesplitst tmux-venster met plan.md preview rechts.
 # Note: vereist een ~/.claude/CLAUDE.md die Claude instrueert plan.md bij te houden.
@@ -5,7 +9,29 @@
 #          clue --resume [identifier] [-- <claude-opties>]
 # @author Remco de Vos
 
+# Bekende identifiers in deze repo, meest recent onderaan
+function _clue_list {
+	echo "Bekende clue-sessies in $1:"
+	awk -F'\t' -v r="$1" '$1 == r { last[$2] = NR } END { for (i in last) print last[i], i }' "$2" 2>/dev/null \
+		| sort -n | cut -d' ' -f2- | sed 's/^/  /'
+}
+
+function usage {
+	cat <<'EOT' >&2
+Usage: 
+	- clue [identifier] [-- <claude-opties>]
+	- clue --resume [identifier] [-- <claude-opties>]
+EOT
+}
+
+
+# Main function, the Claude wrapper
 function clue {
+
+	if [[ $# -eq 0 ]]; then
+		usage
+		exit 1;
+	fi
 
 	# 0. Parse argumenten; alles na '--' is voor claude en gaat ongezien door
 	local id="" resume=""
@@ -21,29 +47,29 @@ function clue {
 		--|"") ;;
 		-*)
 			echo "clue: gebruik '--' voor claude-opties: clue [identifier] -- $1" >&2
-			return 1
+			exit 1
 			;;
 		*)
 			id="$1"
 			shift
 			;;
 	esac
-	if [ "$1" = "--" ]; then
+	if [[ "${1:-}" == "--" ]]; then
 		shift
 	elif [ $# -gt 0 ]; then
 		echo "clue: onverwacht argument '$1' — gebruik: clue [--resume] [identifier] [-- <claude-opties>]" >&2
-		return 1
+		exit 1
 	fi
 	if [ -z "$TMUX_PANE" ]; then
 		echo "clue: werkt alleen binnen tmux" >&2
-		return 1
+		exit 1
 	fi
 	id="${id%.md}"
 	id="${id#plan-}"
 	case "$id" in
 		*[!A-Za-z0-9._-]*)
 			echo "clue: identifier mag alleen letters, cijfers en . _ - bevatten: '$id'" >&2
-			return 1
+			exit 1
 			;;
 	esac
 
@@ -55,13 +81,13 @@ function clue {
 	if [ -n "$resume" ]; then
 		if [ -z "$id" ]; then
 			_clue_list "$root" "$register"
-			return 0
+			exit 0
 		fi
 		uuid=$(awk -F'\t' -v r="$root" -v i="$id" '$1 == r && $2 == i { u = $3 } END { print u }' "$register" 2>/dev/null)
 		if [ -z "$uuid" ]; then
 			echo "clue: geen sessie '$id' bekend in $root" >&2
 			_clue_list "$root" "$register" >&2
-			return 1
+			exit 1
 		fi
 	else
 		uuid=$(uuidgen | tr '[:upper:]' '[:lower:]')
@@ -87,18 +113,11 @@ function clue {
 	#    sessie-id in het register zetten.
 	clear
 	if [ -n "$resume" ]; then
-		CLUE_ID="$id" claude --resume "$uuid" -n "$id" --append-system-prompt "Plan document for this session: $plan" "$@"
+		CLUE_ID="$id" exec claude --resume "$uuid" -n "$id" --append-system-prompt "Plan document for this session: $plan" "$@"
 	else
-		CLUE_ID="$id" claude --session-id "$uuid" -n "$id" --append-system-prompt "Plan document for this session: $plan" "$@"
+		CLUE_ID="$id" exec claude --session-id "$uuid" -n "$id" --append-system-prompt "Plan document for this session: $plan" "$@"
 	fi
 }
 
-# Bekende identifiers in deze repo, meest recent onderaan
-function _clue_list {
-	echo "Bekende clue-sessies in $1:"
-	awk -F'\t' -v r="$1" '$1 == r { last[$2] = NR } END { for (i in last) print last[i], i }' "$2" 2>/dev/null \
-		| sort -n | cut -d' ' -f2- | sed 's/^/  /'
-}
-
-# Export function to also make it accessible in subshells
-export -f clue
+# Call clue
+clue "$@"

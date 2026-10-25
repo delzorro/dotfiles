@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 # Calc enhances arithmetic capabilities of the command line, including floating point calculations by default
 # @author Remco de Vos
-
-set -euo pipefail
 
 usage() {
 	local SCRIPTNAME=$(basename $0)

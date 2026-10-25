@@ -1,6 +1,10 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# @author Remco de Vos
 # Wrapper rond het echte claude-binary: laadt secrets (o.a. GH_TOKEN) alleen in
 # een subshell, zodat ze nooit in de interactieve shell zelf terechtkomen.
-# @author Remco de Vos
 claude() (
 	# () i.p.v. {} start een subshell (fork): variabelen die hierin geëxporteerd
 	# worden, lekken niet terug naar de aanroepende interactieve shell.
@@ -28,3 +32,5 @@ claude() (
 # definitie i.p.v. 'm te exporteren (geen foutmelding, maar ook geen effect).
 # Bovendien is export hier niet nodig: de ()-subshell hierboven erft
 # functiedefinities al automatisch van het ouderproces, in zowel bash als zsh.
+
+claude "$@"
