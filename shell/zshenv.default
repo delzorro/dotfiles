@@ -1,3 +1,6 @@
+# PATH/path zonder dubbelingen: bij elke toewijzing blijft alleen de eerste voorkomst staan
+typeset -U path PATH
+
 # Load shell independant settings
 [ -f ~/.files/shell/shared.rc ] && {
 	source ~/.files/shell/shared.rc

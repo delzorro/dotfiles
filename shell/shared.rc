@@ -3,18 +3,21 @@ export SVN_EDITOR="vim"
 export GIT_EDITOR="vim"
 export EDITOR="vim"
 
+# Map vooraan in PATH, alleen als hij bestaat en er nog niet in staat
+path_prepend() { [ -d "$1" ] || return 0; case ":$PATH:" in *":$1:"*) ;; *) PATH="$1:$PATH" ;; esac; }
+
 # Homebrew — alleen toevoegen als aanwezig (macOS/Homebrew)
-[ -d /opt/homebrew/bin ] && export PATH=/opt/homebrew/bin:$PATH
+path_prepend /opt/homebrew/bin
 
 # Java — alleen toevoegen als aanwezig (macOS/Homebrew)
-[ -d /opt/homebrew/opt/openjdk/bin ] && export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+path_prepend /opt/homebrew/opt/openjdk/bin
 
 # NVM — lazy loading, alleen als installatie aanwezig
 if [ -d "$HOME/.nvm" ]; then
   export NVM_DIR="$HOME/.nvm"
   # Default-versie direct in PATH, zodat globale npm-binaries (ng, tsc, …) werken zonder nvm.sh te laden
   [ -r "$NVM_DIR/alias/default" ] && { _nvm_v="$(<"$NVM_DIR/alias/default")"; _nvm_default_bin="$NVM_DIR/versions/node/v${_nvm_v#v}/bin"; }
-  [ -d "${_nvm_default_bin:-}" ] && case ":$PATH:" in *":$_nvm_default_bin:"*) ;; *) export PATH="$_nvm_default_bin:$PATH" ;; esac
+  [ -n "${_nvm_default_bin:-}" ] && path_prepend "$_nvm_default_bin"
   unset _nvm_v _nvm_default_bin
 fi
 
