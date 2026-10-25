@@ -20,9 +20,6 @@ PROMPT+='%F{039}%(5~|%-1~/…/%3~|%4~)' # current directory (long paths trimmed)
 PROMPT+='%F{yellow}$(__git_ps1_safe " (%s)")' # git branch + status (leeg buiten repo)
 PROMPT+='%F{015}»%f ' # afsluitend prompt-teken
 
-# Set shell-mode to default / emacs (possible requirement for tmux)
-bindkey -e
-
 # Local / MacOS addition for brew
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=/opt/homebrew/share/google-cloud-sdk/bin:"$PATH"
@@ -49,11 +46,6 @@ function sudo {
 }
 alias sudo='sudo '
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
-
-# fzf initialisatie/configuratie
-if command -v fzf >/dev/null 2>&1; then
-	source ~/.files/fzf/zsh
-fi
 
 # Laad de edit-command-line functie
 autoload -U edit-command-line

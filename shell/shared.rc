@@ -36,6 +36,17 @@ command -v lesspipe >/dev/null 2>&1 && eval "$(SHELL=/bin/sh lesspipe)"
 # Load git prompt helper (__git_ps1) plus GIT_PS1_* config
 [ -f ~/.files/shell/git-prompt.rc ] && source ~/.files/shell/git-prompt.rc
 
+# Set shell-mode to default / emacs (possible requirement for tmux)
+# Vóór fzf: dat bindt Tab alleen in de actieve keymap, en zsh start in viins zolang EDITOR vim is
+if [ -n "${ZSH_VERSION:-}" ]; then bindkey -e; else set -o emacs; fi
+
+# fzf initialisatie/configuratie: key bindings + completion voor de actieve shell, daarna gedeelde config
+if command -v fzf >/dev/null 2>&1; then
+	eval "$(fzf --${ZSH_VERSION:+zsh}${BASH_VERSION:+bash})"
+	source ~/.files/fzf/configuration.default
+	source ~/.files/fzf/functions
+fi
+
 if [ -n "${NVM_DIR:-}" ]; then
   nvm()  { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; nvm  "$@"; }
   node() { unset -f nvm node npm npx; \. "$NVM_DIR/nvm.sh"; node "$@"; }

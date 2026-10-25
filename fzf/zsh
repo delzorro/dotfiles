@@ -1,3 +1,0 @@
-source <(fzf --zsh)
-source ~/.files/fzf/configuration.default
-source ~/.files/fzf/functions

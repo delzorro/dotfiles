@@ -75,15 +75,5 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Set shell-mode to default / emacs (possible requirement for tmux)
-set -o emacs
-
 # Load shell indepenent settings
 [ -f ~/.files/shell/shared.rc ] && source ~/.files/shell/shared.rc
-
-# fzf initialisatie/configuratie
-if command -v fzf >/dev/null 2>&1; then
-	source ~/.files/fzf/bash
-fi
-
-
