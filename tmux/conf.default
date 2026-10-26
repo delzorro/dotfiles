@@ -78,6 +78,7 @@ set -g status-left "#[fg=green] #S #[default] "
 # - Midden: Vensterlijst (de "tabs")
 set -g window-status-format "#[fg=brightblack]#I:#W"
 set -g window-status-current-format "#[fg=cyan]#I:#W*"
+set -g window-status-current-style default
 set -g window-status-separator "  "
 
 # - Rechterkant: Datum en Tijd
