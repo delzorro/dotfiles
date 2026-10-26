@@ -46,12 +46,8 @@ bind -r Down  resize-pane -D 5
 bind -r Up    resize-pane -U 5
 bind -r Right resize-pane -R 5
 
-# Toggle mouse support (tmux 2.1 and above)
-set -g mouse off
-# - Mouse ON
-bind M set-option -g mouse on # \; display-message "Mouse ON"
-# - Mouse off  - to avoid conflicts with terminal-client, or applications like vim, less, etc.
-bind m set-option -g mouse off # \; display-message "Mouse OFF"
+# Toggle mouse on
+set -g mouse on
 
 # Enable prompt colors
 set -g default-terminal "xterm-256color" # should be aligned with 'Report terminal type' of terminal-emulator; this current value fixes weird terminal behaviour like not working of ctrl-K otherwise
@@ -83,8 +79,8 @@ set -g window-status-separator "  "
 
 # - Rechterkant: Datum en Tijd
 set -g status-right-length 50
-#set -g status-right "#[fg=yellow]%d-%m #[fg=white]| #[fg=cyan]%H:%M "
-set -g status-right "#[fg=cyan]Mouse: #{?mouse,#[fg=green]AAN,#[fg=red]UIT}#[default] | #[fg=cyan]%H:%M "
+set -g status-right "#[fg=yellow]%d-%m #[fg=white]| #[fg=cyan]%H:%M "
 
+# Pane markering config
 set -g pane-border-status bottom
 set -g pane-border-format " [ Pane: #P ] "
