@@ -12,12 +12,21 @@ set-option -g prefix 'C-\'
 set -sg escape-time 0 # voorkomt Escape-vertraging in vim
 set-window-option -g mode-keys vi # determins how to navigate in copy-mode Prefix + [
 bind r source-file ~/.tmux.conf \; display "Config Reloaded!" # Reload tmux.conf
-# - (additional) for claude settings
+
+# Copy-mode settings
+set-window-option -g copy-mode-position-style fg=colour245,bg=default # light grey, transparant background
+set -g history-limit 100000 # equal to history limit of bash/zsh
+set -g set-clipboard on
+set -g pane-scrollbars on
+set -g pane-scrollbars-style fg=colour245,bg=default,width=1,pad=0
+set -g pane-scrollbars auto-hide
+set -g pane-scrollbars-timeout 2000
+
+# Claude (specific/additional) settings
 set -g focus-events on
 set -g allow-passthrough on
 set -s extended-keys on
 set -as terminal-features 'xterm*:extkeys'
-set -g set-clipboard on
 
 # Window management
 bind-key 'C-\' last-window
