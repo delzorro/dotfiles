@@ -91,7 +91,9 @@ nmap <Leader>f :FilesWithHistory<CR>
 " =======================================================================
 " Colorscheme (vim + nvim). Markdown-kleuren staan los hiervan in vimrc.markdown.shared.
 " Ook ondersteund, alleen in nvim: 'tokyonight-night' (overrides in vimrc.default.configuration)
+" nvim gestart met alleen markdown-bestanden krijgt standaard tokyonight-night (zoals de plan-viewer)
 " =======================================================================
 
-let g:colorscheme = get(g:, 'colorscheme', 'zaibatsu')
+let s:md_only = has('nvim') && argc() > 0 && empty(filter(argv(), 'v:val !~? ''\.\(md\|markdown\)$'''))
+let g:colorscheme = get(g:, 'colorscheme', s:md_only ? 'tokyonight-night' : 'zaibatsu')
 execute 'silent! colorscheme' g:colorscheme

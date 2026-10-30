@@ -1,6 +1,5 @@
 " claude-plan.nvimrc — neovim plan viewer met render-markdown.nvim
 
-let g:colorscheme = 'tokyonight-night'
 source ~/.files/vim/nvim.init.vim
 
 set autoread
