@@ -1,26 +1,55 @@
 # Make vim the default svn and git editor
 export EDITOR="vim"
 
-# Map vooraan in PATH, alleen als hij bestaat en er nog niet in staat
-path_prepend() { [ -d "$1" ] || return 0; case ":$PATH:" in *":$1:"*) ;; *) PATH="$1:$PATH" ;; esac; }
+# Map vooraan in PATH, alleen als hij bestaat; staat hij er al in, dan wordt hij naar voren verplaatst
+path_prepend() { [ -d "$1" ] || return 0; local p=":$PATH:"; p="${p//:"$1":/:}"; p="${p#:}"; p="${p%:}"; PATH="$1${p:+:$p}"; }
 
-# Homebrew — alleen toevoegen als aanwezig (macOS/Homebrew)
-path_prepend /opt/homebrew/bin
+# PATH-opbouw als functie: zshrc roept hem opnieuw aan, omdat /etc/zprofile (macOS path_helper) ná .zshenv
+# de systeemmappen weer vóór deze mappen zet
+shared_path() {
+	# Homebrew — alleen toevoegen als aanwezig (macOS/Homebrew)
+	path_prepend /opt/homebrew/bin
+	path_prepend /opt/homebrew/share/google-cloud-sdk/bin
 
-# Java — alleen toevoegen als aanwezig (macOS/Homebrew)
-path_prepend /opt/homebrew/opt/openjdk/bin
+	# Java — alleen toevoegen als aanwezig (macOS/Homebrew)
+	path_prepend /opt/homebrew/opt/openjdk/bin
 
-# NVM — lazy loading, alleen als installatie aanwezig
-if [ -d "$HOME/.nvm" ]; then
-  export NVM_DIR="$HOME/.nvm"
-  # Default-versie direct in PATH, zodat globale npm-binaries (ng, tsc, …) werken zonder nvm.sh te laden
-  [ -r "$NVM_DIR/alias/default" ] && { _nvm_v="$(<"$NVM_DIR/alias/default")"; _nvm_default_bin="$NVM_DIR/versions/node/v${_nvm_v#v}/bin"; }
-  [ -n "${_nvm_default_bin:-}" ] && path_prepend "$_nvm_default_bin"
-  unset _nvm_v _nvm_default_bin
-fi
+	# Rust-herschrijvingen (uutils) van GNU-tools vóór de systeemversies — alleen toevoegen als aanwezig
+	# Homebrew zet de ongeprefixte commando's in <prefix>/opt/uutils-<tool>/libexec/uubin, apt (rust-<tool>) in /usr/lib/cargo/bin/<tool>
+	_uutils_add() {
+		case "$OSTYPE" in
+			darwin*) path_prepend "/opt/homebrew/opt/uutils-$1/libexec/uubin" ;;
+			# Niet op macOS: /home is daar een autofs-mount en elke check kost ~8 ms
+			*) path_prepend "/home/linuxbrew/.linuxbrew/opt/uutils-$1/libexec/uubin"
+			   path_prepend "/usr/lib/cargo/bin/$1" ;;
+		esac
+	}
+	_uutils_add coreutils   # ls, cp, mv, rm, cat, head, tail, date, wc, du, df, … (>99% compleet)
+	_uutils_add findutils   # find, xargs (~90-95%)
+	_uutils_add diffutils   # diff, cmp (~85%)
+	# Nog geen Homebrew-formula en/of < 80% compleet; activeren zodra ze volwassen zijn
+	# _uutils_add grep      # grep, egrep, fgrep
+	# _uutils_add sed
+	# _uutils_add tar
+	# _uutils_add awk
+	unset -f _uutils_add
 
-# Eigen wrappers (bv. claude met secrets) vóór de echte binaries; als laatste, zodat ze ook vóór NVM staan
-path_prepend ~/.files/shell/bin
+	# NVM — lazy loading, alleen als installatie aanwezig
+	if [ -d "$HOME/.nvm" ]; then
+	  export NVM_DIR="$HOME/.nvm"
+	  # Default-versie direct in PATH, zodat globale npm-binaries (ng, tsc, …) werken zonder nvm.sh te laden
+	  [ -r "$NVM_DIR/alias/default" ] && { _nvm_v="$(<"$NVM_DIR/alias/default")"; _nvm_default_bin="$NVM_DIR/versions/node/v${_nvm_v#v}/bin"; }
+	  [ -n "${_nvm_default_bin:-}" ] && path_prepend "$_nvm_default_bin"
+	  unset _nvm_v _nvm_default_bin
+	fi
+
+	# Gelinkte scripts uit shell/scripts (zie install.sh)
+	path_prepend ~/.local/bin
+
+	# Eigen wrappers (bv. claude met secrets) vóór de echte binaries; als laatste, zodat ze ook vóór NVM en ~/.local/bin staan
+	path_prepend ~/.files/shell/bin
+}
+shared_path
 
 # Alles hieronder alleen voor interactieve shells; zsh laadt dit bestand ook voor `zsh -c` (via .zshenv)
 case $- in

@@ -1,13 +1,6 @@
 function initializeColorAliases {
-	# Initialize variables
-	local osType="$1"
-
-	# Differentiate between OS type
-	if [ "$osType" = 'Darwin' ]; then
-		alias ls='ls -G'
-	else
-		alias ls='ls --color=auto'
-	fi
+	# Ook macOS-ls kent --color; -G zou bij GNU/uutils-ls juist --no-group betekenen
+	alias ls='ls --color=auto'
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
@@ -19,7 +12,7 @@ function initializeAliases {
 	local osType=$(uname)
 
 	# Kleurondersteuning: ls -G (macOS) of --color=auto (Linux), werkt zonder dircolors
-	initializeColorAliases $osType
+	initializeColorAliases
 
 	# some more ls aliases
 	alias ll='ls -alF'

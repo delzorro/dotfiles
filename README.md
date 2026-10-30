@@ -22,6 +22,12 @@ Ghostty op Linux: zie [ghostty.org](https://ghostty.org) voor de officiele insta
 
 > Op oudere Ubuntu-versies (< 22.04) heet het `bat`-binary `batcat`. Voeg dan toe aan `~/.bashrc` / `~/.zshrc`: `alias bat=batcat`
 
+Optioneel — Rust-varianten (uutils) van de GNU-tools; worden automatisch vóór de systeemversies in `PATH` gezet (zie `shared_path` in `shell/shared.rc`):
+```bash
+brew install uutils-coreutils uutils-findutils uutils-diffutils   # macOS
+sudo apt install rust-coreutils rust-findutils rust-diffutils     # Debian/Ubuntu
+```
+
 Optioneel — NVM voor Node.js versiebeheer (lazy-loaded bij eerste gebruik):
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash

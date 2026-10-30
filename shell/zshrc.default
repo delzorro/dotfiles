@@ -23,25 +23,10 @@ PROMPT+='%F{039}%(5~|%-1~/…/%3~|%4~)' # current directory (long paths trimmed)
 PROMPT+='%F{yellow}$(__git_ps1 " (%s)")' # git branch + status (leeg buiten repo)
 PROMPT+='%F{015}»%f ' # afsluitend prompt-teken
 
-# Local / MacOS addition for brew
-[ -d /opt/homebrew/bin ] && export PATH=/opt/homebrew/bin:$PATH
-[ -d /opt/homebrew/share/google-cloud-sdk/bin ] && export PATH=/opt/homebrew/share/google-cloud-sdk/bin:"$PATH"
-export PATH=~/.local/bin:"$PATH"
-# Opnieuw vooraan (typeset -U verplaatst): de wrappers in shell/bin moeten vóór ~/.local/bin staan
-export PATH=~/.files/shell/bin:"$PATH"
-
-# uutils (Rust coreutils/findutils) — alleen toevoegen als aanwezig
-if command -v "brew" >/dev/null 2>&1; then
-	_brew_prefix="${HOMEBREW_PREFIX:-$(brew --prefix)}"
-	for _uu_pkg in uutils-coreutils uutils-findutils; do
-	  _uu_bin="${_brew_prefix}/opt/${_uu_pkg}/libexec/uubin"
-	  [[ -d "$_uu_bin" ]] && export PATH="${_uu_bin}:${PATH}"
-	done
-	unset _uu_pkg _uu_bin _brew_prefix
-fi
+# PATH opnieuw opbouwen (zie shared.rc): /etc/zprofile heeft na .zshenv de systeemmappen vooraan gezet
+shared_path
 
 alias sudo='sudo '
-[ -d /opt/homebrew/opt/openjdk/bin ] && export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
 # Laad de edit-command-line functie
 autoload -U edit-command-line
