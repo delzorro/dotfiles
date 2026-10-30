@@ -7,7 +7,7 @@ finders_usage() {
  * ${description}. 
  * Base path defaults to current directory, if not given.
  * Supported options are:
-   -e for file extension, default go,  
+   -e for file extension, default java,  
    -C remove greps coloring
    -i for case insensitive search, 
    -h for displaying this text" >&2
@@ -41,7 +41,7 @@ finders_parse() {
 	fi
 
 	# Parse option arguments with getopts
-	extension="go"
+	extension="java"
 	coloring="always"
 	caseInsensitive=''
 	local option OPTIND=1
