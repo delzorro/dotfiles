@@ -6,6 +6,9 @@
 " bestaat de Lua-module 'render-markdown' nog niet en faalt de require hieronder stilletjes
 " (pcall ok_rm = false). Zie nvimrc.plugin.configuration voor de exacte source-positie.
 
+" Eigen treesitter-queries (o.a. capture voor de */_-tekens van vet/cursief)
+set runtimepath+=~/.files/vim/nvim-runtime
+
 lua << EOF
   local ok_rm, rm = pcall(require, 'render-markdown')
   if ok_rm then

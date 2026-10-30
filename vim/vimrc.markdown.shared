@@ -46,6 +46,8 @@ function! s:MarkdownHighlights() abort
     call s:Hl('@label.markdown',                    'guifg=#7aa2f7')
     call s:Hl('RenderMarkdownCode',                 'guibg=#16161e')
     call s:Hl('RenderMarkdownDash',                 'guifg=#ff9e64')
+    " capture uit nvim-runtime/queries; nocombine anders blijft het vet/cursief van de inhoud staan
+    call s:Hl('@markup.emphasis.delimiter.markdown_inline', 'guifg=#565f89 gui=nocombine')
     return
   endif
   for i in range(1, 6)
@@ -56,9 +58,11 @@ function! s:MarkdownHighlights() abort
   call s:Hl('htmlItalic',     'gui=italic')
   call s:Hl('htmlBoldItalic', 'gui=bold,italic')
   call s:Hl('htmlStrike',     'gui=strikethrough')
-  hi! link mkdBold          htmlBold
-  hi! link mkdItalic        htmlItalic
-  hi! link mkdBoldItalic    htmlBoldItalic
+  " mkdBold/mkdItalic/mkdBoldItalic zijn de matchgroups van de */_-tekens, niet van de inhoud
+  call s:Hl('mkdEmphasisDelimiter', 'guifg=#565f89')
+  hi! link mkdBold          mkdEmphasisDelimiter
+  hi! link mkdItalic        mkdEmphasisDelimiter
+  hi! link mkdBoldItalic    mkdEmphasisDelimiter
   hi! link mkdStrike        htmlStrike
   hi! link mkdCode          MarkdownInlineCode
   hi! link mkdCodeDelimiter MarkdownInlineCode
