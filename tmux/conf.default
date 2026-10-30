@@ -20,7 +20,7 @@ set -g set-clipboard on
 set -g pane-scrollbars on
 set -g pane-scrollbars-style fg=colour245,bg=default,width=1,pad=0
 set -g pane-scrollbars auto-hide
-set -g pane-scrollbars-timeout 2000
+set -g pane-scrollbars-timeout 1000
 
 # Claude (specific/additional) settings
 set -g focus-events on
